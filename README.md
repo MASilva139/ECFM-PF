@@ -3,6 +3,6 @@ Consideraciones: el siguiente procedimiento se está realizando en el entorno de
 
  ## Instalación de Conda y ROOT
  Instructivo de instalación para el programa y dependencias:
- <[Ir a archivo](/PF/Doc/conda-root.md/)>
+ <[Ir a archivo](/Doc/conda-root.md/)>
 
 ## 
