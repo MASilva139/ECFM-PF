@@ -69,4 +69,4 @@
     ```bash
     python -c "import ROOT; print (ROOT.gROOT.GetVersion())"
     ```
-    <[Regresar](/README.md)>
+    <[Regresar](../)>
