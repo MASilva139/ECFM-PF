@@ -257,4 +257,25 @@ Carpéta dedicada a la documentación del proyecto y a definiciones teóricas.
 
     ROOT permite ajustar histogramas 1D, 2D, 3D y perfiles usando funciones definidas por el usuario o funciones predefinidas mediante `TH1::Fit`
 
+    Para un ajuste personalizado con `TF1`
+    ```python
+    # Sintaxis para definir un ajuste personalizado
+    func = ROOT.TF1(
+        "nombre_funcion",
+        "formula",
+        xmin,
+        xmax
+    )
+
+    # Configuración de parámetros
+    func.SetParameters(
+        "parametros_funcion"
+    )
+
+    # Aplicación al histograma/gráfica
+    hist.Draw()
+    hist.Fit(func, "S", "", xmin, xmax)
+    ```
+    ROOT permite crear funciones propias con `TF1` y luego pasarlas al método `Fit()`. Para funciones no predefinidas, los parámetros iniciales deben configurarse antes del ajuste.
+
 <[Regresar al inicio](https://github.com/MASilva139/ECFM-PF)>
