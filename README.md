@@ -5,4 +5,5 @@ Consideraciones: el siguiente procedimiento se está realizando en el entorno de
  Instructivo de instalación para el programa y dependencias:
  <[Ir a archivo](/Doc/conda-root.md/)>
 
-## 
+## Documentación
+Definición de syntaxis del código: <[Documentación](/Doc/)>
