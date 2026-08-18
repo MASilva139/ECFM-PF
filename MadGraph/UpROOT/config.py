@@ -13,13 +13,16 @@ FIG_DIR_03.mkdir(parents=True, exist_ok=True)
 
 ROOT_DATASETS = {
     "tt": (
-        "MG5_pp_tt.root",
+        "MG5_pp_tt_10k_1GeV.root",
     ),
-    "mpmm_30k": (
-        "MG5_pp_mpmm_30k.root",
+    "mpmm_10k_1": (
+        "MG5_pp_mpmm_10k_1GeV.root",
     ),
-    "mpmm_100k": (
-        "MG5_pp_mpmm_100k.root",
+    "mpmm_10k_10": (
+        "MG5_pp_mpmm_10k_10GeV.root",
+    ),
+    "mpmm_10k_70": (
+        "MG5_pp_mpmm_10k_10GeV.root",
     ),
     "dvntuple_01": (
         "00334560_00000001_1.dvntuple.root",

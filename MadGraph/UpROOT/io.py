@@ -123,6 +123,21 @@ def _normalize_branches(
         raise ValueError('La selección de ramas está vacía.')
     return norm
 
+def _ak_branches_name(bname: str) -> str:
+    return bname.rsplit("/", 1)[-1]
+
+def awkward_fields(array: ak.Array) -> ak.Array:
+    renamed_fields: dict[str, ak.Array] = {}
+    original_names: dict[str, str] = {}
+    for original_name in array.fields:
+        sim_name = _ak_branches_name(original_name)
+        if sim_name in renamed_fields:
+            prev_name = original_name[sim_name]
+            raise ValueError(f"Cambios duplicados:\n - {prev_name}\n - {original_name}\nAmbos se convertirían en {sim_name!r}")
+        renamed_fields[sim_name] = array[original_name]
+        original_names[sim_name] = original_name
+    return ak.zip(renamed_fields, depth_limit=1)
+
 def list_trees(
     file_path: str | Path,
     show: bool = True,
