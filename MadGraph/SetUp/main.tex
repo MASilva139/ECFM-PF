@@ -1,0 +1,102 @@
+\documentclass[osajnl,showpacs,superscriptaddress,10pt]{revtex4-2}
+
+\usepackage{bm,bbm,lipsum}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx,animate,xcolor,gensymb,physics,amsmath,amsfonts,amssymb,mathrsfs,pbsi,calligra}
+\usepackage[pdftex]{hyperref}
+\usepackage{multirow,booktabs,float,wrapfig2,boxedminipage,tensor}
+\usepackage{titlesec,indentfirst,calc,changepage,extpfeil}
+\usepackage[scr=boondox]{mathalpha} % Minúsculas en scr
+\usepackage{dutchcal}               % Minúsculas en mathcal (Instalar)
+\usepackage{dsfont}                 % Matriz identidad I
+\usepackage[skins,breakable,most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,calc,babel}
+\tcbuselibrary{raster}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{patterns}
+\tcbuselibrary{breakable}
+\usepackage[dvipsnames]{xcolor}
+% \usepackage{floatflt,subcaption,textcomp}
+\usepackage{subcaption,textcomp}
+\usepackage{listings}
+%
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\renewcommand{\headrule}{%
+\vspace{2pt}\hrulefill
+\raisebox{0pt}{\quad\decofourleft\decotwo\decofourright\quad}%
+\hrulefill}
+\setlength{\headheight}{35pt}
+%----------------------------------------%
+\usepackage{styles/matrixe}    % Custom matrix commands
+\usepackage{styles/comm01}     % Custom general commands
+\usepackage{styles/comm02}     % Custom physics commands
+\usepackage{styles/cmacros}    % Custom configurations and macros
+\usepackage{styles/csecc}      % Custom sectioning commands
+\usepackage{styles/mpcom}      % Custom minipage commands
+\usepackage{styles/lst}    
+
+\AtBeginDocument{\selectlanguage{spanish}}
+\decimalpoint
+
+%-------------------------------------------------
+% ------------------- DOCUMENTO ------------------
+%-------------------------------------------------
+\lstset{style=shell}
+\begin{document}
+
+\title{Prácticas Finales/EPS}
+\begin{abstract}
+    \begin{center}
+        \vspace{300pt}
+        \Large \textbf{\textit{\textsc{Instalación y configuración de MadGraph}}} \normalsize
+        \vspace{300pt}
+        \\
+        \Large Escuela de Ciencias Físicas y Matemáticas \normalsize
+        \\
+        \large Universidad de San Carlos de Guatemala \normalsize
+    \end{center}
+\end{abstract}
+\maketitle
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{
+    \begin{minipage}{0.19\textwidth}
+        % \includegraphics[width=1\textwidth]{}
+    \end{minipage}
+}
+\fancyhead[R]{
+    \textsf{MadGraph}
+}
+\fancyfoot[LE,RO]{\hfill\thepage\hfill}
+%... then configure it.
+\renewcommand{\footruleskip}{3pt}
+\renewcommand{\footrulewidth}{1pt}
+
+\newpage
+\tableofcontents
+\newpage
+
+%-------------------------------------------------
+% ------------------ CAPÍTULOS -------------------
+%-------------------------------------------------
+\input{tex/01.tex}
+\input{tex/02.tex}
+\input{tex/03.tex}
+% \newpage
+% \input{tex/C04.tex}
+% \newpage
+% \input{tex/C05.tex}
+% \newpage
+% \input{tex/C06.tex}
+
+% \newpage
+% \input{tex/Ref.tex}%
+
+\end{document}
