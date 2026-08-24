@@ -321,7 +321,7 @@ def _iter_batches(
             how=dict
         )
     except Exception as e:
-        raise ConversionError(f"No fue posible leer un bloque de ramas. Ramas solicitadas: {', '.join(branches)}. Error original {e}") from e
+        raise ConversionError(f"No fue posible leer un bloque de ramas. Ramas solicitadas:\n{', '.join(branches)}.\n\nError original: {e}") from e
 
 def _scalar_event_column(values: ak.Array, *, label: str) -> tuple[np.ndarray, np.ndarray | None]:
     try:
