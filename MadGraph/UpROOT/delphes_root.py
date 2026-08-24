@@ -757,7 +757,7 @@ def convert_delphes_root(
                             step_size=step_size,
                             create_dimuons=create_dimuons,
                             object_registry=object_registry,
-                            collection_id=metadata['collection_id='][collection]
+                            collection_id=metadata['collection_ids'][collection]
                         )
             metadata['tree_rows'] = dict(writer.rows)
             output_file['ConversionMetadata'] = json.dumps(
