@@ -350,7 +350,8 @@ def load_awkward(
     root_files: Iterable[str | Path] | str | Path | None = None,
     tree_path: str | None = None,
     cut: str | None = None,
-    show_trees: bool = False
+    show_trees: bool = False,
+    simplify_names: bool = False
 ) -> ak.Array:
     ak_array = load_data(
         branches=branches,
@@ -361,6 +362,8 @@ def load_awkward(
         library='ak',
         show_trees=show_trees
     )
+    if simplify_names:
+        ak_array = awkward_fields(ak_array)
     print(f"Total de evenots: {len(ak_array):,} eventos")
     return ak_array
 

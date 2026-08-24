@@ -5,6 +5,9 @@ Event/Event.Number
 Event/Event.Weight
 # Jets
 Jet/Jet.BTag
+Jet/Jet.Charge
+Jet/Jet.ChargedEnergyFraction
+Jet/Jet.Constituents
 Jet/Jet.Eta
 Jet/Jet.Mass
 Jet/Jet.PT
@@ -33,23 +36,23 @@ Muon/Muon.SumPtNeutral
 Muon/Muon.T
 Muon_size
 # Partículas
-Particle/Particle.Charge
-Particle/Particle.D1
-Particle/Particle.D2
-Particle/Particle.E
-Particle/Particle.Eta
-Particle/Particle.M1
-Particle/Particle.M2
-Particle/Particle.Mass
-Particle/Particle.P
-Particle/Particle.PID
-Particle/Particle.PT
-Particle/Particle.Phi
-Particle/Particle.Px
-Particle/Particle.Py
-Particle/Particle.Pz
-Particle/Particle.T
-Particle/Particle.X
-Particle/Particle.Y
-Particle/Particle.Z
-ScalarHT/ScalarHT.HT
+# Particle/Particle.Charge
+# Particle/Particle.D1
+# Particle/Particle.D2
+# Particle/Particle.E
+# Particle/Particle.Eta
+# Particle/Particle.M1
+# Particle/Particle.M2
+# Particle/Particle.Mass
+# Particle/Particle.P
+# Particle/Particle.PID
+# Particle/Particle.PT
+# Particle/Particle.Phi
+# Particle/Particle.Px
+# Particle/Particle.Py
+# Particle/Particle.Pz
+# Particle/Particle.T
+# Particle/Particle.X
+# Particle/Particle.Y
+# Particle/Particle.Z
+# ScalarHT/ScalarHT.HT

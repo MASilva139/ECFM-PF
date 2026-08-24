@@ -1,0 +1,15 @@
+EFlowNeutralHadron/EFlowNeutralHadron.Particles
+EFlowNeutralHadron/EFlowNeutralHadron.fUniqueID
+EFlowPhoton/EFlowPhoton.Particles
+EFlowPhoton/EFlowPhoton.fUniqueID
+EFlowTrack/EFlowTrack.Particle
+EFlowTrack/EFlowTrack.fUniqueID
+GenJet/GenJet.Particles
+GenJet/GenJet.fUniqueID
+GenMissingET/GenMissingET.fUniqueID
+MissingET/MissingET.fUniqueID
+Tower/Tower.Particles
+Tower/Tower.fUniqueID
+Track/Track.Particle
+Track/Track.fUniqueID
+Weight/Weight.fUniqueID
