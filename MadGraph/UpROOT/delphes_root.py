@@ -489,7 +489,7 @@ def _create_dimuons(
         "candidate_index": np.asarray(ak.to_numpy(ak.flatten(ak.local_index(mass, axis=1), axis=1)), dtype=np.int32),
         "muplus_index": np.asarray(ak.to_numpy(ak.flatten(choose("object_index", positive=True), axis=1)), dtype=np.int32),
         "muminus_index": np.asarray(ak.to_numpy(ak.flatten(choose("object_index", positive=False), axis=1)), dtype=np.int32),
-        "dimuon_mass": _as_np(ak.flatten(mass, axis=1), lable="Dimuons.dimuon_mass"),
+        "dimuon_mass": _as_np(ak.flatten(mass, axis=1), label="Dimuons.dimuon_mass"),
         "dimuon_pt": _as_np(ak.flatten(candidate_pt, axis=1), label="Dimuons.dimuon_pt"),
         "delta_r": _as_np(ak.flatten(np.sqrt(delta_eta**2 + wrapped_delta_phi**2), axis=1), label="Dimuons.delta_r")
     }
