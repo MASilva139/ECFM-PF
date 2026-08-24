@@ -53,7 +53,7 @@ class InputFile:
     entries: int
 
 def _clean_name(value: str) -> str:
-    result = re.sub(r'^0-9A-Za-z_', '_'. str(value))
+    result = re.sub(r'^0-9A-Za-z_', '_', str(value))
     result = re.sub(r'_+', '_', result).strip('_')
     return result or 'value'
 
