@@ -574,7 +574,13 @@ def _write_collection(
                 parent_ids=parent_ids
             )
         writer.append(collection_tree, base_columns)
-        if object_registry == "Muon" and create_dimuons:
+        if object_registry:
+            _write_object_registry(
+                writer=writer,
+                collection_id=collection_id,
+                columns=base_columns
+            )
+        if collection == "Muon" and create_dimuons:
             _create_dimuons(
                 writer=writer,
                 batch=batch,
