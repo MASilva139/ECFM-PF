@@ -38,6 +38,9 @@ ROOT_DATASETS = {
         "B2HHH_MagnetUp.root",
         "B2HHH_MagnetDown.root",
     ),
+    "mpmm_10k_70_p": (
+        "mpmm_10k_70_pandas.root",
+    ),
 }
 ROOT_FILES = {
     dataset: tuple(
