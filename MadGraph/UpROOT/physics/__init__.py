@@ -2,8 +2,7 @@ from types import ModuleType
 from . import b2hhh
 from . import delphes
 from . import dvntuple
-
-from ..common import (
+from .common import (
     Schema,
     delta_phi,
     delta_r,
