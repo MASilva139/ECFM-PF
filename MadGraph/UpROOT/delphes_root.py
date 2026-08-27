@@ -234,18 +234,20 @@ def _write_nested_values(
         writer.append(table_name, columns)
         return
     indices = ak.local_index(values, axis=1)
+    counts = np.asarray(ak.to_numpy(ak.num(values, axis=1)), dtype=np.int64)
     expanded_ids: dict[str, np.ndarray] = {}
     for name, parent in parent_ids.items():
-        repeated = ak.broadcast_arrays(ak.Array(parent), indices)[0]
-        expanded_ids[name] = _as_np(
-            ak.flatten(repeated, axis=1),
-            label=f"{collection_tree}.{name}"
-        )
+        parent_array = np.asarray(parent)
+        if len(parent_array) != len(counts):
+            raise ConversionError(f"No coinciden los identificadores de {collection_tree}.{name}\ncon los elementos de la rama {attribute_path!r}:\n{len(parent_array)} identificadores frente a {len(counts)} objetos.")
+        # repeated = ak.broadcast_arrays(ak.Array(parent), indices)[0]
+        # expanded_ids[name] = _as_np(
+        #     ak.flatten(repeated, axis=1),
+        #     label=f"{collection_tree}.{name}"
+        # )
+        expanded_ids[name] = np.repeat(parent_array, counts)
     index_name = "value_index" if level == 0 else f"value_index_{level}"
-    expanded_ids[index_name] = np.asarray(
-        ak.to_numpy(ak.flatten(indices, axis=1)),
-        dtype=np.int32
-    )
+    expanded_ids[index_name] = np.asarray(ak.to_numpy(ak.flatten(indices, axis=1)), dtype=np.int32)
     flattened = ak.flatten(values, axis=1)
     _write_nested_values(
         writer=writer,
@@ -718,6 +720,13 @@ def convert_delphes_root(
                 with uproot.open(source.path) as root_file:
                     tree = root_file[tree_path]
                     discovered = discover_collections(tree)
+                    internal_root_branches = {branch_name for fields in discovered.values() for attribute, branch_name in fields.items() if attribute == "fBits" or attribute.endswith(".fBits")}
+                    excluded.update(internal_root_branches)
+                    metadata["excluded_branches"] = sorted(excluded)
+                    if verbose and internal_root_branches:
+                        print("Ramas internas de ROOT excluidas:")
+                        for branch_name in sorted(internal_root_branches):
+                            print(f" - {branch_name}")
                     chosen = _selected_collections(
                         discovered,
                         requested=requested,
@@ -807,7 +816,7 @@ def convert_dataset(
 def list_output_trees(root_path: str | Path) -> pd.DataFrame:
     path = Path(root_path).expanduser().resolve()
     rows: list[dict[str, Any]] = []
-    with uproot.open(Path) as root_file:
+    with uproot.open(path) as root_file:
         for name, class_name in root_file.classnames().items():
             if "TTree" not in str(class_name):
                 continue

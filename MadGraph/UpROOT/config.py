@@ -11,6 +11,10 @@ FIG_DIR_01.mkdir(parents=True, exist_ok=True)
 FIG_DIR_02.mkdir(parents=True, exist_ok=True)
 FIG_DIR_03.mkdir(parents=True, exist_ok=True)
 
+# Masa invariante B2HHH [MeV/c2]
+mK = 493.677
+mPi = 139.570
+
 ROOT_DATASETS = {
     "tt": (
         "MG5_pp_tt_10k_n1GeV.root",
@@ -37,6 +41,9 @@ ROOT_DATASETS = {
     "b2hhh": (
         "B2HHH_MagnetUp.root",
         "B2HHH_MagnetDown.root",
+    ),
+    "mpmm_10k_70_p": (
+        "mpmm_10k_70_pandas.root",
     ),
 }
 ROOT_FILES = {
