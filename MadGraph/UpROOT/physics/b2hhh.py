@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from ..common import invariant_mass
+from .common import invariant_mass
 
 MOMENTUM_UNIT = "MeV"
 

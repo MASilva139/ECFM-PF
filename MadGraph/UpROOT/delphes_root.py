@@ -816,7 +816,7 @@ def convert_dataset(
 def list_output_trees(root_path: str | Path) -> pd.DataFrame:
     path = Path(root_path).expanduser().resolve()
     rows: list[dict[str, Any]] = []
-    with uproot.open(Path) as root_file:
+    with uproot.open(path) as root_file:
         for name, class_name in root_file.classnames().items():
             if "TTree" not in str(class_name):
                 continue
