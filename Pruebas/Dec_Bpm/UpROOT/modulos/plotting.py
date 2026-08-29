@@ -1,20 +1,15 @@
 from collections.abc import Mapping
 from pathlib import Path
-
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import LogNorm
-
 from .config import FIG_DIR
 
-
 plt.style.use("seaborn-v0_8-whitegrid")
-
 
 def _finite(values) -> np.ndarray:
     array = np.asarray(values, dtype=float)
     return array[np.isfinite(array)]
-
 
 def save_figure(
     fig,
@@ -32,7 +27,6 @@ def save_figure(
     else:
         plt.close(fig)
     return path
-
 
 def plot_hist1d(
     values,
@@ -63,7 +57,6 @@ def plot_hist1d(
     path = save_figure(fig, filename, output_dir=output_dir)
     return fig, ax, path
 
-
 def plot_hist_comparison(
     series: Mapping[str, np.ndarray],
     *,
@@ -92,7 +85,6 @@ def plot_hist_comparison(
     path = save_figure(fig, filename, output_dir=output_dir)
     return fig, ax, path
 
-
 def plot_hist2d(
     x_values,
     y_values,
@@ -109,7 +101,6 @@ def plot_hist2d(
     x_values = np.asarray(x_values, dtype=float)
     y_values = np.asarray(y_values, dtype=float)
     finite_mask = np.isfinite(x_values) & np.isfinite(y_values)
-
     fig, ax = plt.subplots(figsize=(9, 6))
     image = ax.hist2d(
         x_values[finite_mask],
@@ -124,4 +115,3 @@ def plot_hist2d(
     ax.set(title=title, xlabel=xlabel, ylabel=ylabel)
     path = save_figure(fig, filename, output_dir=output_dir)
     return fig, ax, path
-

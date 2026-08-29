@@ -8,6 +8,26 @@ ELECTRON_MASS_GEV = 0.00051099895
 MOMENTUM_UNIT = 'GeV'
 POSITION_UNIT = 'mm'
 
+_COLUMN_NAMES = {
+    "object_index": "index",
+    "PT": "pt",
+    "Eta": "eta",
+    "Phi": "phi",
+    "Charge": "charge",
+    "D0": "d0",
+    "DZ": "dz",
+    "ErrorD0": "error_d0",
+    "ErrorDZ": "error_dz",
+    "IsolationVar": "isolation",
+    "IsolationVarRhoCorr": "isolation_rho_corr",
+    "Particle_ref": "particle_ref",
+    "PX": "px",
+    "PY": "py",
+    "PZ": "pz",
+    "P": "p",
+    "E": "energy",
+}
+
 def _required(
     df: pd.DataFrame,
     columns: tuple[str, ...],
@@ -20,8 +40,7 @@ def _required(
 
 def _snake_case(name: str) -> str:
     if name in _COLUMN_NAMES:
-        return
-    _COLUMN_NAMES(name)
+        return _COLUMN_NAMES[name]
     converted = re.sub(r"(?<!^)(?=[A-Z])", "_", name)
     return converted.lower()
 
@@ -192,26 +211,6 @@ def leading_object(objects: pd.DataFrame) -> pd.DataFrame:
         .reset_index(drop=True)
     )
 
-_COLUMN_NAMES = {
-    "object_index": "index",
-    "PT": "pt",
-    "Eta": "eta",
-    "Phi": "phi",
-    "Charge": "charge",
-    "D0": "d0",
-    "DZ": "dz",
-    "ErrorD0": "error_d0",
-    "ErrorDZ": "error_dz",
-    "IsolationVar": "isolation",
-    "IsolationVarRhoCorr": "isolation_rho_corr",
-    "Particle_ref": "particle_ref",
-    "PX": "px",
-    "PY": "py",
-    "PZ": "pz",
-    "P": "p",
-    "E": "energy",
-}
-
 def calc_dimuon_variables(
     dimuons: pd.DataFrame,
     *,
@@ -262,7 +261,7 @@ def build_dimuons(
     events: pd.DataFrame | None = None,
     muon_mass: float = MUON_MASS_GEV,
 ) -> pd.DataFrame:
-    _required(muons, ("event_id", "object_index", "PT", "Eta", "Phi", "Charge", ), "build_dimuons",)
+    _required(muons, ("event_id", "object_index", "PT", "Eta", "Phi", "Charge"), "build_dimuons")
     excluded = {
         "event_id",
         "source_file_id",
@@ -606,7 +605,7 @@ def prepare_dimuon_analysis(
     )
     dimuons = build_dimuons(selected_muons, events=events)
     dimuons = calc_dimuon_observables(dimuons)
-    dimuons = select_muons(
+    dimuons = select_dimuons(
         dimuons,
         mass_window=mass_window,
         min_muon_pt=min_muon_pt,
