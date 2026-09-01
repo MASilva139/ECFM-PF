@@ -6,7 +6,7 @@ from .common import (
     counting_significance,
     fit_histogram,
     prepare_histogram,
-    require_column,
+    require_columns,
     sideband_background_estimate,
     values_from_dataframe
 )
@@ -212,7 +212,7 @@ def fit_by_displacement_category(
     bins: int = 80,
     model: str = "gauss_exp"
 ) -> dict[str, dict]:
-    require_column(dimuons, (category_column), "fit_by_displacement_category")
+    require_columns(dimuons, (category_column), "fit_by_displacement_category")
     results = {}
     for category in categories:
         selected = dimuons.loc[dimuons[category_column].eq(category)]

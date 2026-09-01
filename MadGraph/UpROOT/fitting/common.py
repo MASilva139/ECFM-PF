@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
 
-def require_column(
+def require_columns(
     dataframe: pd.DataFrame,
     columns: Iterable[str],
     context: str
@@ -22,7 +22,7 @@ def values_from_dataframe(
     *,
     value_range: tuple[float, float] | None = None
 ) -> np.ndarray:
-    require_column(dataframe, (column), "values_from_dataframe")
+    require_columns(dataframe, (column), "values_from_dataframe")
     values = finite_array(dataframe[column])
     if value_range is not None:
         lower, upper = value_range

@@ -9,13 +9,13 @@ def normalize_fit_models(fit_model: str | list[str] | tuple[str, ...]) -> list[s
         return [fit_model]
     return list(fit_model)
 
-def plot_mass_by_change(
+def plot_mass_by_charge(
     df: pd.DataFrame,
     channel_name: str,
     *,
     fit_model: str | list[str] | tuple[str, ...] = "gauss_exp",
     mass_column: str = "B_M",
-    charge_column: str = "B_charge",
+    charge_column: str = "B_Charge",
     mass_min: float | None = None,
     mass_max: float | None = None,
     save: bool = False,
@@ -29,7 +29,7 @@ def plot_mass_by_change(
     mass_min = MASS_MIN if mass_min is None else mass_min
     mass_max = MASS_MAX if mass_max is None else mass_max
     fit_models = normalize_fit_models(fit_model)
-    fig, axes = plt.subplots(len(fit_models), 2, figsize={14, 5*len(fit_models)}, squeeze=False)
+    fig, axes = plt.subplots(len(fit_models), 2, figsize=(14, 5*len(fit_models)), squeeze=False)
     fig.suptitle(f"{channel_name} - Masa Invariante del B", fontweight="bold")
     results: dict[str, dict[int, dict]] = {}
     for row, model in enumerate(fit_models):
@@ -41,12 +41,12 @@ def plot_mass_by_change(
             result = fit_mass(masses_arr, model=model, verbose=True)
             results[model][charge] = result
             plot_mass_fit(ax, result, label=f"{label} - {model}", mass_min=mass_min, mass_max=mass_max)
-            finalize_figure(
-                fig,
-                save=save,
-                filename=filename or f"b2hhh_{channel_name}_mass_fit",
-                data=data,
-                output_dir=output_dir,
-                show=show
-            )
-            return results
+    finalize_figure(
+        fig,
+        save=save,
+        filename=filename or f"{channel_name}_mass_fit",
+        data=data,
+        output_dir=output_dir,
+        show=show
+    )
+    return results
