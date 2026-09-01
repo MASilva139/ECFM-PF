@@ -144,14 +144,14 @@ def plot_probability_distributions(
     fig, axes = plt.subplots(1, 3, figsize=(18, 5.5), squeeze=False)
     for ax, hadron in zip(axes[0], _HADRONS):
         image = ax.hist2d(
-            df[f'H{hadron}_ProbK'],
-            df[f'H{hadron}_ProbPi'],
+            df[f'{hadron}_ProbK'],
+            df[f'{hadron}_ProbPi'],
             bins = bins,
-            range = [[0.0, 1.0], [0.0, 1.0]],
+            range = [[0.5, 1.0], [0.0, 0.5]],
             cmap = 'coolwarm',
             norm = mcolors.PowerNorm(gamma = gamma)
-        )
-        style_axis(fig, ax, title=f"{hadron}: Probabilidad K vs. π", xlabel="Prob. de ser kaón", ylabel="Prob. de ser pión")
+        )[3]
+        style_axis(fig, ax, title=rf"{hadron}: Probabilidad K vs. $\pi$", xlabel="Prob. de ser kaon", ylabel=f"Prob. de ser pion")
         PlotStyle.add_dark_colorbar(fig, ax, image, label='Frecuencia')
     fig.suptitle('Distribuciones de probabilidad (2D)', fontweight = 'bold')
     finalize_figure(fig, save=save, filename=filename, data=data, output_dir=output_dir, show=show)
@@ -220,7 +220,7 @@ def plot_proyection_mass(
     output_dir = None,
     show: bool = True
 ):
-    require_columns(dr, ("R0low", "R0high"), "plot_proyection_mass")
+    require_columns(df, ("R0low", "R0high"), "plot_proyection_mass")
     fig, axes = plt.subplots(1, 2, figsize=(15, 6.5), squeeze=False)
     for ax, (column, label) in zip(axes[0], (("R0low", r"R^{0}_{low}"), ("R0high", r"R^{0}_{high}"))):
         values = np.sqrt(finite_values(df, column, scale=1e-6))
@@ -255,7 +255,7 @@ def plot_dalitz_scatter(
     finalize_figure(fig, save=save, filename=filename, data=data, output_dir=output_dir, show=show)
     return fig, axes
 
-def plot_dalitz_sumary(
+def plot_dalitz_summary(
     dalitz: dict,
     *,
     save: bool = False,
@@ -281,8 +281,8 @@ def plot_dalitz_sumary(
         (ax_bp, np.ma.masked_where(hBp.T == 0, hBp.T), r'Dalitz $B^{+}$', 'Eventos por bin', None, None),
         (ax_bm, np.ma.masked_where(hBm.T == 0, hBm.T), r'Dalitz $B^{-}$', 'Eventos por bin', None, None),
         (ax_A, np.ma.masked_invalid(A_map.T), 'Asimetría local', r'$A_{CP}^{local}$', -1, 1),
-        (ax_bm, np.ma.masked_invalid(sA_map.T), 'Incertidumbre local', r'$\sigma(A_{CP}^{local})$', None, None),
-        (ax_bm, np.ma.masked_where(hBm.T == 0, hBm.T), 'Significancia local', r'$A/\sigma_{A}$', -5, 5),
+        (ax_sA, np.ma.masked_invalid(sA_map.T), 'Incertidumbre local', r'$\sigma(A_{CP}^{local})$', None, None),
+        (ax_S, np.ma.masked_where(hBm.T == 0, hBm.T), 'Significancia local', r'$A/\sigma_{A}$', -5, 5),
     )
     for ax, values, title, label, vmin, vmax in panels:
         image = ax.imshow(values, extent=extend, origin="lower", aspect="auto", cmap=cmap, vmin=vmin, vmax=vmax, interpolation="nearest")
@@ -318,6 +318,6 @@ def plot_large_CP(
     )
     ax_split.legend()
     style_axis(fig, ax_split, title="Comparación $B^{+}$ vs $B^{-}$", xlabel=r"$M_{B}$ [$MeV/c^{2}$]", ylabel="Eventos")
-    fig.suptitle("Violación CP en la región de gran asimetría del Dalitz", fotweight="bold")
+    fig.suptitle("Violación CP en la región de gran asimetría del Dalitz", fontweight="bold")
     finalize_figure(fig, save=save, filename=filename, data=data, output_dir=outuput_dir, show=show)
     return fig, axes

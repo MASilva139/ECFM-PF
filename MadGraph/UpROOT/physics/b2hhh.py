@@ -131,7 +131,7 @@ def dalitz_data(
         'range_y': range_y
     }
 
-def slarge_CPV_region(
+def slarge_cpv_region(
     df: pd.DataFrame,
     *,
     charm_veto: bool = True,
