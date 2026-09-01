@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
 
-def require_column(
+def require_columns(
     dataframe: pd.DataFrame,
     columns: Iterable[str],
     context: str
@@ -22,7 +22,7 @@ def values_from_dataframe(
     *,
     value_range: tuple[float, float] | None = None
 ) -> np.ndarray:
-    require_column(dataframe, (column), "values_from_dataframe")
+    require_columns(dataframe, (column), "values_from_dataframe")
     values = finite_array(dataframe[column])
     if value_range is not None:
         lower, upper = value_range
@@ -153,11 +153,11 @@ def sideband_background_estimate(
     r0, r1 = right_band
     n_signal_region = int(np.count_nonzero((array  >= s0) & (array <= s1)))
     n_left = int(np.count_nonzero((array >= l0) & (array <= l1)))
-    n_right = int(np.busday_count((array >= r0) & (array <= r1)))
+    n_right = int(np.count_nonzero((array >= r0) & (array <= r1)))
     signal_width = s1 - s0
     sideband_width = (l1-l0)+(r1-r0)
     scale = signal_width / sideband_width
-    background = n_signal_region - background
+    background = (n_left + n_right) * scale
     signal = n_signal_region-background
     significance = counting_significance(max(signal, 0.0), background)
     return {

@@ -2,7 +2,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import re
 import unicodedata
-from config import (
+from .config import (
     DARK_BACKGROUND,
     LIGHT_TEXT,
     GOLD01,
@@ -76,6 +76,7 @@ class PlotStyle:
         normalized = normalized.encode("ascii", 'ignore').decode('ascii')
         normalized = re.sub(r"[^0-9A-Za-z._-]+", "_", normalized)
         normalized = re.sub(r"_+", "_", normalized).strip("_.")
+        return normalized
 
     @staticmethod
     def _output_directory(
@@ -85,9 +86,9 @@ class PlotStyle:
     ):
         if output_dir is not None:
             return Path(output_dir)
-        if data == 'data':
+        if data in ('data', 'b2hhh_data'):
             return B2HHH_DATA
-        elif data == 'sim':
+        elif data in ('sim' or 'b2hhh_sim'):
             return B2HHH_SIM
         elif data == 'dnvtuple':
             return DNVTUPLE
@@ -95,7 +96,7 @@ class PlotStyle:
             return DELPHES_01
         raise ValueError(f"data tiene que ser 'data/sim', 'dnvtuple' o 'delphes'.")
 
-    @staticmethod
+    @classmethod
     def save_fig(
         cls,
         fig, 
@@ -146,3 +147,5 @@ class PlotStyle:
         if show:
             plt.show()
         return saved_path
+
+PlotStyle.apply_global_style()
