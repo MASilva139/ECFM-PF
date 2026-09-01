@@ -1,3 +1,4 @@
+# Fitting para delphes de tabla plana
 from collections.abc import Callable, Iterable
 import numpy as np
 import pandas as pd
@@ -185,7 +186,7 @@ def compare_peak_models(
             model=model,
             verbose=False
         )
-        result[model] = result
+        results[model] = result
         rows.append({
             "model": model,
             "converged": result["converged"],
