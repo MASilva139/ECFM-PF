@@ -2,7 +2,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import re
 import unicodedata
-from config import (
+from .config import (
     DARK_BACKGROUND,
     LIGHT_TEXT,
     GOLD01,
@@ -86,9 +86,9 @@ class PlotStyle:
     ):
         if output_dir is not None:
             return Path(output_dir)
-        if data == 'data' or 'b2hhh_data':
+        if data in ('data', 'b2hhh_data'):
             return B2HHH_DATA
-        elif data == 'sim' or 'b2hhh_sim':
+        elif data in ('sim' or 'b2hhh_sim'):
             return B2HHH_SIM
         elif data == 'dnvtuple':
             return DNVTUPLE

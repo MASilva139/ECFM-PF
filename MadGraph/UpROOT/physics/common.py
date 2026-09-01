@@ -17,7 +17,7 @@ def energy(px, py, pz, mass):
 
 def invariant_mass(e, px, py, pz):
     mass_squared = (e**2 - px**2 - py**2 -pz**2)
-    return np.maximum(mass_squared, 0.0)
+    return np.sqrt(np.maximum(mass_squared, 0.0))
 
 def delta_phi(phi1, phi2):
     difference = phi1 - phi2
