@@ -1,3 +1,4 @@
+# Fitting para B2HHH
 import numpy as np
 import pandas as pd
 from scipy import stats

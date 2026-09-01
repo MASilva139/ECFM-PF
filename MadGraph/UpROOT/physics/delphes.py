@@ -1,3 +1,4 @@
+# Físicas para delphes (tabla plana)
 import numpy as np
 import pandas as pd
 import re
@@ -666,3 +667,57 @@ def print_asymmetry(label: str, result: dict[str, float | int]) -> None:
     print(f" N+ = {result['Np']:,}       |       N- = {result['Nm']:,}")
     print(f" A = {result['A']:+.4f} ± {result['sigma']:.4f}")
     print(f" Significancia = {result['significance']:+.2f} σ")
+
+def build_two_muon_system(
+    muons: pd.DataFrame,
+    *,
+    muon_mass: float = MUON_MASS_GEV,
+    require_two: bool = True
+) -> pd.DataFrame:
+    required = {"source_file_id", "event_id", "object_index", "PT", "Eta", "Phi", "Charge"}
+    missing = required.difference(muons.columns)
+    if missing:
+        raise KeyError(f"build_two_muon_system: faltan columnas {sorted(missing)}.")
+    group_keys = ["source_file_id", "event_id"]
+    counts = muons.groupby(group_keys).size()
+    valid_events = counts[counts == 2].index if require_two else counts[counts >= 2].index
+    if len(valid_events) == 0:
+        raise ValueError("No hay eventos con el número de muones requerido.")
+    selected = muons.set_index(group_keys).loc[valid_events].reset_index()
+    selected = selected.sort_values(group_keys + ["PT"], ascending=[True, True, False])
+    grouped = selected.groupby(group_keys, sort=False)
+    first = grouped.nth(0).reset_index(drop=True)
+    second = grouped.nth(1).reset_index(drop=True)
+    px = first["PT"]*np.cos(first["Phi"]) + second["PT"]*np.cos(second["Phi"])
+    py = first["PT"]*np.sin(first["Phi"]) + second["PT"]*np.sin(second["Phi"])
+    pz = first["PT"]*np.sinh(first["Eta"]) + second["PT"]*np.sinh(second["Eta"])
+    e1 = np.sqrt((first["PT"]*np.cosh(first["Eta"]))**2 + muon_mass**2)
+    e2 = np.sqrt((second["PT"]*np.cosh(second["Eta"]))**2 + muon_mass**2)
+    energy =  e1 + e2
+    mass = np.sqrt(np.maximum(energy**2 - px**2 -py**2 - pz**2, 0.0))
+    pt = np.sqrt(px**2 + py**2)
+    delta_eta  = first["Eta"] - second["Eta"]
+    raw_delta_phi = first["Phi"] - second["Phi"]
+    delta_phi = np.arctan2(np.sin(raw_delta_phi), np.cos(raw_delta_phi))
+    charge_product = first["Charge"] * second["Charge"]
+    result = pd.DataFrame({
+        "source_file_id": first["source_file_id"],
+        "event_id": first["event_id"],
+        "dimuon_mass": mass,
+        "dimuon_pt": pt,
+        "delta_r": np.sqrt(delta_eta**2 + delta_phi**2),
+        "charge_product": charge_product,
+        "is_opposite_sign": charge_product < 0,
+        "mu1_pt": first["PT"],
+        "mu1_eta": first["Eta"],
+        "mu1_phi": first["Phi"],
+        "mu1_charge": first["Charge"],
+        "mu2_pt": second["PT"],
+        "mu2_eta": second["Eta"],
+        "mu2_phi": second["Phi"],
+        "mu2_charge": second["Charge"]
+    })
+    n_os = int(result["is_opposite_sign"].sum())
+    n_ss = len(result) - n_os
+    print(f"Eventos con 2 muones: {len(result):,} (OS: {n_os:,} | SS: {n_ss:,})")
+    return result

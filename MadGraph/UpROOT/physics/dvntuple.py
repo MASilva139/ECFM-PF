@@ -1,3 +1,4 @@
+# Físicas para archivos dvntuple
 import pandas as pd
 
 MOMENTUM_UNIT = "MeV"
