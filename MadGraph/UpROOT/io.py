@@ -426,3 +426,24 @@ def csv(
     print(f"CSV guardado en: {csv_path}")
     print(f"Filas: {len(df):,}    |    Columnas: {len(df.columns)}")
     return csv_path
+
+def summarize_trees(
+    dataset: str | None = None,
+    root_files: Iterable[str | Path] | str | Path | None = None,
+) -> pd.DataFrame:
+    paths = _normalize_paths(dataset=dataset, root_files=root_files)
+    rows: list[dict[str, Any]] = []
+    for path in paths:
+        with uproot.open(path) as rf:
+            trees = _find_tree_names(rf)
+            for tree_name in trees:
+                tree = rf[tree_name]
+                branches = _branch_names(tree)
+                rows.append({
+                    "file": str(path),
+                    "tree": tree_name,
+                    "rows": len(branches),
+                    "columns": len(branches)
+                })
+    df_summary = pd.DataFrame(rows)
+    return df_summary
