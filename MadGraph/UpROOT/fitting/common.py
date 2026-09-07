@@ -43,7 +43,7 @@ def prepare_histogram(
     if array.size == 0:
         raise ValueError("array no tiene valores en el intervalo.")
     counts, edges = np.histogram(array, bins=bins, range=value_range)
-    centers = 0.5 * (edges[:1] + edges[1:])
+    centers = 0.5 * (edges[:-1] + edges[1:])
     uncertainties = np.sqrt(np.maximum(counts, 1.0))
     return {
         "values": array,
@@ -52,7 +52,7 @@ def prepare_histogram(
         "centers": centers,
         "uncertainties": uncertainties,
         "bin_width": float(edges[1] - edges[0]),
-        "value_range": (float[lower], float(upper)),
+        "value_range": (float(lower), float(upper)),
         "n_entries": int(array.size)
     }
 

@@ -268,6 +268,7 @@ def scan_mass_hypotheses(
                 mass_window=(mass - width, mass + width),
                 mass_column=mass_column,
                 bins=bins,
+                model=model,
                 initial_sigma=sigma,
                 verbose=False
             )
