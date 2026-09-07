@@ -12,6 +12,8 @@ B2HHH_DATA = FIG_DIR_01 / "Data"
 B2HHH_SIM = FIG_DIR_01 / "Sim"
 DNVTUPLE = FIG_DIR / "dnvtuple"
 DELPHES_01 = FIG_DIR_02 / "c01"
+DELPHES_02 = FIG_DIR_02 / "c02"
+DELPHES_03 = FIG_DIR_02 / "c03"
 
 # Masa invariante B2HHH [MeV/c2]
 mK = 493.677
@@ -24,6 +26,7 @@ BIN_WIDTH = (MASS_MAX - MASS_MIN)/N_BINS
 MASS_CENTER = (MASS_MAX + MASS_MIN)/2.0
 
 DARK_BACKGROUND = "#111111"
+LIGHT_BACKGROUND = "#ffffff"
 LIGHT_TEXT = "#F2F2F2"
 GOLD01 = "#D4AF37"
 BLUE01 = "#4C78A8"
@@ -32,21 +35,6 @@ RED00 = "#E15759"
 RED01 = "#B80A0A"
 
 ROOT_DATASETS = {
-    "tt": (
-        "MG5_pp_tt_10k_n1GeV.root",
-    ),
-    "mpmm_10k_n1": (
-        "MG5_pp_mpmm_10k_n1GeV.root",
-    ),
-    "mpmm_10k_n10": (
-        "MG5_pp_mpmm_10k_n10GeV.root",
-    ),
-    "mpmm_10k_n70": (
-        "MG5_pp_mpmm_10k_n70GeV.root",
-    ),
-    "mpmm_10k_70": (
-        "MG5_pp_mpmm_10k_70GeV.root",
-    ),
     "dvntuple_01": (
         "00334560_00000001_1.dvntuple.root",
         "00334560_00000002_1.dvntuple.root",
@@ -58,8 +46,38 @@ ROOT_DATASETS = {
         "B2HHH_MagnetUp.root",
         "B2HHH_MagnetDown.root",
     ),
-    "mpmm_10k_70_p": (
-        "mpmm_10k_70_pandas.root",
+    "tt": (
+        "MG5_pp_tt_10k_n1GeV.root",
+    ),
+    "mpmm_70GeV": (
+        "MG5_pp_mpmm_100k_70GeV_01.root",
+        "MG5_pp_mpmm_100k_70GeV_02.root",
+        "MG5_pp_mpmm_100k_70GeV_03.root",
+    ),
+    "dimuons_70GeV": (
+        "MG5_pp_dimuons_100k_70GeV_01.root",
+        "MG5_pp_dimuons_100k_70GeV_02.root",
+        "MG5_pp_dimuons_100k_70GeV_03.root",
+    ),
+    "mpmm_50k_10": (    # Archivo sm restringido (original)
+        "MG5_pp_mpmm_50k_10GeV.root",
+        "MG5_pp_mpmm_50k_10GeV_2.root",
+    ),
+    "dimuons_50k_10": ( # Archivo sm-full
+        "MG5_pp_dimuons_50k_10GeV.root",
+        "MG5_pp_dimuons_50k_10GeV_2.root",
+    ),
+    "mpmm_70GeV_p": (
+        "mpmm_70GeV_pandas.root",
+    ),
+    "dimuons_70GeV_p": (
+        "dimuons_70GeV_pandas.root",
+    ),
+    "mpmm_50k_10_p": (    # Archivo sm restringido (original)
+        "mpmm_50k_10_pandas.root",
+    ),
+    "dimuons_50k_10_p": ( # Archivo sm-full
+        "dimuons_50k_10_pandas.root",
     ),
 }
 ROOT_FILES = {
