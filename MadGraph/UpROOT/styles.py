@@ -12,7 +12,9 @@ from .config import (
     B2HHH_DATA,
     B2HHH_SIM,
     DNVTUPLE,
-    DELPHES_01
+    DELPHES_01,
+    DELPHES_02,
+    DELPHES_03
 )
 
 class PlotStyle:
@@ -94,6 +96,10 @@ class PlotStyle:
             return DNVTUPLE
         elif data == 'delphes':
             return DELPHES_01
+        elif data == 'delphes02':
+            return DELPHES_02
+        elif data == 'delphes03':
+            return DELPHES_03
         raise ValueError(f"data tiene que ser 'data/sim', 'dnvtuple' o 'delphes'.")
 
     @classmethod

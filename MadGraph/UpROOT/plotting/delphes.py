@@ -2,6 +2,7 @@
 from collections.abc import Iterable
 from pathlib import Path
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import numpy as np
 import pandas as pd
 from ..styles import PlotStyle
@@ -20,6 +21,7 @@ def plot_event_multiplicities(
     columns: Iterable[str] | None = None,
     bins: int = 30,
     log_y: bool = True,
+    data: str,
     save: bool = False,
     filename: str = "delphes_event_multiplicities",
     output_dir: str | Path | None = None,
@@ -59,6 +61,7 @@ def plot_event_multiplicities(
     finalize_figure(
         fig,
         save=save,
+        data=data,
         filename=filename,
         output_dir=output_dir,
         show=show,
@@ -69,35 +72,64 @@ def plot_muon_kinematics(
     muons: pd.DataFrame,
     *,
     bins: int = 60,
+    log_y: bool = False,
+    split_charge: bool = False,
+    charge_column: str = "Charge",
     save: bool = False,
-    filename: str = "delphes_muon_kinematics",
+    data: str,
+    filename: str = "muon_kinematics",
     output_dir: str | Path | None = None,
     show: bool = True,
 ):
-    definitions = (
-        ("PT", r"$p_T(\mu)$ [GeV/$c$]"),
-        ("Eta", r"$\eta(\mu)$"),
-        ("Phi", r"$\phi(\mu)$ [rad]"),
-    )
-    require_columns(muons, (item[0] for item in definitions), "plot_muon_kinematics")
-    fig, axes = plt.subplots(1, 3, figsize=(18, 5.8), squeeze=False)
-    for ax, (column, xlabel) in zip(axes.flat, definitions):
-        draw_histogram(ax, finite_values(muons, column), bins=bins)
-        style_axis(
-            fig,
-            ax,
-            title=column,
-            xlabel=xlabel,
-            ylabel="Muones/bin",
-        )
-    fig.suptitle("Cinemática de muones reconstruidos", fontweight="bold")
-    finalize_figure(
-        fig,
-        save=save,
-        filename=filename,
-        output_dir=output_dir,
-        show=show,
-    )
+    required = ['PT', 'Eta', 'Phi']
+    if split_charge:
+        required.append(charge_column)
+    require_columns(muons, required, "plot_muon_kinematics")
+    derived = muons[required].copy()
+    derived['PX'] = derived['PT'] * np.cos(derived['Phi'])
+    derived['PY'] = derived['PT'] * np.sin(derived['Phi'])
+    derived['PZ'] = derived['PT'] * np.sinh(derived['Eta'])
+    derived['P'] = np.sqrt(derived['PX']**2 + derived['PY']**2 + derived['PZ']**2)
+    fig = plt.figure(figsize=(20, 8.0))
+    gs = gridspec.GridSpec(1, 2, width_ratios=(2, 1.45), wspace=0.25)
+    left_gs = gs[0].subgridspec(2, 3, wspace=0.35, hspace=0.35)
+    right_gs = gs[1].subgridspec(1, 1)
+    axes = {
+        'PT': fig.add_subplot(left_gs[0, 0]),
+        'Eta': fig.add_subplot(left_gs[0, 1]),
+        'Phi': fig.add_subplot(left_gs[0, 2]),
+        'PX': fig.add_subplot(left_gs[1, 0]),
+        'PY': fig.add_subplot(left_gs[1, 1]),
+        'PZ': fig.add_subplot(left_gs[1, 2]),
+        'P': fig.add_subplot(right_gs[0, 0])
+    }
+    labels = {
+        "PT": r"$p_T(\mu)$ [GeV/$c$]",
+        "Eta": r"$\eta(\mu)$",
+        "Phi": r"$\phi(\mu)$ [rad]",
+        "PX": r"$p_x(\mu)$ [GeV/$c$]",
+        "PY": r"$p_y(\mu)$ [GeV/$c$]",
+        "PZ": r"$p_z(\mu)$ [GeV/$c$]",
+        "P": r"$p(\mu)$ [GeV/$c$]"
+    }
+    for column, ax in axes.items():
+        if split_charge:
+            for charge, sign_label, color in ((1, r"$\mu^+$", PlotStyle.prompt), (-1, r"$\mu^-$", PlotStyle.displaced)):
+                subset = derived.loc[derived[charge_column] == charge]
+                values = subset[column].to_numpy(dtype=np.float64)
+                values = values[np.isfinite(values)]
+                if values.size:
+                    draw_histogram(ax, values, bins=bins, label=sign_label, color=color, filled=False)
+            ax.legend(fontsize=8)
+        else:
+            values = derived[column].to_numpy(dtype=np.float64)
+            values = values[np.isfinite(values)]
+            draw_histogram(ax, values, bins=bins)
+        style_axis(fig, ax, title=column, xlabel=labels[column], ylabel="Muones/bin")
+        if log_y:
+            ax.set_yscale("log")
+    fig.suptitle("Cinematica de muones reconstruidos", fontweight="bold", fontsize=20)
+    finalize_figure(fig, save=save, data=data, filename=filename, output_dir=output_dir, show=show)
     return fig, axes
 
 def plot_jet_kinematics(
@@ -105,6 +137,7 @@ def plot_jet_kinematics(
     *,
     bins: int = 60,
     save: bool = False,
+    data: str,
     filename: str = "delphes_jet_kinematics",
     output_dir: str | Path | None = None,
     show: bool = True,
@@ -126,6 +159,7 @@ def plot_jet_kinematics(
     finalize_figure(
         fig,
         save=save,
+        data=data,
         filename=filename,
         output_dir=output_dir,
         show=show,
@@ -140,6 +174,7 @@ def plot_dimuon_mass(
     category_column: str | None = None,
     log_y: bool = False,
     save: bool = False,
+    data: str,
     filename: str = "delphes_dimuon_mass",
     output_dir: str | Path | None = None,
     show: bool = True,
@@ -188,6 +223,7 @@ def plot_dimuon_mass(
     finalize_figure(
         fig,
         save=save,
+        data=data,
         filename=filename,
         output_dir=output_dir,
         show=show,
@@ -208,6 +244,7 @@ def plot_dimuon_delta_r(
     bins: int = 80,
     value_range: tuple[float, float] | None = None,
     save: bool = False,
+    data: str,
     filename: str = "delphes_dimuon_delta_r",
     output_dir: str | Path | None = None,
     show: bool = True,
@@ -231,6 +268,7 @@ def plot_dimuon_delta_r(
     finalize_figure(
         fig,
         save=save,
+        data=data,
         filename=filename,
         output_dir=output_dir,
         show=show,
@@ -244,6 +282,7 @@ def plot_displacement_significance(
     significance_range: tuple[float, float] = (0.0, 20.0),
     log_y: bool = False,
     save: bool = False,
+    data: str,
     filename: str = "delphes_d0_significance",
     output_dir: str | Path | None = None,
     show: bool = True,
@@ -278,6 +317,7 @@ def plot_displacement_significance(
     finalize_figure(
         fig,
         save=save,
+        data=data,
         filename=filename,
         output_dir=output_dir,
         show=show,
@@ -291,6 +331,7 @@ def plot_mass_vs_displacement(
     mass_range: tuple[float, float] | None = None,
     significance_range: tuple[float, float] = (0.0, 20.0),
     save: bool = False,
+    data: str,
     filename: str = "delphes_mass_vs_displacement",
     output_dir: str | Path | None = None,
     show: bool = True,
@@ -330,6 +371,7 @@ def plot_mass_vs_displacement(
     finalize_figure(
         fig,
         save=save,
+        data=data,
         filename=filename,
         output_dir=output_dir,
         show=show,
@@ -343,6 +385,7 @@ def plot_truth_pt_response(
     truth_column: str = "truth_PT",
     bins: int = 100,
     save: bool = False,
+    data: str,
     filename: str = "delphes_truth_pt_response",
     output_dir: str | Path | None = None,
     show: bool = True,
@@ -390,6 +433,7 @@ def plot_truth_pt_response(
     finalize_figure(
         fig,
         save=save,
+        data=data,
         filename=filename,
         output_dir=output_dir,
         show=show,
@@ -401,6 +445,7 @@ def plot_fit_result(
     *,
     title: str = "Ajuste del espectro dimuónico",
     save: bool = False,
+    data: str,
     filename: str = "delphes_dimuon_fit",
     output_dir: str | Path | None = None,
     show: bool = True,
@@ -410,6 +455,7 @@ def plot_fit_result(
         title=title,
         xlabel=r"$m_{\mu\mu}$ [GeV/$c^2$]",
         save=save,
+        data=data,
         filename=filename,
         output_dir=output_dir,
         show=show,
@@ -423,13 +469,14 @@ def plot_two_muon_mass(
     log_y: bool = False,
     show_substracted: bool = True,
     save: bool = False,
+    data: str,
     filename: str = "delphes_two_muon_mass",
     output_dir: str | Path | None = None,
     show: bool = True
 ):
     require_columns(pairs, ("dimuon_mass", "is_opposite_sign"), "plot_two_muon_mass")
-    os_mass = finite_values(pairs.loc[pairs["is_opposite_sign"]], "dimuon_mass")
-    ss_mass = finite_values(pairs.loc[~pairs["is_opposite_sign"]], "dimuon_mass")
+    os_mass = finite_values(pairs.loc[pairs["is_opposite_sign"]], "dimuon_mass")    # signo opuesto
+    ss_mass = finite_values(pairs.loc[~pairs["is_opposite_sign"]], "dimuon_mass")   # mismo signo
     n_panels = 2 if (show_substracted and ss_mass.size) else 1
     fig, axes = plt.subplots(1, n_panels, figsize=(9*n_panels, 7), squeeze=False)
     ax = axes[0, 0]
