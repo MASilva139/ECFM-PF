@@ -461,7 +461,7 @@ def _create_dimuons(
     pairs = ak.combinations(muons, 2, axis=1, fields=("first", "second"))
     first = pairs.first
     second = pairs.second
-    mask = first.charge + second.charge < 0
+    mask = first.charge * second.charge < 0
     first = first[mask]
     second = second[mask]
     positive_first = first.charge > 0
