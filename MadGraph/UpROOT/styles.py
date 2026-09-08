@@ -24,6 +24,10 @@ class PlotStyle:
     background_model = BLUE01
     prompt = GREEN01
     displaced = RED00
+    mixed = BLUE01
+    invalid = "#858585"
+    truth = GOLD01
+    reco = BLUE01
 
     @staticmethod
     def apply_global_style() -> None:
