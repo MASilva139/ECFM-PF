@@ -232,22 +232,6 @@ def fit_by_displacement_category(
         )
     return results
 
-def estimate_dimuon_sideband(
-    dimuons: pd.DataFrame,
-    *,
-    signal_window: tuple[float, float],
-    left_band: tuple[float, float],
-    right_band: tuple[float, float],
-    mass_column: str = "dimuon_mass"
-) -> dict[str, float | int]:
-    values = values_from_dataframe(dimuons, mass_column)
-    return sideband_background_estimate(
-        values,
-        signal_window=signal_window,
-        left_band=left_band,
-        right_band=right_band
-    )
-
 def _proxy_region_mask(
     values: pd.Series,
     limits: tuple[float | None, float | None],
