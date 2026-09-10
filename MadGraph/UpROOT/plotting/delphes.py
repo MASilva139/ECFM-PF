@@ -21,7 +21,6 @@ def plot_event_multiplicities(
     *,
     columns: Iterable[str] | None = None,
     bins: int = 30,
-    log_x: bool = False,
     log_y: bool = True,
     data: str,
     save: bool = False,
@@ -57,9 +56,6 @@ def plot_event_multiplicities(
         )
         if log_y:
             ax.set_yscale("log")
-        if log_x:
-            ax.set_xscale('log')
-            ax.xaxis.set_major_formatter(ScalarFormatter())
     for ax in axes.flat[len(columns):]:
         ax.set_visible(False)
     fig.suptitle("Multiplicidades de objetos Delphes", fontweight="bold")

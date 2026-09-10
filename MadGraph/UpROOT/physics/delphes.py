@@ -1128,7 +1128,7 @@ def classify_dimuon_displacement(
     return result
 
 def select_displacement_category(dimuons: pd.DataFrame, category: str) -> pd.DataFrame:
-    available = {'prompt', 'displaced', 'mixed'}
+    available = {'prompt', 'displaced', 'mixed', 'invalid'}
     if category not in available:
         formatted = ', '.join(sorted(available))
         raise ValueError(f'Categoría desconocida: {category!r}.\nOpciones: {formatted}.')
