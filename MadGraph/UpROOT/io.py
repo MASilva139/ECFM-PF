@@ -344,6 +344,98 @@ def load_dataframe(
         raise TypeError('No se ha generado un pd.DataFrame')
     return dataframe
 
+def load_dataframe_for_events(
+    event_ids: Iterable[int],
+    *,
+    branches: Iterable[str] | str,
+    dataset: str | None = None,
+    root_files: Iterable[str | Path] | str | Path | None = None,
+    tree_path: str,
+    event_column: str = "event_id",
+    step_size: str | int = "200 MB",
+    show_trees: bool = False
+) -> pd.DataFrame:
+    # Para 'Particles' y 'Tracks'
+    selected_events = np.asarray(tuple(event_ids), dtype=np.int64)
+    selected_events = np.unique(selected_events)
+    requested = _normalize_branches(branches)
+    if event_column not in requested:
+        requested = (event_column, *requested)
+    paths = _normalize_paths(dataset=dataset, root_files=root_files)
+    file_tree_map = _prepare_file_tree_map(
+        paths=paths,
+        branches=requested,
+        tree_path=tree_path,
+        show_trees=show_trees
+    )
+    if selected_events.size == 0:
+        return pd.DataFrame(columns=list(requested))
+    selected_set = set(selected_events.tolist())
+    frames: list[pd.DataFrame] = []
+    for path, selected_tree in file_tree_map.items():
+        with uproot.open(path) as rf:
+            tree = rf[selected_tree]
+            for frame in tree.iterate(expressions=list(requested), step_size=step_size, library='pd'):
+                mask = frame[event_column].isin(selected_set)
+                if bool(mask.any()):
+                    frames.append(frame.loc[mask].copy())
+    if frames:
+        dataframe = pd.concat(frames, ignore_index=True)
+    else:
+        dataframe = pd.DataFrame(columns=list(requested))
+    print(f"Total de filas seleccionadas en {tree_path}: {len(dataframe):,} filas")
+    return dataframe
+
+def load_dataframe_for_keys(
+    keys: pd.DataFrame,
+    *,
+    key_columns: Iterable[str],
+    branches: Iterable[str] | str,
+    dataset: str | None = None,
+    root_files: Iterable[str | Path] | str | Path | None = None,
+    tree_path: str,
+    step_size: str | int = "200 MB",
+    show_trees: bool = False
+) -> pd.DataFrame:
+    normalized_keys = _normalize_branches(key_columns)
+    missing = [column for column in normalized_keys if column not in keys.columns]
+    if missing:
+        formatted = ', '.join(missing)
+        raise KeyError(f"Faltan caves: {formatted}.")
+    requested = _normalize_branches(branches)
+    requested = tuple(dict.fromkeys((*normalized_keys, *requested)))
+    selected_keys = (
+        keys.loc[:, list(normalized_keys)]
+        .dropna()
+        .drop_duplicates()
+        .reset_index(drop=True)
+    )
+    if selected_keys.empty:
+        return pd.DataFrame(columns=list(requested))
+    paths = _normalize_paths(dataset=dataset, root_files=root_files)
+    file_tree_map = _prepare_file_tree_map(
+        paths=paths,
+        branches=branches,
+        tree_path=tree_path,
+        show_trees=show_trees
+    )
+    selected_index = pd.MultiIndex.from_frame(selected_keys)
+    frames: list[pd.DataFrame] = []
+    for path, selected_tree in file_tree_map.items():
+        with uproot.open(path) as rf:
+            tree = rf[selected_tree]
+            for frame in tree.iterate(expressions=list(requested), step_size=step_size, library='pd'):
+                frame_index = pd.MultiIndex.from_frame(frame.loc[:, list(normalized_keys)])
+                mask = frame_index.isin(selected_index)
+                if bool(np.any(mask)):
+                    frames.append(frame.loc[mask].copy())
+    if frames:
+        dataframe = pd.concat(frames, ignore_index=True)
+    else:
+        dataframe = pd.DataFrame(columns=list(requested))
+    print(f"Total de filas seleccionadas en {tree_path}: {len(dataframe):,} filas")
+    return dataframe
+
 def load_awkward(
     branches: Iterable[str] | str | None = None,
     dataset: str | None = None, 
