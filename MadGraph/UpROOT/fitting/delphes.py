@@ -1,5 +1,5 @@
 # Fitting para delphes de tabla plana
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Mapping
 import numpy as np
 import pandas as pd
 from .common import (
@@ -158,7 +158,10 @@ def fit_dimuon_peak(
         print(f"Modelo      = {model}")
         print(f"Media       = {parameters['mean']:.6g}")
         if "sigma" in parameters:
-            print(f"Sigma       = {parameters['sigma_core']:.6g}")
+            print(f"Sigma       = {parameters['sigma']:.6g}")
+        elif "sigma_core" in parameters:
+            print(f"Sigma core  = {parameters['sigma_core']:.6g}")
+            print(f"Sigma tail  = {parameters['sigma_tail']:.6g}")
         print(f"Señal aprox = {result['signal_yield']:.1f}")
         print(f"χ²/ndf      = {result['chi2']:.1f}/{result['ndf']}")
         if not result['converged']:
@@ -212,7 +215,7 @@ def fit_by_displacement_category(
     bins: int = 80,
     model: str = "gauss_exp"
 ) -> dict[str, dict]:
-    require_columns(dimuons, (category_column), "fit_by_displacement_category")
+    require_columns(dimuons, (category_column,), "fit_by_displacement_category")
     results = {}
     for category in categories:
         selected = dimuons.loc[dimuons[category_column].eq(category)]
@@ -245,6 +248,292 @@ def estimate_dimuon_sideband(
         right_band=right_band
     )
 
+def _proxy_region_mask(
+    values: pd.Series,
+    limits: tuple[float | None, float | None],
+    *,
+    context: str
+) -> pd.Series:
+    lower, upper = limits
+    numeric = pd.to_numeric(values, errors='coerce')
+    mask = numeric.notna() & np.isfinite(numeric)
+    if lower is not None:
+        mask &= numeric.ge(lower)
+    if upper is not None:
+        mask &= numeric.le(upper)
+    return mask
+
+def fit_by_proxy_regions(
+    dimuons: pd.DataFrame,
+    *,
+    proxy_column: str, 
+    regions: Mapping[str, tuple[float | None, float | None]],
+    target_mass: float,
+    mass_window: tuple[float, float],
+    mass_column: str = "dimuon_mass",
+    bins: int = 80,
+    model: str = "gauss_exp",
+    initial_sigma: float | None = None,
+    minimum_entries: int = 1
+) -> dict[str, dict]:
+    context = 'fit_by_proxy_regions'
+    require_columns(dimuons, (proxy_column, mass_column), context)
+    if not regions:
+        raise ValueError(f"{context}: regions se encuentra vacío.")
+    results: dict[str, dict] = {}
+    for name, limits in regions.items():
+        if len(limits) != 2:
+            raise ValueError(f"{context}: la región {name!r} debe tener dos límites.")
+        mask = _proxy_region_mask(dimuons[proxy_column], limits, context=f"{context}[{name}]")
+        selected = dimuons.loc[mask]
+        if len(selected) < minimum_entries:
+            continue
+        result = fit_dimuon_peak(
+            selected,
+            target_mass=target_mass,
+            mass_window=mass_window,
+            mass_column=mass_column,
+            bins=bins,
+            model=model,
+            initial_sigma=initial_sigma,
+            verbose=False
+        )
+        result["selection"] = {
+            "proxy_column": proxy_column,
+            "lower": limits[0],
+            "upper": limits[1],
+            "n_selected": int(len(selected))
+        }
+        results[str(name)] = result
+    return results
+
+def fit_by_ip_region(
+    dimuons: pd.DataFrame,
+    *,
+    target_mass: float,
+    mass_window: tuple[float, float],
+    prompt_max: float = 3.0,
+    displaced_min: float = 5.0,
+    proxy_column: str = 'sqrt_min_chi2_ip_proxy',
+    mass_column: str = 'dimuon_mass',
+    bins: int = 80,
+    model: str = 'gauss_exp',
+    initial_sigma: float | None = None,
+    minimum_entries: int = 1
+) -> dict[str, dict]:
+    result = fit_by_proxy_regions(
+        dimuons,
+        proxy_column=proxy_column,
+        regions={
+            'prompt': (None, prompt_max),
+            "displaced": (displaced_min, None)
+        },
+        target_mass=target_mass,
+        mass_window=mass_window,
+        mass_column=mass_column,
+        bins=bins,
+        model=model,
+        initial_sigma=initial_sigma,
+        minimum_entries=minimum_entries
+    )
+    return result
+
+def fit_by_decay_time_region(
+    dimuons: pd.DataFrame,
+    *,
+    regions: Mapping[str, tuple[float | None, float | None]],
+    target_mass: float,
+    mass_window: tuple[float, float],
+    time_column: str = 'dimuon_decay_time_reco_ps',
+    mass_column: str = 'dimuon_mass',
+    bins: int = 80,
+    model: str = 'gauss_exp',
+    initial_sigma: float | None = None,
+    minimum_entries: int = 1,
+) -> dict[str, dict]:
+    result = fit_by_proxy_regions(
+        dimuons,
+        proxy_column=time_column,
+        regions=regions,
+        target_mass=target_mass,
+        mass_window=mass_window,
+        mass_column=mass_column,
+        bins=bins,
+        model=model,
+        initial_sigma=initial_sigma,
+        minimum_entries=minimum_entries
+    )
+    return result
+
+def fit_by_decay_fit_quality(
+    dimuons: pd.DataFrame,
+    *,
+    maximum_chi2_df_proxy: float,
+    target_mass: float,
+    mass_window: tuple[float, float],
+    proxy_column: str = 'chi2_df_proxy',
+    mass_column: str = 'dimuon_mass',
+    bins: int = 80,
+    model: str = 'gauss_exp',
+    initial_sigma: float | None = None,
+    minimum_entries: int = 1
+) -> dict:
+    if not np.isfinite(maximum_chi2_df_proxy) or maximum_chi2_df_proxy < 0:
+        raise ValueError("fit_by_decay_fit_quality: se requiere que 'maximum_chi2_df_proxy'>0 y sea finito.")
+    results = fit_by_proxy_regions(
+        dimuons,
+        proxy_column=proxy_column,
+        regions={'accepted': (0.0, maximum_chi2_df_proxy)},
+        target_mass=target_mass,
+        mass_window=mass_window,
+        mass_column=mass_column,
+        bins=bins,
+        model=model,
+        initial_sigma=initial_sigma,
+        minimum_entries=minimum_entries
+    )
+    if 'accepted' not in results:
+        raise ValueError("fit_by_decay_fit_quality: no hay sifucientes candidatos aceptados.")
+    return results['accepted']
+
+def compare_prompt_displaced_fits(
+    dimuons: pd.DataFrame,
+    *,
+    target_mass: float,
+    mass_window: tuple[float, float],
+    category_column: str = 'displacement_category',
+    mass_column: str = 'dimuon_mass',
+    bins: int = 80,
+    model: str = 'gauss_exp',
+) -> tuple[pd.DataFrame, dict[str, dict]]:
+    results = fit_by_displacement_category(
+        dimuons,
+        target_mass=target_mass,
+        mass_window=mass_window,
+        category_column=category_column,
+        categories={'promp', 'displaced'},
+        mass_column=mass_column,
+        bins=bins,
+        model=model
+    )
+    rows = []
+    for category, result in results.items():
+        significance = result['significance']
+        rows.append({
+            "category": category,
+            "n_entries": result['n_entries'],
+            "fitted_mass": result['parameters'].get("mean", np.nan),
+            "signal_yield": result['signal_yield'],
+            "background_yield": result['background_yield'],
+            "local_asimov": significance['asimov_significance'],
+            "chi2_ndf": result['reduced_chi2'],
+            "converged": result['converged'],
+            "warning": result['warning']
+        })
+    return pd.DataFrame(rows), results
+
+def scan_proxy_cut(
+    dimuons: pd.DataFrame,
+    thresholds: Iterable[float],
+    *,
+    proxy_column: str,
+    direction: str,
+    target_mass: float,
+    mass_window: tuple[float, float],
+    mass_column: str = 'dimuon_mass',
+    bins: int = 80,
+    model: str = 'gauss_exp',
+    initial_sigma: float | None = None,
+    minimum_entries: int = 20
+) -> tuple[pd.DataFrame, dict[float, dict]]:
+    context = 'scan_proxy_cut'
+    if direction not in {'lower', 'upper'}:
+        raise
+    require_columns(dimuons, (proxy_column, mass_column), context)
+    proxy = pd.to_numeric(dimuons[proxy_column], errors='coerce')
+    valid_proxy = proxy.notna() & np.isfinite(proxy)
+    n_valid = int(np.count_nonzero(valid_proxy))
+    rows: list[dict] = []
+    results: dict[float, dict] = {}
+    for raw_threshold in thresholds:
+        threshold = float(raw_threshold)
+        if direction == 'lower':
+            mask = valid_proxy & proxy.le(threshold)
+        else:
+            mask = valid_proxy & proxy.ge(threshold)
+        selected = dimuons.loc[mask]
+        row = {
+            "threshold": threshold,
+            "direction": direction,
+            "n_selected": int(len(selected)),
+            "selection_efficiency": (float(len(selected)/n_valid) if n_valid else np.nan)
+        }
+        if len(selected) < minimum_entries:
+            row.update({
+                "fitted_mass": np.nan,
+                "signal_yield": np.nan,
+                "background_yield": np.nan,
+                "local_asimov": np.nan,
+                "chi2_ndf": np.nan,
+                "converged": False,
+                "warning": "Candidatos insuficientes para el ajuste."
+            })
+            rows.append(row)
+            continue
+        try:
+            result = fit_dimuon_peak(
+                selected,
+                target_mass=target_mass,
+                mass_window=mass_window,
+                mass_column=mass_column,
+                bins=bins,
+                model=model,
+                initial_sigma=initial_sigma,
+                verbose=False
+            )
+        except ValueError as e:
+            row.update({
+                "fitted_mass": np.nan,
+                "signal_yield": np.nan,
+                "background_yield": np.nan,
+                "local_asimov": np.nan,
+                "chi2_ndf": np.nan,
+                "converged": False,
+                "warning": str(e)
+            })
+            rows.append(row)
+            continue
+        results[threshold] = result
+        significance = result['significance']
+        row.update({
+            "fitted_mass": result['parameters'].get('mean', np.nan),
+            "signal_yield": result['signal_yield'],
+            "background_yield": result['background_yield'],
+            "local_asimov": significance['asimov_significance'],
+            "chi2_ndf": result['reduced_chi2'],
+            "converged": result['converged'],
+            "warning": result['warning']
+        })
+        rows.append(row)
+    return pd.DataFrame(rows), results
+
+def estimate_dimuon_sideband(
+    dimuons: pd.DataFrame,
+    *,
+    signal_window: tuple[float, float],
+    left_band: tuple[float, float],
+    right_band: tuple[float, float],
+    mass_column: str = 'dimuon_mass'
+) -> dict[str, float | int]:
+    values = values_from_dataframe(dimuons, mass_column)
+    results = sideband_background_estimate(
+        values,
+        signal_window=signal_window,
+        left_band=left_band,
+        right_band=right_band
+    )
+    return results
+
 def scan_mass_hypotheses(
     dimuons: pd.DataFrame,
     hypotheses: Iterable[float],
@@ -254,7 +543,7 @@ def scan_mass_hypotheses(
     bins: int = 80,
     model: str = "gauss_exp",
     initial_sigma: float | Callable[[float], float] | None = None
-) -> tuple[pd.DataFrame, dict[float, float]]:
+) -> tuple[pd.DataFrame, dict[float, dict]]:
     results: dict[float, dict] = {}
     rows: list[dict] = []
     for hypothesis in hypotheses:
