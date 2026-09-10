@@ -52,7 +52,7 @@ def _float_column(
     column: str,
     context: str
 ) -> np.ndarray:
-    _float_column(df, (column,), context)
+    _required(df, (column,), context)
     return pd.to_numeric(df[column], errors="coerce").to_numpy(dtype=np.float64)
 
 def _point_components(
