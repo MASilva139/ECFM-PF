@@ -93,3 +93,38 @@ PREFERRED_TREES = (
     'Delphes',
     'DecayTree'
 )
+
+CONFIGURATIONS = {
+    'p01_10GeV': {
+        'raw_dataset': 'mpmm_50k_10',
+        'flat_dataset': 'mpmm_50k_10_p',
+        'plot_data': 'delphes02',
+        'target_mass': 10.0,
+        'mass_range': (0.00, 25.0),
+        'fit_window': (0.00, 12.0)
+    },
+    'p01_70GeV': {
+        'raw_dataset': 'mpmm_70GeV',
+        'flat_dataset': 'mpmm_70GeV_p',
+        'plot_data': 'delphes02',
+        'target_mass': 70.0,
+        'mass_range': (0.00, 100.0),
+        'fit_window': (65.0, 75.0)
+    },
+    'p02_10GeV': {
+        'raw_dataset': 'dimuons_50k_10',
+        'flat_dataset': 'dimuons_50k_10_p',
+        'plot_data': 'delphes03',
+        'target_mass': 10.0,
+        'mass_range': (0.00, 25.0),
+        'fit_window': (0.00, 12.0)
+    },
+    'p02_70GeV': {
+        'raw_dataset': 'dimuons_70GeV',
+        'flat_dataset': 'dimuons_70GeV_p',
+        'plot_data': 'delphes02',
+        'target_mass': 70.0,
+        'mass_range': (0.00, 100.0),
+        'fit_window': (65.0, 75.0)
+    },
+}
