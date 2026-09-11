@@ -923,7 +923,7 @@ def check_long_lived_truth(
     dimuons: pd.DataFrame,
     *,
     time_column: str = 'dimuon_decay_time_truth_ps',
-    displacement_column: str = 'truth_decay_legth_mm',
+    displacement_column: str = 'truth_decay_length_mm',
     minimum_time_ps: float = 0.00,
     minimum_displacement_mm: float = 0.00,
     raise_on_failure: bool = False
@@ -1128,7 +1128,7 @@ def classify_dimuon_displacement(
     return result
 
 def select_displacement_category(dimuons: pd.DataFrame, category: str) -> pd.DataFrame:
-    available = {'prompt', 'displaced', 'mixed'}
+    available = {'prompt', 'displaced', 'mixed', 'invalid'}
     if category not in available:
         formatted = ', '.join(sorted(available))
         raise ValueError(f'Categoría desconocida: {category!r}.\nOpciones: {formatted}.')
