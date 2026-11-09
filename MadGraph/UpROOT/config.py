@@ -2,18 +2,45 @@ from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT_DIR / "data"
-TEXT_DIR = ROOT_DIR / "MadGraph/assset/txt"
+TEXT_DIR = ROOT_DIR / "MadGraph/assets/txt"
 ANALYSIS_DIR = ROOT_DIR / "MadGraph/analysis"
-FIG_DIR = ROOT_DIR / "MadGraph/assset/images"
+FIG_DIR = ROOT_DIR / "MadGraph/assets/images"
 FIG_DIR_01 = FIG_DIR / "b2hhh"
 FIG_DIR_02 = FIG_DIR / "delphes"
 
 B2HHH_DATA = FIG_DIR_01 / "Data"
 B2HHH_SIM = FIG_DIR_01 / "Sim"
 DNVTUPLE = FIG_DIR / "dnvtuple"
-DELPHES_01 = FIG_DIR_02 / "c01"
-DELPHES_02 = FIG_DIR_02 / "c02"
-DELPHES_03 = FIG_DIR_02 / "c03"
+SM_DELPHES = FIG_DIR_02 / 'sm_model'
+SMF_DELPHES = FIG_DIR_02 / 'smf_model'
+DPM_DELPHES = FIG_DIR_02 / 'dp_model'
+
+#########################################
+############# SM Model ##################
+#########################################
+DELPHES_SM01 = SM_DELPHES / "c01"
+DELPHES_SM02 = SM_DELPHES / "c02"
+DELPHES_SM03 = SM_DELPHES / "c03"
+DELPHES_SM04 = SM_DELPHES / "c04"
+DELPHES_SM05 = SM_DELPHES / "c05"
+
+#########################################
+########### SM-Full Model ###############
+#########################################
+DELPHES_SMF01 = SMF_DELPHES / "c01"
+DELPHES_SMF02 = SMF_DELPHES / "c02"
+DELPHES_SMF03 = SMF_DELPHES / "c03"
+DELPHES_SMF04 = SMF_DELPHES / "c04"
+DELPHES_SMF05 = SMF_DELPHES / "c05"
+
+############################################
+############ Dark Photon Model #############
+############################################
+DELPHES_DP01 = DPM_DELPHES / "c01"
+DELPHES_DP02 = DPM_DELPHES / "c02"
+DELPHES_DP03 = DPM_DELPHES / "c03"
+DELPHES_DP04 = DPM_DELPHES / "c04"
+DELPHES_DP05 = DPM_DELPHES / "c05"
 
 # Masa invariante B2HHH [MeV/c2]
 mK = 493.677
@@ -67,6 +94,20 @@ ROOT_DATASETS = {
         "MG5_pp_dimuons_50k_10GeV.root",
         "MG5_pp_dimuons_50k_10GeV_2.root",
     ),
+    "mpmm02_70GeV": (
+        "MG5_pp_mpmm02_70GeV_01.root",
+        "MG5_pp_mpmm02_70GeV_02.root",
+    ),
+    "dimuons02_70GeV": (
+        "MG5_pp_dimuons02_70GeV_01.root",
+        "MG5_pp_dimuons02_70GeV_02.root",
+    ),
+    "hahm00": (
+        "HAHM00.root",
+    ),
+    #################################################
+    ############### Archivos planos #################
+    #################################################
     "mpmm_70GeV_p": (
         "mpmm_70GeV_pandas.root",
     ),
@@ -78,6 +119,15 @@ ROOT_DATASETS = {
     ),
     "dimuons_50k_10_p": ( # Archivo sm-full
         "dimuons_50k_10_pandas.root",
+    ),
+    "mpmm02_70GeV_p": (
+        "mpmm02_70GeV_pandas.root",
+    ),
+    "dimuons02_70GeV_p": (
+        "dimuons02_70GeV_pandas.root",
+    ),
+    "hahm00_p": (
+        "HAHM00_pandas.root",
     ),
 }
 ROOT_FILES = {
@@ -95,34 +145,61 @@ PREFERRED_TREES = (
 )
 
 CONFIGURATIONS = {
-    'p01_10GeV': {
+    'sm01_10GeV': {
         'raw_dataset': 'mpmm_50k_10',
         'flat_dataset': 'mpmm_50k_10_p',
-        'plot_data': 'delphes02',
+        'plot_data': 'dsm01',
         'target_mass': 10.0,
         'mass_range': (0.00, 25.0),
         'fit_window': (0.00, 12.0)
     },
-    'p01_70GeV': {
+    'sm01_70GeV': {
         'raw_dataset': 'mpmm_70GeV',
         'flat_dataset': 'mpmm_70GeV_p',
-        'plot_data': 'delphes02',
+        'plot_data': 'dsm01',
         'target_mass': 70.0,
         'mass_range': (0.00, 100.0),
         'fit_window': (65.0, 75.0)
     },
-    'p02_10GeV': {
+    'smf01_10GeV': {
         'raw_dataset': 'dimuons_50k_10',
         'flat_dataset': 'dimuons_50k_10_p',
-        'plot_data': 'delphes03',
+        'plot_data': 'dsmf01',
         'target_mass': 10.0,
         'mass_range': (0.00, 25.0),
         'fit_window': (0.00, 12.0)
     },
-    'p02_70GeV': {
+    'smf01_70GeV': {
         'raw_dataset': 'dimuons_70GeV',
         'flat_dataset': 'dimuons_70GeV_p',
-        'plot_data': 'delphes02',
+        'plot_data': 'dsmf01',
+        'target_mass': 70.0,
+        'mass_range': (0.00, 100.0),
+        'fit_window': (65.0, 75.0)
+    },
+    'sm02_70GeV': {
+        'raw_dataset': 'mpmm02_70GeV',
+        'flat_dataset': 'mpmm02_70GeV_p',
+        'plot_data': 'dsm02',
+        'target_mass': 70.0,
+        'mass_range': (0.00, 100.0),
+        'fit_window': (65.0, 75.0)
+    },
+    'smf02_70GeV': {
+        'raw_dataset': 'dimuons02_70GeV',
+        'flat_dataset': 'dimuons02_70GeV_p',
+        'plot_data': 'dsmf02',
+        'target_mass': 70.0,
+        'mass_range': (0.00, 100.0),
+        'fit_window': (65.0, 75.0)
+    },
+    ###############################################
+    ################# p p → dp dp #################
+    ###############################################
+    'dp00': {
+        'raw_dataset': 'hahm00',
+        'flat_dataset': 'hahm00_p',
+        'plot_data': 'dp00',
         'target_mass': 70.0,
         'mass_range': (0.00, 100.0),
         'fit_window': (65.0, 75.0)

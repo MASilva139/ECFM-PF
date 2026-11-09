@@ -45,6 +45,38 @@ def positive_values(
     values = finite_values(df, column, scale=scale)
     return values[values > 0]
 
+def histogram_bins(
+    values,
+    *,
+    bins: int | np.ndarray = 100,
+    value_range: tuple[float, float] | None = None,
+    logarithmic: bool = False
+):
+    values = np.asarray(values, dtype=np.float64)
+    values = values[np.isfinite(values)]
+    if not isinstance(bins, (int, np.integer)):
+        edges = np.asarray(bins, dtype=np.float64)
+        if (edges.ndim != 1 or edges.size < 2):
+            raise ValueError('Los bins deben contener al menos dos bordes')
+        if not np.all(np.isfinite(edges)):
+            raise ValueError('Bins con bordes no finitos')
+        if np.any(np.diff(edges) <= 0):
+            raise ValueError('Los bins logarítmicos deben ser positivos.')
+        return edges
+    bins = int(bins)
+    if not logarithmic:
+        return bins
+    positive = values[values > 0]
+    if value_range is None:
+        minimum, maximum = np.float(positive.min()), np.float(positive.max())
+    else:
+        minimum, maximum = map(float, value_range)
+        if minimum <= 0:
+            if positive.size == 0:
+                raise
+            minimum = float(positive.min())
+    return np.logspace(np.log10(minimum), np.log10(maximum), bins + 1)
+
 def draw_histogram(
     ax,
     values,

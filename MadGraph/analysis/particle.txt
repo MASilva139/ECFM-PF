@@ -1,4 +1,0 @@
-Particle/Particle.D1
-Particle/Particle.D2
-Particle/Particle.M1
-Particle/Particle.M2

@@ -12,9 +12,16 @@ from .config import (
     B2HHH_DATA,
     B2HHH_SIM,
     DNVTUPLE,
-    DELPHES_01,
-    DELPHES_02,
-    DELPHES_03
+    DELPHES_SM01, 
+    DELPHES_SM02,
+    DELPHES_SM03, 
+    DELPHES_SM04, 
+    DELPHES_SM05, 
+    DELPHES_SMF01,
+    DELPHES_SMF02,
+    DELPHES_SMF03,
+    DELPHES_SMF04,
+    DELPHES_SMF05,
 )
 
 class PlotStyle:
@@ -98,13 +105,27 @@ class PlotStyle:
             return B2HHH_SIM
         elif data == 'dnvtuple':
             return DNVTUPLE
-        elif data == 'delphes':
-            return DELPHES_01
-        elif data == 'delphes02':
-            return DELPHES_02
-        elif data == 'delphes03':
-            return DELPHES_03
-        raise ValueError(f"data tiene que ser 'data/sim', 'dnvtuple' o 'delphes'.")
+        elif data == 'dsm01':
+            return DELPHES_SM01
+        elif data == 'dsm02':
+            return DELPHES_SM02
+        elif data == 'dsm03':
+            return DELPHES_SM03
+        elif data == 'dsm04':
+            return DELPHES_SM04
+        elif data == 'dsm05':
+            return DELPHES_SM05
+        elif data == 'dsmf01':
+            return DELPHES_SMF01
+        elif data == 'dsmf02':
+            return DELPHES_SMF02
+        elif data == 'dsmf03':
+            return DELPHES_SMF03
+        elif data == 'dsmf04':
+            return DELPHES_SMF04
+        elif data == 'dsmf05':
+            return DELPHES_SMF05
+        raise ValueError(f"data tiene que ser 'data/sim', 'dnvtuple'.")
 
     @classmethod
     def save_fig(

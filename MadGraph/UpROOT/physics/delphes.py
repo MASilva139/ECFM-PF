@@ -244,6 +244,9 @@ def attach_dimuon_track_vertices(
     if lookup.duplicated(keys).any():
         raise ValueError(f"{context}: existen varias trazas para la misma referencia de partícula dentro de un evento.")
     result = dimuons.copy()
+    existing_track_cols = [c for side in ('muplus', 'muminus') for c in result.columns if c.startswith(f'{side}_track_')]
+    if existing_track_cols:
+        result = result.drop(columns=existing_track_cols)
     result["__row_position"] = np.arange(len(result), dtype=np.int64)
     field_names = {
         "object_index": "index",
@@ -262,7 +265,7 @@ def attach_dimuon_track_vertices(
         "ErrorDZ": "error_dz",
         "ErrorD0DZ": "error_d0_dz"
     }
-    for side, reference_column in (("muplus", muplus_reference_column), ('muminus', muminus_reference_column)):
+    for side, reference_column in (("muplus", muplus_reference_column), ("muminus", muminus_reference_column)):
         renamed = lookup.rename(columns={
             track_reference_column: reference_column, **{
                 field: f"{side}_track_{field_names[field]}" for field in lookup.columns if field in field_names
@@ -276,8 +279,13 @@ def attach_dimuon_track_vertices(
             sort=False
         )
         result[f"{side}_track_matched"] = result[f"{side}_track_x"].notna()
-    result["dimuon_tracks_matched"] = (result['muplus_track_matched'] & result["muminus_track_matched"])
-    return (result.sort_values("__row_position", kind="stable").drop(columns="__row_position").set_axis(dimuons.index))
+    result["dimuon_tracks_matched"] = (result["muplus_track_matched"] & result["muminus_track_matched"])
+    return (
+        result
+        .sort_values("__row_position", kind="stable")
+        .drop(columns="__row_position")
+        .set_axis(dimuons.index)
+    )
 
 def select_jets(
     jets: pd.DataFrame,
@@ -1080,7 +1088,7 @@ def calc_decay_fit_proxy(
         cross_norm,
         momentum_norm,
         out=np.full(len(result), np.nan, dtype=np.float64),
-        where=(np.isfinite(cross_norm) & np.isfinite(momentum_norm) & np.isfinite(flight_norm) (momentum_norm > 0) & (flight_norm > 0),)
+        where=(np.isfinite(cross_norm) & np.isfinite(momentum_norm) & np.isfinite(flight_norm) & (momentum_norm > 0) & (flight_norm > 0))
     )
     pointing_pull = _divide_valid(pointing_miss, sigma_pointing)
     cosine = np.divide(
