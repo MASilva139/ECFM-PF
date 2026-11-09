@@ -5,12 +5,13 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import numpy as np
 import pandas as pd
-from matplotlib.ticker import ScalarFormatter
+from matplotlib.ticker import ScalarFormatter, NullFormatter
 from ..styles import PlotStyle
 from .common import (
     draw_histogram,
     finalize_figure,
     finite_values,
+    histogram_bins,
     plot_fit_result as _plot_fit_result,
     require_columns,
     style_axis
@@ -179,25 +180,35 @@ def plot_dimuon_mass(
     category_column: str | None = None,
     log_x: bool = False,
     log_y: bool = False,
+    density: bool = False,
     save: bool = False,
     data: str,
     filename: str = "dimuon_mass",
     output_dir: str | Path | None = None,
     show: bool = True,
 ):
-    require_columns(dimuons, ("dimuon_mass",), "plot_dimuon_mass")
+    context = 'plot_dimuon_mass'
+    values = finite_values(dimuons, "dimuon_mass")
+    require_columns(dimuons, ("dimuon_mass",), context)
+    log_bins = histogram_bins(
+        values=values,
+        bins=bins,
+        value_range=mass_range,
+        logarithmic=log_x
+    )
     fig, ax = plt.subplots(figsize=(10, 7))
     if category_column is None:
         draw_histogram(
             ax,
-            finite_values(dimuons, "dimuon_mass"),
-            bins=bins,
+            values,
+            bins=log_bins,
             value_range=mass_range,
             label="Todos",
             color=PlotStyle.signal,
+            density=density
         )
     else:
-        require_columns(dimuons, (category_column,), "plot_dimuon_mass")
+        require_columns(dimuons, (category_column,), context)
         colors = {
             "prompt": PlotStyle.prompt,
             "displaced": PlotStyle.displaced,
@@ -211,24 +222,27 @@ def plot_dimuon_mass(
             draw_histogram(
                 ax,
                 values,
-                bins=bins,
+                bins=log_bins,
                 value_range=mass_range,
                 label=str(category),
                 color=colors.get(str(category)),
                 filled=False,
+                density=density,
             )
+    ylabel = ('Densidad' if density else 'Candidatos/bin')
     style_axis(
         fig,
         ax,
         title="Espectro de masa dimuónica",
         xlabel=r"$m_{\mu\mu}$ [GeV/$c^2$]",
-        ylabel="Candidatos/bin",
+        ylabel=ylabel,
     )
     if log_y:
         ax.set_yscale("log")
     if log_x:
         ax.set_xscale('log')
         ax.xaxis.set_major_formatter(ScalarFormatter())
+        ax.xaxis.set_minor_formatter(NullFormatter())
     ax.legend()
     finalize_figure(
         fig,

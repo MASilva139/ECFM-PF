@@ -22,7 +22,7 @@ def values_from_dataframe(
     *,
     value_range: tuple[float, float] | None = None
 ) -> np.ndarray:
-    require_columns(dataframe, (column), "values_from_dataframe")
+    require_columns(dataframe, (column,), "values_from_dataframe")
     values = finite_array(dataframe[column])
     if value_range is not None:
         lower, upper = value_range

@@ -25,7 +25,7 @@ def voight(x, amplitude, mean, sigma, gamma):
     return amplitude*values/peak
 
 def exponential_background(x, amplitude, slope, pivot):
-    x = np.asarray(x, device=np.float64)
+    x = np.asarray(x, dtype=np.float64)
     exponent = np.clip(slope*(x-pivot), -700.0, 700.0)
     return amplitude*np.exp(exponent)
 
