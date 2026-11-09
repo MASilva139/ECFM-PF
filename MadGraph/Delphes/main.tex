@@ -25,6 +25,7 @@
 \usepackage{subcaption,textcomp}
 \usepackage{listings}
 \usepackage{tabularray}
+\usepackage{xtab}
 %
 \usepackage{fancyhdr}
 \usepackage{fourier-orns}
@@ -41,6 +42,12 @@
 \usepackage{styles/csecc}      % Custom sectioning commands
 \usepackage{styles/mpcom}      % Custom minipage commands
 \usepackage{styles/lst}    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DefTblrTemplate{firsthead}{default}{}
+\DefTblrTemplate{middlehead}{default}{}
+\DefTblrTemplate{lasthead}{default}{}
+\DefTblrTemplate{contfoot}{default}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \AtBeginDocument{\selectlanguage{spanish}}
 \decimalpoint
@@ -54,9 +61,9 @@
 \title{Prácticas Finales/EPS}
 \begin{abstract}
     \begin{center}
-        \vspace{300pt}
-        \Large \textbf{\textit{\textsc{Modificaciones al entorno MadGraph}}} \normalsize
-        \vspace{300pt}
+        \vspace{295pt}
+        \Large \textbf{\textit{\textsc{Modificaciones a los parámetros de las\\tarjetas  del entorno de MadGraph}}} \normalsize
+        \vspace{295pt}
         \\
         \Large Escuela de Ciencias Físicas y Matemáticas \normalsize
         \\
@@ -90,9 +97,10 @@
 \input{tex/01.tex}
 \newpage
 \input{tex/02.tex}
-% \input{tex/03.tex}
-% \newpage
-% \input{tex/C04.tex}
+\newpage
+\input{tex/03.tex}
+\newpage
+\input{tex/04.tex}
 % \newpage
 % \input{tex/C05.tex}
 % \newpage
