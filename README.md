@@ -28,13 +28,12 @@ A partir de estas direcciones, así como la materia oscura, pueden realizarse me
 
 ### Portales del Sector Oscuro
 <img
-  src="\Documentacion/assets/SM_DS_01.png"
+  src="./Documentacion/assets/SM_DS_01.png"
   alt="Descripción"
-  width="250"
-  align="right"
+  style="float: right; width: 250px; margin: 0 0 12px 18px;"
 >
 
 Texto que aparecerá al lado izquierdo de la imagen mientras haya espacio
 disponible. Después continuará debajo de ella.
 
-<br clear="right">
+<div style="clear: both;"></div>
