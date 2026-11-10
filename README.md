@@ -27,13 +27,22 @@ A partir de los sectores oscuros se tiene que
 A partir de estas direcciones, así como la materia oscura, pueden realizarse mediante física BSM (beyond the SM) por debajo de la escala electrodébil (EW), la cual se puede clasificar y explorar de manera sistemática basándose en los portales que median las interacciones entre el SM y un sector oscuro de baja masa.
 
 ### Portales del Sector Oscuro
+<picture>
 <img
-  src="./Documentacion/assets/SM_DS_01.png"
-  alt="Descripción"
-  style="float: right; width: 250px; margin: 0 0 12px 18px;"
+src="./Documentacion/assets/SM_DS_03.png"
+alt="Descripción"
+attributionsrc="https://arxiv.org/pdf/2209.04671v1"
+style="float: right; width: 250px; margin: 0 0 12px 18px;"
 >
-
-Texto que aparecerá al lado izquierdo de la imagen mientras haya espacio
-disponible. Después continuará debajo de ella.
-
+Las principales interacciones existentes entre las partículas ordinarias y del sector oscuro se conocen como sectores. La fuerza de las interacciones de portal puede suprimirse de manera natural por razones de simetría, y de esta forma puede surgir solo a órdenes superiores dentro de la teoría perturbativa.
 <div style="clear: both;"></div>
+</picture>
+
+Un escenario simple es cuando las interacciones entre el SM y el sector oscuro pueden surgir a través de las llamadas interacciones de portal, donde se tiene que las partículas del sector oscuro solamente se acoplan de manera indirecta a la materia ordinaria, lo que conduce a interacciones débiles y de esta forma se abre la puerta a la posibilidad de que la física BSM pueda existir por debajo de la escala EW. Algo a tener en cuenta es que la masa de las partículas del sector oscuro podría ser naturalmente ligera si esta se encuentra protegida por alguna simetría *(Gori & Williams, 2021, p. 3)*.
+<br></br>
+Tanto las simetrías de Gauge como de Lorentz, del Modelo Estándar, restringen en gran medida como los médiadores del sector oscuro pueden acoplarse a la materia ordinaria. Las interacciones dominantes entre las partículas del SM y los mediadores del sector oscuro son naturalmente aquellas con las dimensiones más bajas:
+
+* ****Portal Vectorial****:
+* ****Portal de Higgs****:
+* ****Portal de Neutrinos****:
+* ****Portal de Axiones****:
