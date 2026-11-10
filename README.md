@@ -8,7 +8,7 @@
 | :----: | :----: | :---- |
 | Materia oscura caliente | HDM | Materia (partículas) en movimiento relativista. Una característica de esta es que tiene dificultad para la formación de estructuras pequeñas. |
 | Materia oscura tibia | WDM | La materia (partículas) poseen velocidades intermedias. Suprime parcialmente estructuras pequeñas. |
-| Materia oscura fría | CDM | La materia (partíulas) poseen velocidades no relativistas. A este tipo de materia oscura pertenecen los ``WIMPs``, ``axiones``, ``partículas del sector oscuro``, etc.
+| Materia oscura fría | CDM | La materia (partículas) poseen velocidades no relativistas. A este tipo de materia oscura pertenecen los ``WIMPs``, ``axiones``, ``partículas del sector oscuro``, etc.
 
 ## Sector Oscuro
 La consideración de un sector oscuro neutro bajo las fuerzas del Modelo Estándar (SM) ofrece una explicación para la existencia de la Materia Oscura (DM); esta permite la dirección de nueva física capaz de explorar cuestiones fundamentales como las masas de los neutrinos, el problema de la jerarquía y la asimetría materia-antimateria que se presenta en el Universo.
@@ -42,7 +42,14 @@ Un escenario simple es cuando las interacciones entre el SM y el sector oscuro p
 <br></br>
 Tanto las simetrías de Gauge como de Lorentz, del Modelo Estándar, restringen en gran medida como los médiadores del sector oscuro pueden acoplarse a la materia ordinaria. Las interacciones dominantes entre las partículas del SM y los mediadores del sector oscuro son naturalmente aquellas con las dimensiones más bajas:
 
-* ****Portal Vectorial****:
-* ****Portal de Higgs****:
-* ****Portal de Neutrinos****:
-* ****Portal de Axiones****:
+| **Tipo de portal** | **Descripción** |
+|:----:|:---|
+|****Portal Vectorial****| Las partículas de matería oscura pueden interactuar con otras partículas de materia oscura a través de una fuerza oscura similar a la fuerza electromagnética sentida por la materia ordinaria. El fotón oscuro ($A'$) que media esta fuerza puede obtener un pequeño acoplamiento a la corriente electromagnética debido a la mezcla cinética entre el hipercampo del modelo estándar y los tensores de intensidad del campo de $A'$ a través del operador $(\epsilon/2)F^{\mu\nu}F'_{\mu\nu}$, donde $\epsilon$ caracteriza el tamaño de la mezcla cinética. |
+| ****Portal de Higgs**** | El escalar oscuro ($S$) acoplado al operador de masa del Higgs invariante de gauge, $(\mu S+\lambda S^{2})H^{\dagger}H$, puede mezclarse con el bosón de Higgs del SM, con un ángulo de mezcla denotado por $\theta$. El bosón $S$ entonces hereda las interacciones del Higgs a las partículas del SM suprimidas por esta mezcla de masa. |
+| ****Portal de Neutrinos**** | Un fermión singlete de gauge ($N$) llamado leptón neutro pesado (HNL), puede acoplarse al operador invariante de gauge formado por los dobletes $SU(2)$ de leptón y Higgs del SM, $yNHL$. Despuésa de la ruptura de simetría EW, los NHL's se mezclan con los neutrinos del SM. Los NHL's pueden ser partículas de Majorana, Dirac o pseudo-Dirac[^1]. |
+| ****Portal de Axiones**** | Los ALP's ($a$) son partículas pesudoescalares cuyos acoplamientos a los bosones de gauge del SM están altamente suprimidos a bajas energías por una gran constante de decaimiento $(f_{a})$ a través de operadores como $aF_{\mu\nu}F^{\mu\nu}/f_{a}$. Los ALP's son bosones pseudo-Nambu-Goldstone; por lo tanto, se espera que sus masas ($m_{a}$) sean $m_{a}\ll f_{a}$. |
+
+Los primeros tres portales son renormalizables, mientras que el portal de axiones es un operador de dimensión 5 suprimido por la escala de alta energía $f_{a}$. También es posible el acoplamiento directo de nuevos bosones de gauge a corrientes vectoriales de fermiones del SM, anque la mayoría son anómalos.
+
+## Referencias
+[^1]: Gori, S. & Williams, M. *Dark Sector Physics at High-Intensity Experiments*, 2021. Snowmass. Recuperado de https://arxiv.org/pdf/2209.04671v1.
