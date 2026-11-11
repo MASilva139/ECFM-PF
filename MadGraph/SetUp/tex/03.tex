@@ -1,0 +1,278 @@
+\section{Configuración y resolución de problemas al ejecutar MadGraph}
+Esta sección se puede utilizar en caso de que tire problemas el \textit{launch} de un proceso.
+\begin{itemize}
+    \item[(1)] \textbf{Configuración de la interfaz LHAPDF}\\
+    Dentro del entorno MG5
+    \begin{lstlisting}
+(MG5)> MG5_ROOT='/home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27
+(MG5)> LHAPDF_ROOT='$MG5_ROOT/HEPTools/lhapdf6_py3'
+
+# Buscando la ubicacion del modulo LHAPDF
+(MG5)> find "$LHAPDF_ROOT' -type d -name 'site-packages'
+
+# Con la direccion se procede a acceder al archivo previamente creado
+(MG5)> nano "$CONDA_PREFIX/etc/conda/activate.d/mg5_compiler.sh"
+
+(mg5_compiler.sh)> export MG5_ROOT="/home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27"
+(mg5_compiler.sh)> export LHAPDF_ROOT="$MG5_ROOT/HEPTools/lhapdf6_py3"
+(mg5_compiler.sh)> export LD_LIBRARY_PATH="$LHAPDF_ROOT/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+(mg5_compiler.sh)> export PYTHONPATH="$LHAPDF_ROOT/lib/python3.10/site-packages${PYTHONPATH:+:$PYTHONPATH}"
+
+# Guardando y saliendo del entorno nano
+(mg5_compiler.sh)> Ctrl + O
+(mg5_compiler.sh)> Enter
+(mg5_compiler.sh)> Ctrl + X
+
+# Recargando el entorno MG5 y comprobando
+(MG5)> conda deactivate
+     > conda activate MG5
+(MG5)> "$LD_LIBRARY_PATH"
+(MG5)> echo "$PYTHONPATH"
+(MG5)> python -c "import lhapdf; print(lhapdf.version())"
+    \end{lstlisting}
+    Una versión que verifique automaticamente la versión de Python, el cual busca el \textit{site-packages},
+    \begin{lstlisting}
+(MG5)> MG5_ROOT='/home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27
+(MG5)> LHAPDF_ROOT='$MG5_ROOT/HEPTools/lhapdf6_py3'
+
+# Buscando la ubicacion del modulo LHAPDF
+(MG5)> find "$LHAPDF_ROOT' -type d -name 'site-packages'
+
+# Con la direccion se procede a acceder al archivo previamente creado
+(MG5)> nano "$CONDA_PREFIX/etc/conda/activate.d/mg5_compiler.sh"
+
+(mg5_compiler.sh)> export MG5_ROOT="/home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27"
+(mg5_compiler.sh)> export LHAPDF_ROOT="$MG5_ROOT/HEPTools/lhapdf6_py3"
+(mg5_compiler.sh)> export LD_LIBRARY_PATH="$LHAPDF_ROOT/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+(mg5_compiler.sh)> LHAPDF_PYTHON_PATH="$(find "$LHAPDF_ROOT" - type d -name "site-packages" -print -quit)"
+(mg5_compiler.sh)> if [ -n "$LHAPDF_PYTHON_PATH" ]; then
+(mg5_compiler.sh)>    export PYTHONPATH="$LHAPDF_PYTHON_PATH${PYTHONPATH:+:$PYTHONPATH}"
+(mg5_compiler.sh)> fi
+(mg5_compiler.sh)> unset LHAPDF_PYTHON_PATH    
+\end{lstlisting}
+    \item[(2)] \textbf{Problema con \textit{Histogram with run\_id '0' xmldoc}}\\
+    Este problema se da cuando pythia no puede leer los archivos xml, en caso de tener ese problema
+    \begin{lstlisting}
+(MG5)> unset PYTHIA8DATA
+(MG5)> echo "$PYTHIA8DATA"
+\end{lstlisting}
+    \newpage 
+    \begin{lstlisting}  
+# Comprobando que se haya instalado Pythia en MadGraph
+(MG5)> MG5_ROOT="/home/karna/madgraph/MG5_aMC_v2_9_27"
+(MG5)> "$MG5_ROOT/HEPTools/pythia8/bin/pythia8-config" --version
+<out> 8.317
+(MG5)> "$MG5_ROOT/HEPTools/pythia8/bin/pythia8-config" --xmldoc
+<out> /home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27/HEPTools/pythia8/share/Pythia8/xmldoc
+
+# Probando la ruta, indicando explicitamente los archivos XML
+(MG5)> export PYTHIA8DATA="/home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27/HEPTools/pythia8/share/Pythia8/xmldoc"
+(MG5)> echo "$PYTHIA8DATA"
+(MG5)> test -f "$PYTHIA8DATA/Index.xml" && echo "XML de Pythia encontrado"
+
+# Verificando que la carpeta contiene la version correcta
+(MG5)> grep -R "8.317" "$PYTHIA8DATA" | head
+
+# Dejando la configuracion permanente en el entorno MG5, creando un script que se ejecute al final de los scripts de activacion
+(MG5)> nano "$CONDA_PREFIX/etc/conda/activate.d/zz_mg5_pythia8.sh"
+
+(zz_mg5_pythia8.sh)> export MG5_ROOT="/home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27"
+(zz_mg5_pythia8.sh)> export PYTHIA8DATA="$MG5_ROOT/HEPTools/pythia8/share/Pythia8/xmldoc"
+
+# Guardando el script y retornando a la consola
+(zz_mg5_pythia8.sh)> Ctrl + O
+(zz_mg5_pythia8.sh)> Enter
+(zz_mg5_pythia8.sh)> Ctrl + X
+
+# Reactivando el entorno conda MG5 y verificando
+(MG5)> conda deactivate
+     > conda activate MG5 
+(MG5)> echo "$PYTHIA8DATA"
+<out> /home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27/HEPTools/pythia8/share/Pythia8/xmldoc     
+\end{lstlisting}
+    En caso de que muestre esa salida ya está arreglada la configuración para archivos XML.
+    \item[(3)] \textbf{Problema con la generación del archivo .root (Delphes)}\\
+    En la terminal dentro de la carpeta de MadGraph (MG5\_aMC\_v2\_9\_27)
+    \begin{lstlisting}
+# Activando el entorno conda MG5 y verificando los archivos Delphes
+     > conda activate MG5
+(MG5)> find . -name "DelphesHepMC*" -ls
+<out> ./Delphes/DelphesHepMC2
+<out> ./Delphes/DelphesHepMC3
+<out> ...
+(MG5)> which root-config
+<out> /home/usuario/anaconda3/envs/MG5/bin/root-config
+(MG5)> root-config --version
+<out> 6.40.02
+(MG5)> root-config --prefix
+<out> /home/usuario/anaconda3/envs/MG5
+(MG5)> echo "$ROOTSYS"
+<out> /home/usuario/anaconda3/envs/MG5
+
+(MG5)> ln -s DelphesHepMC2 Delphes/DelphesHepMC
+(MG5)> ls -l Delphes/DelphesHepMC*
+<out> Delphes/DelphesHepMC -> DelphesHepMC2
+<out> Delphes/DelphesHepMC2
+<out> Delphes/DelphesHepMC3
+
+# Verificando la resolucion
+(MG5)> readlink -f Delphes/DelphesHepMC
+<out> /home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27/Delphes/DelphesHepMC2
+\end{lstlisting}
+\newpage
+    \item[(4)] \textbf{Interfaz de MadGraph (launch)}\\
+    Inicialmente al ejecutar el launch de un proceso se tendrá
+\begin{lstlisting}
+(MG5)> ./bin/mg5_aMC
+MG5_aMC> launch "proceso"
+ . . . . . . . . . . . . .
+/===========================================================================\
+| 1. Choose the shower/hadronization program     shower = OFF               |
+| 2. Choose the detector simulation program    detector = OFF               |
+| 3. Choose an analysis package (plot/convert) analysis = Not Avail.        |
+| 4. Decay onshell particles                    madspin = OFF               |
+| 5. Add weights to events for new hypp.       reweight = OFF               |
+\===========================================================================/
+# Para seleccionar un showering y un detector
+MG5_aMC> shower=Pythia8
+MG5_aMC> detector=Delphes
+. . . . . . . . . . . . .
+/===========================================================================\
+| 1. Choose the shower/hadronization program     shower = Pythia8           |
+| 2. Choose the detector simulation program    detector = Delphes           |
+| 3. Choose an analysis package (plot/convert) analysis = Not Avail.        |
+| 4. Decay onshell particles                    madspin = OFF               |
+| 5. Add weights to events for new hypp.       reweight = OFF               |
+\===========================================================================/
+\end{lstlisting}
+    \item[(5)] \textbf{Modelo a emplear en la simulación}\\
+    Al ejecutar el entorno de MadGraph, tras la configuración previa, presenta la siguiente pantalla
+\begin{lstlisting}
+(MG5) usuario@Usuario:~/Descargas/madgraph/MG5_aMC_v2_9_27$ ./bin/mg5_aMC
+************************************************************
+*                     W E L C O M E to                     *
+*              M A D G R A P H 5 _ a M C @ N L O           *
+*                                                          *
+*                 *                       *                *
+*                   *        * *        *                  *
+*                     * * * * 5 * * * *                    *
+*                   *        * *        *                  *
+*                 *                       *                *
+*                                                          *
+*         VERSION 2.9.27                2026-01-05         *
+*    The MadGraph5_aMC@NLO Development Team - Find us at   *
+*    https://server06.fynu.ucl.ac.be/projects/madgraph     *
+*                            and                           *
+*            http://amcatnlo.web.cern.ch/amcatnlo/         *
+*               Type 'help' for in-line help.              *
+*           Type 'tutorial' to learn how MG5 works         *
+*    Type 'tutorial aMCatNLO' to learn how aMC@NLO works   *
+*    Type 'tutorial MadLoop' to learn how MadLoop works    *
+************************************************************
+load MG5 configuration from input/mg5_configuration.txt 
+set fastjet to fastjet-config
+set lhapdf to /home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27/HEPTools/lhapdf6_py3/bin/lhapdf-config
+set lhapdf to /home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27/HEPTools/lhapdf6_py3/bin/lhapdf-config
+Using default eps viewer "evince". Set another one in ./input/mg5_configuration.txt
+Using default web browser "firefox". Set another one in ./input/mg5_configuration.txt
+Loading default model: sm
+INFO: Restrict model sm with file models/sm/restrict_default.dat . 
+INFO: Run "set stdout_level DEBUG" before import for more information. 
+INFO: Change particles name to pass to MG5 convention 
+Defined multiparticle p = g u c d s u~ c~ d~ s~
+Defined multiparticle j = g u c d s u~ c~ d~ s~
+Defined multiparticle l+ = e+ mu+
+Defined multiparticle l- = e- mu-
+Defined multiparticle vl = ve vm vt
+Defined multiparticle vl~ = ve~ vm~ vt~
+Defined multiparticle all = g u c d s u~ c~ d~ s~ a ve vm vt e- mu- ve~ vm~ vt~ e+ mu+ t b t~ b~ z w+ h w- ta- ta+
+\end{lstlisting}
+donde se puede observar el modelo cargado en la línea \textit{Loading default model: sm}. El modelo estándar sm presenta en el archivo \textit{param\_card.data} los siguientes valores
+\begin{lstlisting}
+  1 0.000000e+00 # d : 0.0 
+  2 0.000000e+00 # u : 0.0 
+  3 0.000000e+00 # s : 0.0 
+  4 0.000000e+00 # c : 0.0 
+  11 0.000000e+00 # e- : 0.0 
+  12 0.000000e+00 # ve : 0.0 
+  13 0.000000e+00 # mu- : 0.0 
+  14 0.000000e+00 # vm : 0.0 
+  16 0.000000e+00 # vt : 0.0 
+  21 0.000000e+00 # g : 0.0 
+  22 0.000000e+00 # a : 0.0 
+  24 8.041900e+01 # w+ : cmath.sqrt(MZ\_\_exp\_\_2/2. + cmath.sqrt(MZ\_\_exp\_\_4/4. - (aEW*cmath.pi*MZ\_\_exp\_\_2)/(Gf*sqrt\_\_2)))
+\end{lstlisting}
+teniendo de esta forma una masa $m({\mu^{-}})=0.000000e+00$; por tanto, MadGraph trata al muón como no masivo en el elemento de matríz. Para cambiar esto, en el entorno de MadGraph se introduce el siguiente comando
+\begin{lstlisting}
+MG5_aMC> import model sm-full       # importando el modelo estandar completo
+INFO: Change particles name to pass to MG5 convention 
+Kept definitions of multiparticles p / j / l+ / l- / vl / vl~ unchanged
+Defined multiparticle all = g u d s u~ d~ s~ a ve vm vt ve~ vm~ vt~ c t b c~ t~ b~ z w+ h w- e- mu- ta- e+ mu+ ta+
+MG5_aMC> display particles mu-      # Verificando que mu- no tiene masa nula
+Particle mu- has the following properties:
+{
+    'name': 'mu-',
+    'antiname': 'mu+',
+    'spin': 2,
+    'color': 1,
+    'charge': -1.00,
+    'mass': 'mdl_MM',               # <- la masa de mu- es mdl\_MM
+    'width': 'ZERO',
+    'pdg_code': 13,
+    'line': 'straight',
+    'propagator': '',
+    'is_part': True,
+    'self_antipart': False,
+    'type': '',
+    'counterterm': {}
+}
+MG5_aMC> display parameters         # Verificando el valor de la masa de mu-
+parameter type: ('external',)
+        aEWM1 = 132.50698
+        mdl_Gf = 1.16639e-05
+        aS = 0.118
+        mdl_lamWS = 0.2253
+        mdl_AWS = 0.808
+        mdl_rhoWS = 0.132
+        mdl_etaWS = 0.341
+        mdl_ymc = 1.27
+        mdl_ymb = 4.2
+        mdl_ymt = 164.5
+        mdl_yme = 0.000511
+        mdl_ymm = 0.10566
+        mdl_ymtau = 1.777
+        mdl_MZ = 91.188
+        mdl_MC = 1.27
+        mdl_MT = 172.0
+        mdl_MB = 4.7
+        mdl_MH = 125.0              # <- Valor de la masa de mu-
+        mdl_Me = 0.000511
+        mdl_MM = 0.10566
+        mdl_MTA = 1.777
+        mdl_WZ = 2.44140351
+        mdl_WW = 2.04759951
+        mdl_WT = 1.50833649
+        mdl_WH = 0.00638233934
+        mdl_WTau = 2.27e-12
+\end{lstlisting}
+Tras importar el modelo estándar completo, \textit{import model sm-full}, se puede generar el proceso
+\begin{lstlisting}
+# Primera version
+MG5_aMC> import model sm-full
+MG5_aMC> display particles mu-
+MG5_aMC> display multiparticles
+MG5_aMC> generate p p > mu+ mu-
+MG5_aMC> display diagrams       # Comando para mostrar los diagramas de Feynman del proceso
+MG5_aMC> output <archivo>
+
+# Segunda version
+MG5_aMC> import model sm-full
+MG5_aMC> display particles mu-
+MG5_aMC> display multiparticles
+MG5_aMC> generate p p > mu+ mu- / h QED=2 QCD=0
+MG5_aMC> display diagrams       # Comando para mostrar los diagramas de Feynman del proceso
+MG5_aMC> output <archivo>
+\end{lstlisting}
+La segunda versión permite buscar el continuo Drell-Yan, además de evitar contribuciones de Higgs, dado que \textit{/ h} prohíbe diagramas internos con Higgs.
+    \item[(6)] \textbf{Instalación de un paquete de análisis}\\
+\end{itemize}

@@ -24,7 +24,7 @@ A partir de los sectores oscuros se tiene que
 * Pueden abordar el problema de CP fuerte mediante axiones o partículas similares a axiones (ALP's, axion-like particles). 
 * Pueden mejorar varias anomalías en los datos, como el momento magnético anómalo del muón, $(g-2)_{\mu}$, y las anomalías de neutrinos de línea de base corta.
 
-A partir de estas direcciones, así como la materia oscura, pueden realizarse mediante física BSM (beyond the SM) por debajo de la escala electrodébil (EW), la cual se puede clasificar y explorar de manera sistemática basándose en los portales que median las interacciones entre el SM y un sector oscuro de baja masa.
+A partir de estas direcciones, así como la materia oscura, pueden realizarse mediante física BSM (beyond the SM) por debajo de la escala electrodébil (EW), la cual se puede clasificar y explorar de manera sistemática basándose en los portales que median las interacciones entre el SM y un sector oscuro de baja masa[^1].
 
 ### Portales del Sector Oscuro
 <picture>
@@ -44,12 +44,12 @@ Tanto las simetrías de Gauge como de Lorentz, del Modelo Estándar, restringen 
 
 | **Tipo de portal** | **Descripción** |
 |:----:|:---|
-|****Portal Vectorial****| Las partículas de matería oscura pueden interactuar con otras partículas de materia oscura a través de una fuerza oscura similar a la fuerza electromagnética sentida por la materia ordinaria. El fotón oscuro ($A'$) que media esta fuerza puede obtener un pequeño acoplamiento a la corriente electromagnética debido a la mezcla cinética entre el hipercampo del modelo estándar y los tensores de intensidad del campo de $A'$ a través del operador $(\epsilon/2)F^{\mu\nu}F'_{\mu\nu}$, donde $\epsilon$ caracteriza el tamaño de la mezcla cinética. |
-| ****Portal de Higgs**** | El escalar oscuro ($S$) acoplado al operador de masa del Higgs invariante de gauge, $(\mu S+\lambda S^{2})H^{\dagger}H$, puede mezclarse con el bosón de Higgs del SM, con un ángulo de mezcla denotado por $\theta$. El bosón $S$ entonces hereda las interacciones del Higgs a las partículas del SM suprimidas por esta mezcla de masa. |
+|****Portal Vectorial****| Las partículas de matería oscura pueden interactuar con otras partículas de materia oscura a través de una fuerza oscura similar a la fuerza electromagnética sentida por la materia ordinaria. El fotón oscuro ($A'$) que media esta fuerza puede obtener un pequeño acoplamiento a la corriente electromagnética debido a la mezcla cinética entre el hipercampo del modelo estándar y los tensores de intensidad del campo de $A'$ a través del operador $(\epsilon/2)F^{\mu\nu}F'_{\mu\nu}$, donde $\epsilon$ caracteriza el tamaño de la mezcla cinética[^1]. |
+| ****Portal de Higgs**** | El escalar oscuro ($S$) acoplado al operador de masa del Higgs invariante de gauge, $(\mu S+\lambda S^{2})H^{\dagger}H$, puede mezclarse con el bosón de Higgs del SM, con un ángulo de mezcla denotado por $\theta$. El bosón $S$ entonces hereda las interacciones del Higgs a las partículas del SM suprimidas por esta mezcla de masa[^1]. |
 | ****Portal de Neutrinos**** | Un fermión singlete de gauge ($N$) llamado leptón neutro pesado (HNL), puede acoplarse al operador invariante de gauge formado por los dobletes $SU(2)$ de leptón y Higgs del SM, $yNHL$. Despuésa de la ruptura de simetría EW, los NHL's se mezclan con los neutrinos del SM. Los NHL's pueden ser partículas de Majorana, Dirac o pseudo-Dirac[^1]. |
-| ****Portal de Axiones**** | Los ALP's ($a$) son partículas pesudoescalares cuyos acoplamientos a los bosones de gauge del SM están altamente suprimidos a bajas energías por una gran constante de decaimiento $(f_{a})$ a través de operadores como $aF_{\mu\nu}F^{\mu\nu}/f_{a}$. Los ALP's son bosones pseudo-Nambu-Goldstone; por lo tanto, se espera que sus masas ($m_{a}$) sean $m_{a}\ll f_{a}$. |
+| ****Portal de Axiones**** | Los ALP's ($a$) son partículas pesudoescalares cuyos acoplamientos a los bosones de gauge del SM están altamente suprimidos a bajas energías por una gran constante de decaimiento $(f_{a})$ a través de operadores como $aF_{\mu\nu}F^{\mu\nu}/f_{a}$. Los ALP's son bosones pseudo-Nambu-Goldstone; por lo tanto, se espera que sus masas ($m_{a}$) sean $m_{a}\ll f_{a}$[^1]. |
 
-Los primeros tres portales son renormalizables, mientras que el portal de axiones es un operador de dimensión 5 suprimido por la escala de alta energía $f_{a}$. También es posible el acoplamiento directo de nuevos bosones de gauge a corrientes vectoriales de fermiones del SM, anque la mayoría son anómalos.
+Los primeros tres portales son renormalizables, mientras que el portal de axiones es un operador de dimensión 5 suprimido por la escala de alta energía $f_{a}$. También es posible el acoplamiento directo de nuevos bosones de gauge a corrientes vectoriales de fermiones del SM, anque la mayoría son anómalos[^1].
 
 ## Referencias
 [^1]: Gori, S. & Williams, M. *Dark Sector Physics at High-Intensity Experiments*, 2021. Snowmass. Recuperado de https://arxiv.org/pdf/2209.04671v1.
