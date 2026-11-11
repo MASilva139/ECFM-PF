@@ -1,0 +1,857 @@
+\section{Archivo Delphes}
+    \subsection{Colecciones y divisiones}
+    El archivo \textit{.root} generado por Delphes, en el simulador de MadGraph, está dado por colecciones (o ramas principales) y hojas (o atributos de los objetos).
+    \begin{center}
+        \vs{-30}
+        \begin{longtblr}{colspec={|l|l|l|}}\hline
+            \textbf{Rama} & \SetCell[c=2]{c}\textbf{Hojas} \\\hline\hline
+            \SetCell[r=10]{c,m}{EFlowNeutralHadron} & EFlowNeutralHadron.E & EFlowNeutralHadron.NTimeHits \\\hline
+             & EFlowNeutralHadron.ET & EFlowNeutralHadron.Particles \\\hline
+             & EFlowNeutralHadron.Edges[4] & EFlowNeutralHadron.Phi \\\hline
+             & EFlowNeutralHadron.Eem & EFlowNeutralHadron.T \\\hline
+             & EFlowNeutralHadron.Ehad & EFlowNeutralHadron.X \\\hline
+             & EFlowNeutralHadron.Eta & EFlowNeutralHadron.Y \\\hline
+             & EFlowNeutralHadron.Etrk & EFlowNeutralHadron.Z \\\hline
+             & EFlowNeutralHadron.HardEnergyFraction & EFlowNeutralHadron.fBits \\\hline
+             & EFlowNeutralHadron.IsPU & EFlowNeutralHadron.fUniqueID \\\hline
+             & EFlowNeutralHadron.IsRecoPU & \\\hline
+             & \SetCell[c=2]{l}{EFlowNeutralHadron\_size} \\\hline
+            \SetCell[r=10]{c,m}{EFlowPhoton} & EFlowPhoton.E & EFlowPhoton.NTimeHits \\\hline
+             & EFlowPhoton.ET & EFlowPhoton.Particles \\\hline
+             & EFlowPhoton.Edges[4] & EFlowPhoton.Phi \\\hline
+             & EFlowPhoton.Eem & EFlowPhoton.T \\\hline
+             & EFlowPhoton.Ehad & EFlowPhoton.X \\\hline
+             & EFlowPhoton.Eta & EFlowPhoton.Y \\\hline
+             & EFlowPhoton.Etrk & EFlowPhoton.Z \\\hline
+             & EFlowPhoton.HardEnergyFraction & EFlowPhoton.fBits \\\hline
+             & EFlowPhoton.IsPU & EFlowPhoton.fUniqueID \\\hline
+             & EFlowPhoton.IsRecoPU & \\\hline
+             & \SetCell[c=2]{l}{EFlowPhoton\_size} \\\hline
+            \SetCell[r=12]{c,m}{Particle} & Particle.Charge & Particle.Phi \\\hline
+             & Particle.D1 & Particle.Px \\\hline
+             & Particle.D2 & Particle.Py \\\hline
+             & Particle.E & Particle.Pz \\\hline
+             & Particle.Eta & Particle.Rapidity \\\hline
+             & Particle.IsPU & Particle.Status \\\hline
+             & Particle.M1 & Particle.T \\\hline
+             & Particle.M2 & Particle.X \\\hline
+             & Particle.Mass & Particle.Y \\\hline
+             & Particle.P & Particle.Z \\\hline
+             & Particle.PID & Particle.fBits \\\hline
+             & Particle.PT & Particle.fUniqueID \\\hline
+             & \SetCell[c=2]{l}{Particle\_size} \\\hline
+            \SetCell[r=28]{c,m}{EFlowTrack} & EFlowTrack.C & EFlowTrack.L \\\hline
+             & EFlowTrack.Charge & EFlowTrack.Mass \\\hline
+             & EFlowTrack.CtgTheta & EFlowTrack.Nclusters \\\hline
+             & EFlowTrack.D0 & EFlowTrack.P \\\hline
+             & EFlowTrack.DZ & EFlowTrack.PID \\\hline
+             & EFlowTrack.ErrorC & EFlowTrack.PT \\\hline
+             & EFlowTrack.ErrorCCtgTheta & EFlowTrack.Particle \\\hline
+             & EFlowTrack.ErrorCDZ & EFlowTrack.Phi \\\hline
+             & EFlowTrack.ErrorCtgTheta & EFlowTrack.PhiOuter \\\hline
+             & EFlowTrack.ErrorD0 & EFlowTrack.T \\\hline
+             & EFlowTrack.ErrorD0C & EFlowTrack.TOuter \\\hline
+             & EFlowTrack.ErrorD0CtgTheta & EFlowTrack.VertexIndex \\\hline
+             & EFlowTrack.ErrorD0DZ & EFlowTrack.X \\\hline
+             & EFlowTrack.ErrorD0Phi & EFlowTrack.XFirstHit \\\hline
+             & EFlowTrack.ErrorDZ & EFlowTrack.XOuter \\\hline
+             & EFlowTrack.ErrorDZCtgTheta & EFlowTrack.Xd \\\hline
+             & EFlowTrack.ErrorP & EFlowTrack.Y \\\hline
+             & EFlowTrack.ErrorPT & EFlowTrack.YFirstHit \\\hline
+             & EFlowTrack.ErrorPhi & EFlowTrack.YOuter \\\hline
+             & EFlowTrack.ErrorPhiC & EFlowTrack.Yd \\\hline
+             & EFlowTrack.ErrorPhiCtgTheta & EFlowTrack.Z \\\hline
+             & EFlowTrack.ErrorPhiDZ & EFlowTrack.ZFirstHit \\\hline
+             & EFlowTrack.ErrorT & EFlowTrack.ZOuter \\\hline
+             & EFlowTrack.Eta & EFlowTrack.Zd \\\hline
+             & EFlowTrack.EtaOuter & EFlowTrack.dNdx \\\hline
+             & EFlowTrack.HardEnergyFraction & EFlowTrack.fBits \\\hline
+             & EFlowTrack.IsPU & EFlowTrack.fUniqueID \\\hline
+             & EFlowTrack.IsRecoPU &  \\\hline
+             & \SetCell[c=2]{l}{EFlowTrack\_size}  \\\hline
+            \SetCell[r=10]{c,m}{Electron} & Electron.Charge & Electron.Particle \\\hline
+             & Electron.D0 & Electron.Phi \\\hline
+             & Electron.DZ & Electron.SumPt \\\hline
+             & Electron.EhadOverEem & Electron.SumPtCharged \\\hline
+             & Electron.ErrorD0 & Electron.SumPtChargedPU \\\hline
+             & Electron.ErrorDZ & Electron.SumPtNeutral \\\hline
+             & Electron.Eta & Electron.T \\\hline
+             & Electron.IsolationVar & Electron.fBits \\\hline
+             & Electron.IsolationVarRhoCorr & Electron.fUniqueID \\\hline
+             & Electron.PT &  \\\hline
+             & \SetCell[c=2]{l}{Electron\_size} \\\hline
+            \SetCell[r=10]{c,m}{Event} & Event.AlphaQCD & Event.ProcTime \\\hline
+             & Event.AlphaQED & Event.ProcessID \\\hline
+             & Event.CrossSection & Event.ReadTime \\\hline
+             & Event.CrossSectionError & Event.Scale \\\hline
+             & Event.ID1 & Event.ScalePDF \\\hline
+             & Event.ID2 & Event.Weight \\\hline
+             & Event.MPI & Event.X1 \\\hline
+             & Event.Number & Event.X2 \\\hline
+             & Event.PDF1 & Event.fBits \\\hline
+             & Event.PDF2 & Event.fUniqueID \\\hline
+             & \SetCell[c=2]{l}{Event\_size}  \\\hline
+            \SetCell[r=24]{c,m}{FatJet} & FatJet.Area & FatJet.NCharged \\\hline
+             & FatJet.BTag & FatJet.NNeutrals \\\hline
+             & FatJet.BTagAlgo & FatJet.NSubJetsPruned \\\hline
+             & FatJet.BTagPhys & FatJet.NSubJetsSoftDropped \\\hline
+             & FatJet.Beta & FatJet.NSubJetsTrimmed \\\hline
+             & FatJet.BetaStar & FatJet.NeutralEnergyFraction \\\hline
+             & FatJet.Charge & FatJet.PT \\\hline
+             & FatJet.ChargedEnergyFraction & FatJet.PTD \\\hline
+             & FatJet.Constituents & FatJet.Particles \\\hline
+             & FatJet.DeltaEta & FatJet.Phi \\\hline
+             & FatJet.DeltaPhi & FatJet.PrunedP4[5] \\\hline
+             & FatJet.EhadOverEem & FatJet.SoftDroppedJet \\\hline
+             & FatJet.Eta & FatJet.SoftDroppedP4[5] \\\hline
+             & FatJet.ExclYmerge12 & FatJet.SoftDroppedSubJet1 \\\hline
+             & FatJet.ExclYmerge23 & FatJet.SoftDroppedSubJet2 \\\hline
+             & FatJet.ExclYmerge34 & FatJet.T \\\hline
+             & FatJet.ExclYmerge45 & FatJet.TauFlavor \\\hline
+             & FatJet.ExclYmerge56 & FatJet.TauTag \\\hline
+             & FatJet.Flavor & FatJet.TauWeight \\\hline
+             & FatJet.FlavorAlgo & FatJet.Tau[5] \\\hline
+             & FatJet.FlavorPhys & FatJet.TrimmedP4[5] \\\hline
+             & FatJet.FracPt[5] & FatJet.fBits \\\hline
+             & FatJet.Mass & FatJet.fUniqueID \\\hline
+             & FatJet.MeanSqDeltaR &  \\\hline
+             & \SetCell[c=2]{l}{FatJet\_size}  \\\hline
+            \SetCell[r=3]{c,m}{GenMissingET} & GenMissingET.Eta & GenMissingET.fBits \\\hline
+             & GenMissingET.MET & GenMissingET.fUniqueID \\\hline
+             & GenMissingET.Phi & \\\hline
+             & \SetCell[c=2]{l}{GenMissingET\_size} \\\hline
+            \SetCell[r=24]{c,m}{GenJet} & GenJet.Area & GenJet.NCharged \\\hline
+             & GenJet.BTag & GenJet.NNeutrals \\\hline
+             & GenJet.BTagAlgo & GenJet.NSubJetsPruned \\\hline
+             & GenJet.BTagPhys & GenJet.NSubJetsSoftDropped \\\hline
+             & GenJet.Beta & GenJet.NSubJetsTrimmed \\\hline
+             & GenJet.BetaStar & GenJet.NeutralEnergyFraction \\\hline
+             & GenJet.Charge & GenJet.PT \\\hline
+             & GenJet.ChargedEnergyFraction & GenJet.PTD \\\hline
+             & GenJet.Constituents & GenJet.Particles \\\hline
+             & GenJet.DeltaEta & GenJet.Phi \\\hline
+             & GenJet.DeltaPhi & GenJet.PrunedP4[5] \\\hline
+             & GenJet.EhadOverEem & GenJet.SoftDroppedJet \\\hline
+             & GenJet.Eta & GenJet.SoftDroppedP4[5] \\\hline
+             & GenJet.ExclYmerge12 & GenJet.SoftDroppedSubJet1 \\\hline
+             & GenJet.ExclYmerge23 & GenJet.SoftDroppedSubJet2 \\\hline
+             & GenJet.ExclYmerge34 & GenJet.T \\\hline
+             & GenJet.ExclYmerge45 & GenJet.TauFlavor \\\hline
+             & GenJet.ExclYmerge56 & GenJet.TauTag \\\hline
+             & GenJet.Flavor & GenJet.TauWeight \\\hline
+             & GenJet.FlavorAlgo & GenJet.Tau[5] \\\hline
+             & GenJet.FlavorPhys & GenJet.TrimmedP4[5] \\\hline
+             & GenJet.FracPt[5] & GenJet.fBits \\\hline
+             & GenJet.Mass & GenJet.fUniqueID \\\hline
+             & GenJet.MeanSqDeltaR &  \\\hline
+             & \SetCell[c=2]{l}{GenJet\_size}  \\\hline
+            \SetCell[r=9]{c,m}{Muon} & Muon.Charge & Muon.Particle \\\hline
+             & Muon.D0 & Muon.Phi \\\hline
+             & Muon.DZ & Muon.SumPt \\\hline
+             & Muon.ErrorD0 & Muon.SumPtCharged \\\hline
+             & Muon.ErrorDZ & Muon.SumPtChargedPU \\\hline
+             & Muon.Eta & Muon.SumPtNeutral \\\hline
+             & Muon.IsolationVar & Muon.T \\\hline
+             & Muon.IsolationVarRhoCorr & Muon.fBits \\\hline
+             & Muon.PT & Muon.fUniqueID \\\hline
+             & \SetCell[c=2]{l}{Muon\_size} \\\hline
+            \SetCell[r=3]{c,m}{MissingET} & MissingET.Eta & MissingET.fBits \\\hline
+             & MissingET.MET & MissingET.fUniqueID \\\hline
+             & MissingET.Phi & \\\hline
+             & \SetCell[c=2]{l}{MissingET\_size} \\\hline
+            \SetCell[r=2]{c,m}{ScalarHT} & ScalarHT.HT & ScalarHT.fUniqueID \\\hline
+             & ScalarHT.fBits &  \\\hline
+             & \SetCell[c=2]{l}{ScalarHT\_size} &  \\\hline
+            \SetCell[r=28]{c,m}{Track} & Track.C & Track.L \\\hline
+             & Track.Charge & Track.Mass \\\hline
+             & Track.CtgTheta & Track.Nclusters \\\hline
+             & Track.D0 & Track.P \\\hline
+             & Track.DZ & Track.PID \\\hline
+             & Track.ErrorC & Track.PT \\\hline
+             & Track.ErrorCCtgTheta & Track.Particle \\\hline
+             & Track.ErrorCDZ & Track.Phi \\\hline
+             & Track.ErrorCtgTheta & Track.PhiOuter \\\hline
+             & Track.ErrorD0 & Track.T \\\hline
+             & Track.ErrorD0C & Track.TOuter \\\hline
+             & Track.ErrorD0CtgTheta & Track.VertexIndex \\\hline
+             & Track.ErrorD0DZ & Track.X \\\hline
+             & Track.ErrorD0Phi & Track.XFirstHit \\\hline
+             & Track.ErrorDZ & Track.XOuter \\\hline
+             & Track.ErrorDZCtgTheta & Track.Xd \\\hline
+             & Track.ErrorP & Track.Y \\\hline
+             & Track.ErrorPT & Track.YFirstHit \\\hline
+             & Track.ErrorPhi & Track.YOuter \\\hline
+             & Track.ErrorPhiC & Track.Yd \\\hline
+             & Track.ErrorPhiCtgTheta & Track.Z \\\hline
+             & Track.ErrorPhiDZ & Track.ZFirstHit \\\hline
+             & Track.ErrorT & Track.ZOuter \\\hline
+             & Track.Eta & Track.Zd \\\hline
+             & Track.EtaOuter & Track.dNdx \\\hline
+             & Track.HardEnergyFraction & Track.fBits \\\hline
+             & Track.IsPU & Track.fUniqueID \\\hline
+             & Track.IsRecoPU &  \\\hline
+             & \SetCell[c=2]{l}{Track\_size}  \\\hline
+            \SetCell[r=8]{c,m}{Photon} & Photon.E & Photon.Status \\\hline
+             & Photon.EhadOverEem & Photon.SumPt \\\hline
+             & Photon.Eta & Photon.SumPtCharged \\\hline
+             & Photon.IsolationVar & Photon.SumPtChargedPU \\\hline
+             & Photon.IsolationVarRhoCorr & Photon.SumPtNeutral \\\hline
+             & Photon.PT & Photon.T \\\hline
+             & Photon.Particles & Photon.fBits \\\hline
+             & Photon.Phi & Photon.fUniqueID \\\hline
+             & \SetCell[c=2]{l}{Photon\_size} \\\hline
+            \SetCell[r=2]{c,m}{Weight} & Weight.Weight & Weight.fUniqueID \\\hline
+             & Weight.fBits &  \\\hline
+             & \SetCell[c=2]{l}{Weight\_size}  \\\hline
+            \SetCell[r=24]{c,m}{Jet} & Jet.Area & Jet.NCharged \\\hline
+             & Jet.BTag & Jet.NNeutrals \\\hline
+             & Jet.BTagAlgo & Jet.NSubJetsPruned \\\hline
+             & Jet.BTagPhys & Jet.NSubJetsSoftDropped \\\hline
+             & Jet.Beta & Jet.NSubJetsTrimmed \\\hline
+             & Jet.BetaStar & Jet.NeutralEnergyFraction \\\hline
+             & Jet.Charge & Jet.PT \\\hline
+             & Jet.ChargedEnergyFraction & Jet.PTD \\\hline
+             & Jet.Constituents & Jet.Particles \\\hline
+             & Jet.DeltaEta & Jet.Phi \\\hline
+             & Jet.DeltaPhi & Jet.PrunedP4[5] \\\hline
+             & Jet.EhadOverEem & Jet.SoftDroppedJet \\\hline
+             & Jet.Eta & Jet.SoftDroppedP4[5] \\\hline
+             & Jet.ExclYmerge12 & Jet.SoftDroppedSubJet1 \\\hline
+             & Jet.ExclYmerge23 & Jet.SoftDroppedSubJet2 \\\hline
+             & Jet.ExclYmerge34 & Jet.T \\\hline
+             & Jet.ExclYmerge45 & Jet.TauFlavor \\\hline
+             & Jet.ExclYmerge56 & Jet.TauTag \\\hline
+             & Jet.Flavor & Jet.TauWeight \\\hline
+             & Jet.FlavorAlgo & Jet.Tau[5] \\\hline
+             & Jet.FlavorPhys & Jet.TrimmedP4[5] \\\hline
+             & Jet.FracPt[5] & Jet.fBits \\\hline
+             & Jet.Mass & Jet.fUniqueID \\\hline
+             & Jet.MeanSqDeltaR &  \\\hline
+             & \SetCell[c=2]{l}{GenJet\_size}  \\\hline
+            \SetCell[r=10]{c,m}{Tower} & Tower.E & Tower.NTimeHits \\\hline
+             & Tower.ET & Tower.Particles \\\hline
+             & Tower.Edges[4] & Tower.Phi \\\hline
+             & Tower.Eem & Tower.T \\\hline
+             & Tower.Ehad & Tower.X \\\hline
+             & Tower.Eta & Tower.Y \\\hline
+             & Tower.Etrk & Tower.Z \\\hline
+             & Tower.HardEnergyFraction & Tower.fBits \\\hline
+             & Tower.IsPU & Tower.fUniqueID \\\hline
+             & Tower.IsRecoPU &  \\\hline
+             & \SetCell[c=2]{l}{Tower\_size}  \\\hline
+            % \SetCell[r=2]{c,m}{} &  &  \\\hline
+            %  &  &  \\\hline
+            %  & \SetCell[c=2]{l}{}  \\\hline
+        \end{longtblr}
+    \end{center}
+    Con esto se tiene que el archivo generado por delphes contiene
+    \begin{itemize}
+        \item 17 colecciones (ramas principales).
+        \item 17 ramas de tipo \code{\_size}, las cuales contienen el número de objetos de esa colección en cada evento.
+        \item 421 hojas.
+    \end{itemize}
+    También se pueden observar que hay sufijos con terminación \code{[4]} o \code{[5]}, los cuales indican arreglos de tamaño fijo de cada objeto.\\\\Con ello se tiene
+    \begin{center}\vs{-30}
+        \begin{longtblr}{colspec={|X[l]|X[l]|r|}}\hline
+            \textbf{Colección} & \textbf{Clase Delphes} & \textbf{Hojas} \\\hline\hline
+            EFlowNeutralHadron & Tower & 19 \\\hline
+            EFlowPhoton & Tower & 19 \\\hline
+            EFlowTrack & Track & 55 \\\hline
+            Electron & Electron & 19 \\\hline
+            Event & HepMCEvent & 20 \\\hline
+            FatJet & Jet & 47 \\\hline
+            GenJet & Jet & 47 \\\hline
+            GenMissingET & MissingET & 5 \\\hline
+            Jet & Jet & 47 \\\hline
+            MissingET & MissingET & 5 \\\hline
+            Muon & Muon & 18 \\\hline
+            Particle & GenParticle & 24 \\\hline
+            Photon & Photon & 16 \\\hline
+            ScalarHT & ScalarHT & 3 \\\hline
+            Tower & Tower & 19 \\\hline
+            Track & Track & 55 \\\hline
+            Weight & Weight & 3 \\\hline
+        \end{longtblr}
+    \end{center}
+
+    \subsection{Magnitudes comunes}
+        \subsubsection{Energía total y Momentum}
+        La energía total relativista se define como
+        \begin{equation*}
+            \begin{aligned}
+                E^{2} & = p^{2}c^{2} + m^{2}c^{4}
+            \end{aligned}\hs{70}
+            \begin{aligned}
+                p^{2} & = p_{x}^{2} + p_{y}^{2} + p_{z}^{2}
+            \end{aligned}
+        \end{equation*}
+        La energía total aparece en
+        \begin{itemize}
+            \item \code{EFlowNeutralHadron/EFlowNeutralHadron.E}
+            \item \code{EFlowPhoton/EFlowPhoton.E}
+            \item \code{Particle/Particle.E}: energía del generador.
+            \item \code{Photon/Photon.E}: energía reconstruida del fotón.
+            \item \code{Tower/Tower.E}: energía calorimétrica.
+        \end{itemize}
+        Las colecciones de \code{Electron} y \code{Muon} no almacenan la energía total \code{E}, por lo que debe calcularse
+        \begin{equation*}
+            \begin{aligned}
+                E & = \sqrt{p_{T}^{2}\cosehn{\eta}{2} + m^{2}}
+            \end{aligned}
+        \end{equation*}
+        Se tiene que \code{P} y \code{PT} se definen como
+        \begin{equation*}
+            \begin{aligned}
+                P & = \sqrt{p_{x}^{2} + p_{y}^{2} + p_{z}^{2}}
+            \end{aligned}\hs{70}
+            \begin{aligned}
+                P_{T} & = \sqrt{p_{x}^{2} + p_{y}^{2}}
+            \end{aligned}
+        \end{equation*}
+        donde se tiene que
+        \begin{itemize}
+            \item $P$ es el módulo tridimensional del momentum.
+            \item $PT$ es el momentum transversal
+        \end{itemize}
+        En colisionadores hadrónicos, el parámetro $PT$ es de gran relevancia dado que no depende del boost longitudinal desconocido del sistema partónico.
+
+        \subsubsection{Energía Transversal: ET}
+        La energía transversal \code{ET} aparece en las torres calorimétricas \code{EFlowNeutralHadron/EFlowNeutralHadron.ET}, \code{EFlowPhoton/EFlowPhoton.ET}, \code{Tower/Tower.ET}. En el archivo \textit{TreeWriter.cc} se tiene definido para la clase \textit{Tower} de Delphes
+\begin{lstlisting}[language=c++]
+void TreeWriter::ProcessTowers(ExRootTreeBranch *branch, TObjArray *array)
+{
+  TIter iterator(array);
+  Candidate *candidate = 0;
+  Tower *entry = 0;
+  Double_t pt, signPz, cosTheta, eta;
+  const Double_t c_light = 2.99792458E8;
+
+  // loop over all towers
+  iterator.Reset();
+  while((candidate = static_cast<Candidate *>(iterator.Next())))
+  {
+    const TLorentzVector &momentum = candidate->Momentum;
+    const TLorentzVector &position = candidate->Position;
+
+    pt = momentum.Pt();
+    cosTheta = TMath::Abs(momentum.CosTheta());
+    signPz = (momentum.Pz() >= 0.0) ? 1.0 : -1.0;
+    eta = (cosTheta == 1.0 ? signPz * 999.9 : momentum.Eta());
+    entry = static_cast<Tower *>(branch->NewEntry());
+    entry->SetBit(kIsReferenced);
+    entry->SetUniqueID(candidate->GetUniqueID());
+    entry->Eta = eta;
+    entry->Phi = momentum.Phi();
+    entry->ET = pt;
+    entry->E = momentum.E();
+    entry->Eem = candidate->Eem;
+    entry->Ehad = candidate->Ehad;
+    entry->Etrk = candidate->Etrk;
+    entry->Edges[0] = candidate->Edges[0];
+    entry->Edges[1] = candidate->Edges[1];
+    entry->Edges[2] = candidate->Edges[2];
+    entry->Edges[3] = candidate->Edges[3];
+    entry->T = position.T() * 1.0E-3 / c_light;
+    entry->X = position.X();
+    entry->Y = position.Y();
+    entry->Z = position.Z();
+    entry->NTimeHits = candidate->NTimeHits;
+    entry->IsPU = candidate->IsPU;
+    entry->IsRecoPU = candidate->IsRecoPU;
+    entry->HardEnergyFraction = candidate->BetaStar;
+    FillParticles(candidate, &entry->Particles);
+  }
+}
+\end{lstlisting}
+        Se puede observar en la línea 25 que \code{ET} se define como \code{entry->ET = momentum.Pt()}, donde para una torre aproximadamente no masiva se tendría
+        \begin{equation*}
+            \begin{aligned}
+                E_{T} \simeq \frac{E}{\coseh{\eta}}
+            \end{aligned}
+        \end{equation*}
+        Aunque los parámetros \code{ET} y \code{PT} pueden coincidir de manera numérica en objetos no masivos, se tiene que
+        \begin{itemize}
+            \item $PT$: momentum transversal de una partícula o traza.
+            \item $ET$: energía transversal de un depósito calorimétrico.
+        \end{itemize}
+
+        \subsubsection{Rapidez, Pseudorapidez y Ángulo}
+        Los parámetros \code{.Rapidity}, \code{.Eta}, \code{.Phi} se definen como
+        % Referencia: https://root.cern.ch/doc/master/TLorentzVector_8h_source.html. Rapidez: linea 230, pseudorapidez: linea 234, phi: definición de angulo azimutal
+        \begin{equation*}
+            \begin{aligned}
+                \eta & = -\lne{\tang{\frac{1}{2}\theta}}
+            \end{aligned}\hs{70}
+            \begin{aligned}
+                v & = \frac{1}{2}\lne{\frac{E+p_{z}}{E-p_{z}}}
+            \end{aligned}\hs{70}
+            \begin{aligned}
+                \phi & = \arctan^{2}\left[\frac{p_{y}}{p_{x}}\right]
+            \end{aligned}
+        \end{equation*}
+        \begin{itemize}
+            \item $Eta$ ($\eta$): pseudorapidez.
+            \item $Phi$ ($\phi$): ángulo azimutal en radianes.
+            \item $Rapidity$ ($v$): rapidez verdadera; solo aparece en la rama (colección) \texttt{Particle}.
+        \end{itemize}
+        Para partículas ultrarrelativistas se tiene que la rapidez $v$ es aproximadamente igual que la pseudorapidez $\eta$, tal que $v\simeq\eta$.
+
+        \subsubsection{Componente temporal}
+        En el archivo \textit{TreeWriter.cc}, se tiene que \code{entry->T = position.T() * 1.0E-3 / c\_light}, de manera que el parámetro \code{.T} está dado por
+        \begin{equation*}
+            \begin{aligned}
+                T & = \frac{T_{pos} \cdot 10^{-3}}{c}
+            \end{aligned}
+        \end{equation*}
+        De manera que \code{T} se encuentra en dimensiones de segundos. El significado de este parámetro depende de la colección
+        \begin{table}[H]
+            \begin{center}
+                \begin{tabular}{|l|c|l|}\hline
+                    \textbf{Rama} & \textbf{Dimensión} & \textbf{Significado} \\\hline\hline
+                    Electron.T & $[s]$ & Tiempo de llegada del electrón. \\\hline
+                    Jet.T & $[s]$ & Promedio temporal ponderado de sus constituyentes. \\\hline
+                    Muon.T & $[s]$ & Tiempo de llegada almacendado para el muón. \\\hline
+                    Particle.T & $[s]$ & Tiempo del vértice de producción \textit{truth}. \\\hline
+                    Photon.T & $[s]$ & Tiempo de llegada del fotón. \\\hline
+                    Tower.T & $[s]$ & Tiempo del depósito calorimétrico. \\\hline
+                    Track.T & $[s]$ & Tiempo del punto inicial de la traza. \\\hline
+                    Track.TOuter & $[s]$ & Tiempo al llegar al borde del tracker. \\\hline
+                \end{tabular}
+            \end{center}
+        \end{table}
+        Por lo tanto, \code{T} no representa en sí mismo el tiempo propio de la partícula.
+
+    \subsection{Ramas y parámetros}
+        \subsubsection{Rama \texttt{Event}}
+        Esta rama contiene la información global del evento.
+        \begin{table}[H]
+            \begin{center}
+                \begin{tabular}{|l|c|l|}\hline
+                    \textbf{Parámetro} & \textbf{Unidad} & \textbf{Descripción} \\\hline\hline
+                    \texttt{Number} & $---$ & Número del evento \\\hline
+                    \texttt{ReadTime} & $[s]$ & Tiempo de CPU/reloj usado para leerlo \\\hline
+                    \texttt{ProcTime} & $[s]$ & Tiempo empleado en procesar el evento \\\hline
+                    \texttt{ProcessID} & $---$ & Código de proceso suministrado por HepMC/Pythia \\\hline
+                    \texttt{MPI} & $---$ & Número de interaciones partónicas múltiples \\\hline
+                    \texttt{Weight} & $---$ & Peso nominal del evento \\\hline
+                    \texttt{CrossSection} & $[pb]$ & Sección eficaz \\\hline
+                    \texttt{CrossSectionError} & $[pb]$ & Incertidumbre de la sección eficaz \\\hline
+                    \texttt{Scale} & $[GeV]$ & Escala energética del evento \\\hline
+                    \texttt{ScalePDF} & $[GeV]$ & Escala Q usada al evaluar las PDF \\\hline
+                    \texttt{AlphaQED} & $---$ & Valor de $\alpha_{QED}$ \\\hline
+                    \texttt{AlphaQCD} & $---$ & Valor de $\alpha_{QCD}$ \\\hline
+                    \texttt{ID1}, \texttt{ID2} & $---$ & Códigos de los partones incidentes \\\hline
+                    \texttt{X1}, \texttt{X2} & $---$ & Fracciones de momento del haz \\\hline
+                    \texttt{PDF1}, \texttt{PDF2} &  & Valores de las PDF $f_{i}(x,Q)$ \\\hline
+                    \texttt{fBits}, \texttt{fUniqueID} & $---$ & Metadatos internos ROOT \\\hline
+                \end{tabular}
+            \end{center}
+        \end{table}
+        Las unidades de los parámetros \code{Event/Event.PDF1} y \code{Event/Event.PDF2} dependen del generador.\\\\
+        Definiciones:
+        \begin{itemize}
+            \item \textbf{Escala Q (Escala de factorización y renormalización)}: es la escala de energía característica a la que ocurre la colisión dura. Se encarga de indicar que tan profundo se está mirando dentro de los protones.\\Como el proton no es una esfera sólida, este se puede considerar como un conjunto denso de partículas que interactúan constantemente. La escala Q define la resolución del miscroscopio cuántico (utilizado), a mayor energía (Q) mas cortos son los detalles que se pueden resolver dentro del proton.
+            \item \textbf{PDF (Funciones de Distribución de Partones)}: Son funciones matemáticas que describen la estructura interna del protón. Una PDF, denotada como $f_{l}(x, Q^{2})$, da la probabilidad de encontrar un partón de tipo $l$ que lleva una fracción de momento lineal x del proton total, cuando este es examinado a la escala de energía $Q^{2}$.
+        \end{itemize}
+
+        \subsubsection{Rama \texttt{Particle}}
+        Esta rama representa a las partículas de generador o truth (partícula teórica ideal que proviene directamente del cálculo cuántico o de la cascada de radiación antes de sufrir cualquier efecto de distorción debido al detector).
+        \begin{center}
+            \begin{longtblr}{colspec={|c|X[l,m]||c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Significado} \\\hline\hline
+                \texttt{PID} & Código PDG & \texttt{M1}, \texttt{M2} & Índices de la primera y segunda madre \\\hline
+                \texttt{Status} & Estado del generador & \texttt{D1}, \texttt{D2} & Índices de la primera y segunda hija \\\hline
+                \texttt{IsPU} & 1 si procede pile-up & \texttt{Charge} & Carga eléctrica \\\hline
+            \end{longtblr}
+        \end{center}
+        \vfill\break
+        Para el cuadri-momento se tiene
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c|X[l,m]||l|c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} \\\hline\hline
+                \texttt{Mass} & $[GeV]$ & Masa & \texttt{PT} & $GeV$ & Momento transversal \\\hline
+                \texttt{E} & $[GeV]$ & Energía & \texttt{Eta} & $---$ & Pseudorapidez \\\hline
+                \texttt{Px}, \texttt{Py}, \texttt{Pz} & $[GeV]$ & Componentes cartesianas del momento & \texttt{Phi} & $[rad]$ & Ángulo azimutal \\\hline
+                \texttt{P} & $[GeV]$ & Módulo del momentum & \texttt{Rapidity} & $---$ & Rapidez verdadera \\\hline
+            \end{longtblr}
+        \end{center}
+        Los parámetros para el vértice de producción están dados por
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c|X[l,m]||l|c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} \\\hline\hline
+                \texttt{X}, \texttt{Y}, \texttt{Z} & $[mm]$ & Posición de producción & \texttt{T} & $[s]$ & Tiempo de producción \\\hline
+            \end{longtblr}
+        \end{center}
+        Para obtener el desplazamiento \textit{truth} de una partícula inestable debe compararse su vértice de producción con el vértice de producción de sus hijas. El parámetro \code{Particle.T} aislado no es el tiempo de vida de las partículas.
+
+        \subsubsection{Ramas \texttt{Electron} y \texttt{Muon}}
+        Los parámetros cinemáticos para las ramas \code{Muon} y \code{Electron} son
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c|X[l,m]||l|c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} \\\hline\hline
+                \texttt{PT} & $[GeV]$ & Momentum transversal reconstruido & \texttt{T} & $[s]$ & Tiempo de llegada almacenado \\\hline
+                \texttt{Eta} & $---$ & Pseudorapidez & \texttt{Charge} & $[e]$ & Carga reconstruida \\\hline
+                \texttt{Phi} & $[rad]$ & Ángulo azimutal & \texttt{Particle} & $referencia$ & \texttt{TRef} a la partícula \textit{truth} \\\hline
+            \end{longtblr}
+        \end{center}
+        Los parámetros de impacto son
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c|X[l,m]||l|c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} \\\hline\hline
+                \texttt{D0} & $[mm]$ & Parámetro de impacto transversal firmado & \texttt{ErrorD0} & $[mm]$ & Incertidumbre de \texttt{D0} \\\hline
+                \texttt{DZ} & $[mm]$ & Parámetro de impacto longitudinal firmado & \texttt{ErrorDZ} & $[mm]$ & Incertidumbre de \texttt{DZ} \\\hline
+            \end{longtblr}
+        \end{center}
+        \begin{itemize}
+            \item \textbf{Parámetro de impacto transversal ($D0$)}: Es la distancia de mínimo enfoque entre la trayectoria reconstruida de una partícula (traza) y el vértice primario (el punto exacto de la colisión dura), medida únicamente en el plano perpendicular al haz de colisión (plano transversal $XY$). Si se tiene que una partícula procede del punto exacto de la colisión, su $D0$ teóricamente debería ser cero.
+            \item \textbf{Incertidumbre/Error del parámetro de impacto transversal ($\sigma_{D0}$)}: Es la resolución experimental del detector. Este término indica que tan bien el detector puede estimar la posición de la traza basándose en sus capas de pixeles y bandas de silicio.
+            \item \textbf{Parámetro de impacto longitudinal ($DZ$)}: Es la distancia medida sobre el eje $Z$ entre el vértice primario (punto estimado de la colisión) y el punto donde la traza de la partícula realiza su máxima aproximación al eje del haz. Se encarga de medir que tan desplazada está la partícula hacia \textit{adelante} o hacia \textit{atras} en el tubo de colisión respecto al choque principal. Si una partícula se produce instantáneamente en el choque principal, su $DZ$ ideal debería ser cero. Si la partícula proviene del decaimiento de una partícula de vida larga que viajó una distancia antes de romperse, su $DZ$ tiene un valor distinto de cero.
+            \item \textbf{Incertidumbre/Error del parámetro de impacto longitudinal ($\sigma_{DZ}$)}: Es la resolución o error experimental con el que el detector estima el valor de $DZ$. 
+        \end{itemize}
+        Los parámetros de impacto permiten construir la significancia del parámetro de impacto ($S$) y una aproximación de calidad de ajuste ($\chi^{2}$) definidas por
+        \begin{equation*}
+            \begin{aligned}
+                S_{D0} & = \frac{D0}{\sigma_{D0}}
+            \end{aligned}\hs{110}
+            \begin{aligned}
+                \chi^{2}_{IP,2D,proxy} & =  \parent{\frac{D0}{\sigma_{D0}}}^{2}
+            \end{aligned}
+        \end{equation*}
+        o en caso de una aproximación tridimensional, para la calidad de ajuste,
+        \begin{equation*}
+            \begin{aligned}
+                \chi^{2}_{IP,3D,proxy} & =  \parent{\frac{D0}{\sigma_{D0}}}^{2} + \parent{\frac{DZ}{\sigma_{DZ}}}^{2}
+            \end{aligned}
+        \end{equation*}
+        el cual es válido si \code{ErrorD0}>0 y \code{ErrorDZ}>0. Este término \textit{proxy} (en 2D) sustituye a un cálculo de matriz de covarianza completo mucho más pesado, asumiendo que el error está desacoplado y que se limita al plano de dos dimensiones.\\\\Los parámetros de aislamiento están dados por
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c|X[l,m]||l|c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} \\\hline\hline
+                \texttt{SumPtCharged} & $[GeV]$ & Suma de $p_{T}$ cargado no pile-up & \texttt{SumPt} & $[GeV]$ & Suma total dentro del cono \\\hline
+                \texttt{SumPtNeutral} & $[GeV]$ & Suma de $p_{T}$ neutral & \texttt{IsolationVar} & $---$ & Aislamiento relativo corregido con $\Delta\beta$ \\\hline
+                \texttt{SumPtChargedPU} & $[GeV]$ & Suma cargada asignada a pile-up & \texttt{IsolationVarRhoCorr} & $---$ & Aislamiento relativo corregido mediante $\rho$ \\\hline
+            \end{longtblr}
+        \end{center}
+        La implementación del aislamiento, partiendo del módulo \code{Isolation.cc}, está dada por
+        \begin{equation*}
+            \begin{aligned}
+                I_{\Delta\beta} & = \frac{\sum p_{T}^{charged}+\max\parent{\sum p_{T}^{neutral}-\frac{1}{2}\sum p_{T}^{charged,PU}, 0}}{p_{T}^{candidate}}
+            \end{aligned}\hs{30}
+            \begin{aligned}
+                I_{\rho} & = \frac{\sum p_{T}^{charged}+\max\parent{\sum p_{T}^{neutral}-\rho\pi R^{2}, 0}}{p_{T}^{candidate}}
+            \end{aligned}
+        \end{equation*}
+        Algo partícular que se tiene para el parámetro \code{Electron/Electron.EhadOverEem}, es que representa
+        \begin{equation*}
+            \begin{aligned}
+                E_{h/e} & = \frac{E_{had}}{E_{em}}
+            \end{aligned}
+        \end{equation*}
+        Este parámetro está definido en el módulo \code{TreeWriter.cc}, en la clase vacia \code{void TreeWriter::ProcessElectrons}, como \code{entry->EhadOverEem = 0.0}. Por tanto, en estas muestras la rama existe, pero no contiene una discriminación física.
+
+        \subsubsection{Rama \texttt{Photon}}
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c|X[l,m]||l|c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} \\\hline\hline
+                \texttt{PT}, \texttt{Eta}, \texttt{Phi} & $[GeV]$, $---$, $[rad]$ & Cinemática reconstruida & \texttt{Particles} & $referencias$ & Partículas \textit{truth} contribuyentes \\\hline
+                \texttt{E} & $[GeV]$ & Energía reconstruida & \texttt{Status} & $---$ & 1 prompt, 2 no prompt, 3 falso \\\hline
+                \texttt{T} & $[s]$ & Tiempo de llegada & Variables de aislamiento & $---$/$[GeV]$ & Mismas definiciones que en muones y electrones \\\hline
+                \texttt{EhadOverEem} & $---$ & $E_{had}/E_{em}$ & \texttt{fBits}, \texttt{fUniqueID} & $---$ & Metadatos ROOT \\\hline
+            \end{longtblr}
+        \end{center}
+
+        \subsubsection{Ramas \texttt{Track} y \texttt{EFlowTrack}}
+        Ambas ramas tienen las mismas 55 hojas, dado que la tarjeta las define como clase \code{Track}:
+        \begin{itemize}
+            \item \textbf{Track}: representa la traza tras la eficiencia y smearing del momento.
+            \item \textbf{EFlowTrack}: es la representación cargada usada por el flujo de energía.
+        \end{itemize}
+        Como tal, ambas ramas no representan dos mediciones estadísticamente independientes.
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c|X[l,m]||l|c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} \\\hline\hline
+                \texttt{PID} & $---$ & Código PDG asociado & \texttt{Eta}, \texttt{Phi} & $---$, $[rad]$ & Dirección \\\hline
+                \texttt{Charge} & $[e]$ & Carga & \texttt{CtgTheta} & $---$ & $\cotan{\theta}=p_{z}/p_{T}$ \\\hline
+                \texttt{IsPU} & $---$ & Origen truth en pile-up & \texttt{Mass} & $[GeV]$ & Masa usada en el cuadri-momento \\\hline
+                \texttt{IsRecoPU} & $---$ & Clasificación reconstruida como pile-up & \texttt{Particle} & $ref$ & Partícula truth \\\hline
+                \texttt{HardEnergyFraction} & $---$ & 1 para traza dura, 0 para pile-up & \texttt{VertexIndex} & $indice$ & Vértice reconstruido asociado \\\hline
+                \texttt{P}, \texttt{PT} & $[GeV]$ & Momentum total y transversal &  &  &  \\\hline
+            \end{longtblr}
+        \end{center}
+        El archivo .root no contiene una colección \code{Vertex}, así que aunque el parámetro \code{VertexIndex} exista, no hay una tabla de vértices con la cual se pueda resolver de manera directa.
+        \newpage
+        El parámetro de curvatura \code{.C} se encuentra el el archivo \code{TrkUtil.cc} como
+\begin{lstlisting}[language=c++]
+TVectorD TrkUtil::XPtoPar(TVector3 x, TVector3 p, Double_t Q, Double_t Bz)
+{
+	TVectorD Par(5);
+	// Transverse parameters
+	Double_t a = -Q * Bz * cSpeed();			// Units are Tesla, GeV and meters
+	Double_t pt = p.Pt();
+	Double_t C = a / (2 * pt);			// Half curvature
+	
+	Double_t r2 = x(0) * x(0) + x(1) * x(1);
+	Double_t cross = x(0) * p(1) - x(1) * p(0);
+	Double_t T = TMath::Sqrt(pt * pt - 2 * a * cross + a * a * r2);
+	Double_t phi0 = TMath::ATan2((p(1) - a * x(0)), (p(0) + a * x(1)));	// Phi0
+	Double_t D;								// Impact parameter D
+	
+	if(x(0) < 1.e-10) x(0) = 0.0; if(x(1) < 1.e-10) x(1) = 0.0;
+	if((x(0)*x(0) + x(1)*x(1)) == 0.0) {
+		D = 0.0;	// Avoid rounding off problems
+		
+	}else{
+		if (pt < 10.0){ D = (T - pt) / a; }
+		else { D = (-2 * cross + a * r2) / (T + pt); }
+	}
+	//
+	Par(0) = D;		// Store D
+	Par(1) = phi0;	// Store phi0
+	Par(2) = C;		// Store C
+	//Longitudinal parameters
+	Double_t ct = p(2) / pt;
+	// New
+	Double_t s = TMath::ATan2(p(1),p(0)) - phi0;
+	if(s >  TMath::Pi()) s-= TMath::TwoPi();
+	if(s < -TMath::Pi()) s+= TMath::TwoPi();
+	Double_t z0 = x(2)-ct*s/(2.*C);
+	//
+	Par(3) = z0;		// Store z0
+	Par(4) = ct;		// Store cot(theta)
+	//
+	return Par;
+}
+\end{lstlisting}
+        donde se puede ver que el parámetro de curvatura se define como
+        \begin{equation*}
+            \begin{aligned}
+                C & = -\frac{QB_{z}c_{red}}{2p_{T}}
+            \end{aligned}
+        \end{equation*}
+        donde se tiene que
+        \begin{itemize}
+            \item \textbf{$Q$}: es la carga de la partícula
+            \item \textbf{$B_{z}$}: es el campo magnético longitudinal
+            \item \textbf{$p_{T}$}: es el momentum transversal
+            \item \textbf{$c_{red}$}: es la constante de conversión usada por Delphes.
+        \end{itemize}
+        En el archivo \code{TrkUtil.h} se define el valor de $c$
+\begin{lstlisting}[language=c++]
+class TrkUtil {
+(. . .)
+public:
+    (. . .)
+    static Double_t cSpeed()
+	{
+		Double_t c = 2.99792458e8;	// speed of light m/sec
+		//return TMath::C()*1.0e-9;	// Incompatible with root5
+		return c*1.0e-9; 			// Reduced speed of light	
+	}
+};
+\end{lstlisting}
+        Así mismo, existe una relación entre la curvatura y el radio de curvatura transversal, la cual se puede definir como
+        \begin{equation*}
+            \begin{aligned}
+                R & = \frac{1}{2\abs{C}}
+            \end{aligned}
+        \end{equation*}
+        donde $\kappa=2C$ sería la curvatura firmada convencional. Con esto se puede ver que \code{C} es proporcional a $1/p_{T}$
+        \begin{itemize}
+            \item Un mayor $p_{T}$ implica una trayectoria más recta y por tanto una menor curvatura $\abs{C}$.
+            \item Un menor $p_{T}$ implica una trayectoria más curvada y por tanto una mayor curvatura $\abs{C}$.
+            \item El signo de \texttt{C} depende de la carga y del signo de $B_{z}$.
+        \end{itemize}
+        Cabe a resaltar que el parámetro de \code{C} está dado en $mm^{-1}$.\\\\Los parámetros de posición y propagación están dados por
+        \begin{center}
+            \begin{longtblr}{colspec={|X[l]|c|X[l,m]||X[l]|c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} \\\hline\hline
+                \texttt{X}, \texttt{Y}, \texttt{Z}, \texttt{T} & $[mm]$, $[s]$ & Punto inicial de la traza & \texttt{XFirstHit}, \texttt{YFirstHit}, \texttt{ZFirstHit} & $[mm]$ & Posición del primer hit \\\hline
+                \texttt{XOuter}, \texttt{YOuter}, \texttt{ZOuter}, \texttt{TOuter} & $[mm]$, $[s]$ & Posición al borde del tracker & \texttt{L} & $[mm]$ & Longitud propagada \\\hline
+                \texttt{EtaOuter}, \texttt{PhiOuter} & $---$. $[rad]$ & Dirección en el borde & \texttt{D0}, \texttt{DZ} & $[mm]$ & Parámetros de impacto \\\hline
+                \texttt{Xd}, \texttt{Yd}, \texttt{Zd} & $[mm]$ & Punto de máxima aproximación &  &  &  \\\hline
+            \end{longtblr}
+        \end{center}
+        La implementación usa \code{GetFirstHit()}, de manera que representa el primer impacto cuando \code{TrackCovariance} está activo.\\\\Los parámetros para ionización están descritos por
+        \begin{center}
+            \begin{longtblr}{colspec={|l|X[l,m]||l|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Significado} \\\hline\hline
+                \texttt{Nclusters} & Número de clusters de ionización & \texttt{dNdx} & Densidad de ionización/clusters por longitud \\\hline
+            \end{longtblr}
+        \end{center}
+        Los errores diagonales están descritos por
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c||l|c|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Parámetro} & \textbf{Unidad} \\\hline\hline
+                \texttt{ErrorP} & $[GeV]$ & \texttt{ErrorT} & $[s]$ \\\hline
+                \texttt{ErrorPT} & $[GeV]$ & \texttt{ErrorD0}, \texttt{ErrorDZ} & $[mm]$ \\\hline
+                \texttt{ErrorPhi} & $[rad]$ & \texttt{ErrorC} & $[mm^{-1}]$ \\\hline
+                \texttt{ErrorCtgTheta} & $---$ &  &  \\\hline
+            \end{longtblr}
+        \end{center}
+        \code{MomentumSmearing} modifica el momento, pero no llena estos campos de covarianza. Sin \code{TrackCovariance} o \code{TrackSmearing}, muchos de estos parámetros permanecerán en cero.\\\\Para las covarianzas no diagonales se tiene que Delphes utiliza el vector
+        \begin{equation*}
+            \begin{aligned}
+                q & = \lvec{D0, \phi, C, DZ, \cota{\theta}}
+            \end{aligned}
+        \end{equation*}
+        Estas se encuentran definidas por
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c||l|c|}}\hline
+                \textbf{Parámetro} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Significado} \\\hline\hline
+                \texttt{ErrorD0Phi} & $Cov\lvec{D0,\phi}$ & \texttt{ErrorPhiDZ} & $Cov\lvec{\phi,DZ}$ \\\hline
+                \texttt{ErrorD0C} & $Cov\lvec{D0,C}$ & \texttt{ErrorPhiCtgTheta} & $Cov\lvec{\phi,\cota{\theta}}$ \\\hline
+                \texttt{ErrorD0DZ} & $Cov\lvec{D0,DZ}$ & \texttt{ErrorCDZ} & $Cov\lvec{C,DZ}$ \\\hline
+                \texttt{ErrorD0CtgTheta} & $Cov\lvec{D0,\cota{\theta}}$ & \texttt{ErrorCCtgTheta} & $Cov\lvec{C,\cota{\theta}}$ \\\hline
+                \texttt{ErrorPhiC} & $Cov\lvec{\phi,C}$ & \texttt{ErrorDZCtgTheta} & $Cov\lvec{DZ,\cota{\theta}}$ \\\hline
+            \end{longtblr}
+        \end{center}
+        los cuales no son errores estándar, ni tampoco coeficientes de correlación normalizados.
+
+        \subsubsection{Ramas \texttt{Tower}, \texttt{EFlowPhoton} y \texttt{EFlowNeutralHadron}}
+        Estas colecciones usan la clase \code{Tower} de Delphes,
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c|X[l,m]||l|c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} \\\hline\hline
+                \texttt{E} & $[GeV]$ & Energía total reconstruida & \texttt{X}, \texttt{Y}, \texttt{Z} & $[mm]$ & Posición de la torre \\\hline
+                \texttt{ET} & $[GeV]$ & Energía transversal & \texttt{NTimeHits} & $conteo$ & Contribuciones temporales \\\hline
+                \texttt{Eta}, \texttt{Phi} & $---$, $[rad]$ & Posición angular & \texttt{Edges[4]} & $--/[rad]$ & Bordes de la celda \\\hline
+                \texttt{Eem} & $[GeV]$ & Componente electromagnética & \texttt{IsPU}, \texttt{IsRecoPU} & $---$ & Clasificación de pile-up \\\hline
+                \texttt{Ehad} & $[GeV]$ & Componente hadrónica & \texttt{HardEnergyFraction} & $---$ & Fracción procedente de la interacción dura \\\hline
+                \texttt{Etrk} & $[GeV]$ & Energía cargada que llega a la torre & \texttt{Particles} & $ref$ & Partículas truth contribuyentes \\\hline
+                \texttt{T} & $[s]$ & Tiempo del depósito &  &  &  \\\hline
+            \end{longtblr}
+        \end{center}
+        El orden del parámetro \code{Edges[4]} está dado por
+        \begin{equation*}
+            \begin{aligned}
+                \lvcerr{\eta_{min}, \eta_{max}, \phi_{min}, \phi_{max}}
+            \end{aligned}
+        \end{equation*}
+        La interpretación de cada colección/rama es
+        \begin{itemize}
+            \item \textbf{Tower}: torres combinadas Ecal/HCal.
+            \item \textbf{EFlowPhoton}: candidato neutral electromagnético.
+            \item \textbf{EFLowNeutralHadron}: candidato neutral hadrónico.
+        \end{itemize}
+        El parámetro \code{Etrk} no debe sumarse de manera automática a \code{Eem + Ehad}, dado que es información de energía cargada empleada por el algoritmo de flujo de partículas.
+
+        \subsubsection{Ramas \texttt{Jet}, \texttt{GenJet} y \texttt{FatJet}}
+        Estas ramas usan la misma clase \code{Jet} de Delphes.
+        \begin{center}
+            \begin{longtblr}{colspec={|l|X[l]|}}\hline
+                \textbf{Colección} & \textbf{Configuración} \\\hline
+                \texttt{GenJet} & anti-$k_{T}$, $R=0.5$, partículas estables sin neutrinos. \\\hline
+                \texttt{Jet} & anti-$k_{T}$, $R=0.5$, objetos de flujo de energía. \\\hline
+                \texttt{FatJet} & anti-$k_{T}$, $R=0.8$, $p_{T}>200\,[GeV]$. \\\hline
+            \end{longtblr}
+        \end{center}
+        Los parámetros cinemáticos y geométricos están descritos por
+        \begin{center}
+            \begin{longtblr}{colspec={|l|X[l,m]|||l|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Significado} \\\hline\hline
+                \texttt{PT}, \texttt{Eta}, \texttt{Phi} & Cinemática del Jet & \texttt{DeltaPhi} & Extensión máxima en azimut \\\hline
+                \texttt{Mass} & Masa invariante & \texttt{Charge} & Suma de cargas, usada principalmente para $\tau$'s \\\hline
+                \texttt{T} & Promedio temporal de constituyentes & \texttt{Constituents} & Referencia a constituyentes reconstruidos \\\hline
+                \texttt{Area} & Cuadri-vector de área activa de FastJet & \texttt{Particles} & Referencias a partículas truth \\\hline
+                \texttt{DeltaEta} & Extensión máxima en pseudorapidez &  &  \\\hline
+            \end{longtblr}
+        \end{center}
+        Los parámetros de composición están dados por
+        \begin{center}
+            \begin{longtblr}{colspec={|l|X[l,m]|||l|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Significado} \\\hline\hline
+                \texttt{EhadOverEem} & $\sum E_{had}/\sum E_{em}$ & \texttt{ChargedEnergyFraction} & Fracción de energía cargada \\\hline
+                \texttt{NCharged} & Constituyentes cargados & \texttt{NeutralEnergyFraction} & Fracción de energía neutral \\\hline
+                \texttt{NNeutrals} & Constituyentes neutrales &  &  \\\hline
+            \end{longtblr}
+        \end{center}
+        Los parámetros de sabor y tagging son descritos por
+        \begin{center}
+            \begin{longtblr}{colspec={|l|X[l,m]|||l|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Significado} \\\hline\hline
+                \texttt{Flavor} & Sabor por asociación convencional de partones & \texttt{BTagAlgo} & Resultado usando \texttt{FlavorAlgo} \\\hline
+                \texttt{FlavorAlgo} & Definición algorítmica usando partones/LHEF & \texttt{BTagPhys} & Resultado usando \texttt{FlavorPhys} \\\hline
+                \texttt{FlavorPhys} & Definición física del módulo & \texttt{TauTag} & Resultado de tau-tag \\\hline
+                \texttt{TauFlavor} & Sabor asignado por \texttt{TauTagging} & \texttt{TauWeight} & Peso de identificación tau \\\hline
+                \texttt{BTag} & Resultado de b-tag usando \texttt{Flavor} &  &  \\\hline
+            \end{longtblr}
+        \end{center}
+        Los campos de tagging son máscaras de bits.\\\\Las variables de pile-up de jets se encuentran definidas en el módulo \code{PileUpJetID.cc}
+        % Definiciones en las líneas 239 - 259
+        \begin{equation*}
+            \begin{aligned}
+                Beta & = \frac{\sum p_{T}^{charged,PV}}{\sum p_{T}^{charged}} \\
+                BetaStar & = \frac{\sum p_{T}^{charged,PU}}{\sum p_{T}^{charged}}
+            \end{aligned}\hs{70}
+            \begin{aligned}
+                MeanSqDeltaR & = \frac{\sum_{i}\Delta R_{i}^{2}p_{T,\,i}^{2}}{\sum_{i}p_{T\,i}^{2}} \\
+                PTD & = \frac{\sqrt{\sum_{i}p_{T,\,i}^{2}}}{\sum_{i}p_{T,\,i}}
+            \end{aligned}
+        \end{equation*}
+        % Definición lineas 186 - 216 - 234
+        El parámetro \code{FracPt[5]} contiene las fracciones de $p_{T}$ en cinco anillos, descritos por
+        \begin{equation*}
+            \begin{aligned}
+                0.1i < \Delta{R} < 0.1\parent{i+1}, & \hs{15} i=0,\,\dots,\,4
+            \end{aligned}
+        \end{equation*}
+\begin{lstlisting}[language=c++]
+(. . .)
+fItNeutralInputArray->Reset();
+while((constituent = static_cast<Candidate *>(fItNeutralInputArray->Next())))
+{
+    if(constituent->Momentum.DeltaR(candidate->Momentum) < fParameterR)
+    {
+        float pt = constituent->Momentum.Pt();
+        sumpt += pt;
+        float dr = candidate->Momentum.DeltaR(constituent->Momentum);
+        sumdrsqptsq += dr * dr * pt * pt;
+        sumptsq += pt * pt;
+        nn++;
+        for(int i = 0; i < 5; i++)
+        {
+        if(dr > 0.1 * i && dr < 0.1 * (i + 1))
+        {
+            pt_ann[i] += pt;
+        }
+        }
+    }
+}
+(. . .)
+\end{lstlisting}
+        Los parámetros de subestructura se encuentran descritos por
+        \begin{center}
+            \begin{longtblr}{colspec={|l|X[l,m]|||l|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Significado} \\\hline\hline
+                \texttt{Tau[5]} & $\tau_{1}$, $\tau_{2}$, $\tau_{3}$, $\tau_{4}$, $\tau_{5}$, N-subjettiness & \texttt{SoftDroppedSubjet1/2} & Dos subjets principales \\\hline
+                \texttt{TrimmedP4[5]} & jet trimmed y hasta cuatro subjets & \texttt{NSubJetsTrimmed} & Número de subjets tras trimming \\\hline
+                \texttt{PrunedP4[5]} & jet pruned y hasta cuatro subjets & \texttt{NSubJetsPruned} & Número de subjets tras pruning \\\hline
+                \texttt{SoftDroppedP4[5]} & jet Soft Dropt y hasta cuatro subjets & \texttt{NSubJetsSoftDropped} & Número de subjets tras Soft Drop \\\hline
+                \texttt{SoftDroppedJet} & Cuadri-momento Soft Dropt total & \texttt{ExclYmerge12 \dots 56} & Escalas de transición exclusiva de FastJet \\\hline
+            \end{longtblr}
+        \end{center}
+
+        \newpage
+        \subsubsection{Ramas \texttt{MissingET} y \texttt{GenMissingET}}
+        \begin{center}
+            \begin{longtblr}{colspec={|l|c|X[l,m]|||l|c|X[l,m]|}}\hline
+                \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} & \textbf{Parámetro} & \textbf{Unidad} & \textbf{Significado} \\\hline\hline
+                \texttt{MET} & $[GeV]$ & Módulo del momentum transversal faltante & \texttt{Eta} & $---$ & Pseudorapidez formal del cuadri-vector negativo \\\hline
+                \texttt{Phi} & $[rad]$ & Dirección azimutal & \texttt{fBits}, \texttt{fUniqueID} & $---$ & Metadatos ROOT \\\hline
+            \end{longtblr}
+        \end{center}
+        Estas ramas estan enfocadas en
+        \begin{itemize}
+            \item \textbf{MissingET}: se calcula con objetos reconstruidos.
+            \item \textbf{GenMissingET}: se calcula con partículas estables de generador.
+        \end{itemize}
+        El parámetro \code{MET} en escencia es bidimensional. \code{Eta} no se debe de interpretar como la pseudorapidez reconstruida de una única partícula invisible.
+
+        \subsubsection{Rama \texttt{ScalarHT}}
+        El parámetro dado por \code{ScalarHT/ScalarHT.HT} representa
+        \begin{equation*}
+            \begin{aligned}
+                H_{T} & = \sum_{i}p_{T,\,i}
+            \end{aligned}
+        \end{equation*}
+        Este término es una suma escalar, no vectorial.

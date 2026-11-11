@@ -1,0 +1,30 @@
+\section{Instalación del entorno conda para MadGraph}
+Tras la instalación de conda (anaconda) se procede a instalar MadGraph.
+\begin{itemize}
+    \item[1)] \textbf{Crear y activar el entorno conda para MadGraph}
+    \begin{lstlisting}
+> conda create -n MG5 -c conda-forge \
+    python=3.10 \
+    root \
+    six \
+    libxcrypt \
+    compilers \
+    make \
+    cmake
+\end{lstlisting}
+    \item[2)] \textbf{Activar el entorno MG5 y verificar la versión de python}
+    \begin{lstlisting}
+> conda activate MG5
+(MG5)> which python
+(MG5)> python --version
+\end{lstlisting}
+    el cual debe mostrar una ruta similar a \textit{/home/usuario/anaconda3/envs/MG5/bin/python}.
+    \item[3)] \textbf{Descargar MadGraph}\\
+    En la página de MadGraph \url{http://madgraph.phys.ucl.ac.be/cgi-bin/Register/download.cgi} descargar la última versión estáble disponible (2.9.27).
+    \item[4)] \textbf{Descomprimir el archivo \textit{MG5\_aMC\_v2.9.27.tar.gz}}\\
+    Abrir la terminal en el directorio donde se encuentra el archivo descargado de MadGraph y escribir el comando
+    \begin{lstlisting}
+> tar -xyzf MG5_aMC_v2.9.27.tar.gz
+\end{lstlisting}
+    el cual debería dejar una carpeta con el nombre \textit{MG5\_aMC\_v2\_9\_27}.
+\end{itemize}
