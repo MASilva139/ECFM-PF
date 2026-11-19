@@ -1,4 +1,4 @@
-# Fitting para delphes de tabla plana
+# fitting/delphes
 from collections.abc import Callable, Iterable, Mapping
 import numpy as np
 import pandas as pd
@@ -510,12 +510,7 @@ def estimate_dimuon_sideband(
     mass_column: str = 'dimuon_mass'
 ) -> dict[str, float | int]:
     values = values_from_dataframe(dimuons, mass_column)
-    results = sideband_background_estimate(
-        values,
-        signal_window=signal_window,
-        left_band=left_band,
-        right_band=right_band
-    )
+    results = sideband_background_estimate(values, signal_window=signal_window, left_band=left_band, right_band=right_band)
     return results
 
 def scan_mass_hypotheses(
@@ -585,3 +580,90 @@ def fit_resolution_models(masses, resolutions, *, degree: int = 2) -> dict:
         "rmse": float(np.sqrt(np.mean(residuals**2))),
         "function": np.poly1d(coefficients)
     }
+
+def stack_paired_mediator_masses(
+    pairs: pd.DataFrame,
+    *,
+    mass_columns: tuple[str, str] = ("mediator1_mass", "mediator2_mass"),
+    output_column: str = "dimuon_mass",
+) -> pd.DataFrame:
+    require_columns(pairs, mass_columns, "stack_paired_mediator_masses")
+    frames = []
+    event_columns = [column for column in ("source_file_id", "event_id") if column in pairs.columns]
+    for mediator_number, column in enumerate(mass_columns, start=1):
+        frame = pairs[[*event_columns, column]].rename(columns={column: output_column}).copy()
+        frame["mediator_number"] = mediator_number
+        frames.append(frame)
+    return pd.concat(frames, ignore_index=True)
+
+def fit_paired_mediator_peak(
+    pairs: pd.DataFrame,
+    *,
+    target_mass: float,
+    mass_window: tuple[float, float],
+    mass_columns: tuple[str, str] = ("mediator1_mass", "mediator2_mass"),
+    bins: int = 80,
+    model: str = "gauss_exp",
+    initial_sigma: float | None = None,
+    verbose: bool = True,
+) -> dict:
+    stacked = stack_paired_mediator_masses(pairs, mass_columns=mass_columns)
+    result = fit_dimuon_peak(
+        stacked,
+        target_mass=target_mass,
+        mass_window=mass_window,
+        mass_column="dimuon_mass",
+        bins=bins,
+        model=model,
+        initial_sigma=initial_sigma,
+        verbose=verbose,
+    )
+    result["n_pair_events"] = int(len(pairs))
+    result["n_mediator_candidates"] = int(len(stacked))
+    result["source_mass_columns"] = mass_columns
+    result["spectrum"] = "paired_mediator_mass"
+    return result
+
+def compare_paired_mediator_models(
+    pairs: pd.DataFrame,
+    *,
+    target_mass: float,
+    mass_window: tuple[float, float],
+    mass_columns: tuple[str, str] = ("mediator1_mass", "mediator2_mass"),
+    bins: int = 80,
+    models: Iterable[str] = VALID_MODELS,
+) -> tuple[pd.DataFrame, dict[str, dict]]:
+    stacked = stack_paired_mediator_masses(pairs, mass_columns=mass_columns)
+    return compare_peak_models(
+        stacked,
+        target_mass=target_mass,
+        mass_window=mass_window,
+        mass_column="dimuon_mass",
+        bins=bins,
+        models=models,
+    )
+
+def fit_four_muon_peak(
+    pairs: pd.DataFrame,
+    *,
+    target_mass: float,
+    mass_window: tuple[float, float],
+    mass_column: str = "four_muon_mass",
+    bins: int = 80,
+    model: str = "gauss_exp",
+    initial_sigma: float | None = None,
+    verbose: bool = True,
+) -> dict:
+    result = fit_dimuon_peak(
+        pairs,
+        target_mass=target_mass,
+        mass_window=mass_window,
+        mass_column=mass_column,
+        bins=bins,
+        model=model,
+        initial_sigma=initial_sigma,
+        verbose=verbose,
+    )
+    result["n_pair_events"] = int(len(pairs))
+    result["spectrum"] = "four_muon_mass"
+    return result

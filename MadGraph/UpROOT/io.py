@@ -1,4 +1,4 @@
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
 from typing import Any, Literal
 import numpy as np
@@ -15,6 +15,60 @@ from .config import (
 )
 
 LibraryType = Literal["np", "pd", "ak"]
+
+DELPHES_FLAT_BRANCHES: dict[str, tuple[str, ...] | None] = {
+    'Events': None,
+    'Particles': {
+        'source_file_id',
+        'event_id',
+        'source_entry',
+        'object_index',
+        'root_uid',
+        'PID',
+        'Status',
+        'M1',
+        'M2',
+        'D1',
+        'D2',
+        'Mass',
+        'Charge',
+        'E',
+        'Px',
+        'Py',
+        'Pz',
+        'P',
+        'PT',
+        'Eta',
+        'Phi',
+        'Rapidity',
+        'T',
+        'X',
+        'Y',
+        'Z',
+    },
+    'Jets': {
+        'source_file_id',
+        'event_id',
+        'source_entry',
+        'object_index',
+        'BTag',
+        'Charge',
+        'Mass',
+        'Eta',
+        'PT',
+        'Phi',
+        'T'
+    },
+    'MissingET': {
+        'source_file_id',
+        'event_id',
+        'source_entry',
+        'object_index',
+        'MET'
+        'Eta',
+        'Phi',
+    },
+}
 
 def _remove_cycles(key: str) -> str:
     return re.sub(r";\d+(?=/|$)", "", key)
@@ -343,6 +397,64 @@ def load_dataframe(
     if not isinstance(dataframe, pd.DataFrame):
         raise TypeError('No se ha generado un pd.DataFrame')
     return dataframe
+
+def _integer_filter_expression(
+    column: str,
+    values: int | Iterable[int] | None,
+    *,
+    match_absolute: bool = False
+) -> str | None:
+    if values is None:
+        return None
+    if isinstance(values, (int, np.integer)):
+        normalized = {int(values)}
+    elif isinstance(values, (str, bytes)):
+        raise TypeError(f'{column}: se requiere un entero o iterable de enteros.')
+    else:
+        normalized = {int(val) for val in values}
+    if not normalized:
+        raise ValueError(f'{column}: el iterable no puede estar vacío.')
+    if match_absolute:
+        normalized = {abs(val) for val in normalized}
+        terms = [f'(({column} == {val}) | ({column} == {-val}))' for val in sorted(normalized)]
+    else:
+        terms = [f'({column} == {val})' for val in sorted(normalized)]
+    return f"({' | '.join(terms)})"
+
+def load_delphes_dataframe(
+    *,
+    dataset: str | None = None,
+    root_files: Iterable[str | Path] | str | Path | None = None,
+    trees: Sequence[str] = ('Events', 'Particles', 'Jets', 'MissingET'),
+    branches: Mapping[str, Iterable[str] | str | None] | None = None,
+    particle_pid: int | Iterable[int] | None = None,
+    particle_status: int | Iterable[int] | None = None,
+    match_particle_pid: bool = False,
+    particle_cut: str | None = None,
+    show_trees: bool = False,
+) -> dict[str, pd.DataFrame]:
+    requested_trees = tuple(dict.fromkeys(str(tree).strip() for tree in trees if str(tree).strip()))
+    branch_overrides = dict(branches or {})
+    unknoun_overrides = sorted(set(branch_overrides).difference(request_trees))
+    if unknoun_overrides:
+        raise ValueError("Ramas no solicitadas: " + ", ".join(unknoun_overrides))
+    particle_conditions = [condition for condition in (
+        _integer_filter_expression("PID", particle_pid, match_absolute=match_particle_pid,),
+        _integer_filter_expression("Status", particle_status), f'({particle_cut})' if particle_cut else None,
+    ) if condition is not None]
+    combined_particle_cut = " & ".join(particle_conditions) or None
+    tables: dict[str, pd.DataFrame] = {}
+    for tree_name in requested_trees:
+        selected_branches = branch_overrides.get(tree_name, DELPHES_FLAT_BRANCHES.get(tree_name),)
+        tables[tree_name] = load_dataframe(
+            branches=selected_branches,
+            dataset=dataset,
+            root_files=root_files,
+            tree_path=tree_name,
+            cut=combined_particle_cut if tree_name == "Particles" else None,
+            show_trees=show_trees
+        )
+    return tables
 
 def load_dataframe_for_events(
     event_ids: Iterable[int],
