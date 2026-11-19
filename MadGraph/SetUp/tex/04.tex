@@ -1,0 +1,55 @@
+\section{Instalación del modelo de señal (HAHM\_variableMW\_v5\_UFO)}
+Este modelo de señal es un modelo de Higgs oculto que permite la producción de un bosón de Higgs oculto (H) y un bosón Z' a través de la mezcla con el bosón Z del Modelo Estándar. El modelo se encuentra disponible en la página \url{https://cp3.irmp.ucl.ac.be/projects/feynrules/wiki/HAHM#no1}.
+\begin{itemize}
+    \item[(01)] \textbf{Descargar el modelo}\\Se descarga el modelo HAHM\_MG5\_model\_v5\_allyuk, en la página \url{https://cp3.irmp.ucl.ac.be/projects/feynrules/wiki/HAHM#no1}, o ingresar directamente a \url{https://cp3.irmp.ucl.ac.be/projects/feynrules/attachment/wiki/HAHM/HAHM_MG5model_v5_allyuk.zip} para descargar el archivo comprimido del modelo.\\\\Para los parámetros del modelo se puede consultar el archivo \textit{HAHM\_updated\_MGmodel\_documentation.pdf}.
+    \item[(02)] \textbf{Descomprimir el modelo}\\Se descomprime el archivo descargado y se obtiene una carpeta llamada \textit{HAHM\_MG5model\_v5\_allyuk}, que contiene los archivos del modelo.
+    \item[(03)] \textbf{Importar modelo en MadGraph}\\Dentro de la carpeta \textit{HAHM\_MG5model\_v5\_allyuk} copiar la carpeta \textit{HAHM\_variableMW\_v5\_UFO} dentro de la carpeta \textit{models} de MadGraph. Para verificar que el modelo se ha importado
+\begin{lstlisting}
+(MG5) usuario@Usuario:~/Descargas/madgraph/MG5_aMC_v2_9_27$ ./bin/mg5_aMC
+MG5_aMC> import model HAHM_variableMW_v5_UFO
+
+# En caso de que aparezca el mensaje 
+Command "import model HAHM_variableMW_v5_UFO" interrupted with error:
+InvalidCmd : UFO model not python3 compatible. You can convert it via the command 
+	convert model /home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27/models/HAHM_variableMW_v5_UFO
+	You can also type "set auto_convert_model T" to automatically convert all python2 module to be python3 compatible in the future.
+
+# Introducir
+MG5_aMC>convert model /home/karna/Descargas/madgraph/MG5_aMC_v2_9_27/models/HAHM_variableMW_v5_UFO
+
+# De esta manera se convierte el modelo a python3 y se puede importar sin problemas
+MG5_aMC>import model HAHM_variableMW_v5_UFO
+INFO: load particles 
+INFO: load vertices 
+INFO: Change particles name to pass to MG5 convention 
+Kept definitions of multiparticles p / j / l+ / l- / vl / vl~ unchanged
+Defined multiparticle all = g a ve vm vt ve~ vm~ vt~ u c t d s b u~ c~ t~ d~ s~ b~ z zp w+ h h2 w- e- mu- ta- e+ mu+ ta+
+\end{lstlisting}
+    \item[(04)] \textbf{Generar proceso}\\Se genera el proceso de producción de un par de protones (p) que decaen a un par de fotones oscuros (zp)
+\begin{lstlisting}
+MG5_aMC> generate p p > zp zp
+MG5_aMC> display diagrams
+MG5_aMC> output <archivo>
+MG5_aMC> launch <archivo>
+
+# Los parámetros de la masa y los acoplos de las partículas se pueden modificar en la tarjeta param\_card.dat.
+# Los parámetros de masa aparecen en dos bloques, de manera que es mejor modificar en ambos bloques para que se mantenga la consistencia de los parámetros.
+
+#**********************************
+# INFORMATION FOR HIDDEN
+#**********************************
+Block hidden
+    1 2.000000e+01 # mZDinput  <--- Parámetro de masa de zp en el lagrangiano
+    2 2.000000e+02 # MHSinput  <--- Parámetro de masa de hs(h2) en el lagrangiano
+    3 1.000000e-02 # epsilon
+    4 1.000000e-09 # kap
+    5 1.279000e+02 # aXM1
+
+#**********************************
+# INFORMATION FOR MASS
+#**********************************
+  35 2.000000e+02 # h2 : MHSinput
+1023 2.000000e+01 # zp : mZDinput
+\end{lstlisting}
+    \item[] 
+\end{itemize}

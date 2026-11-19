@@ -1,0 +1,71 @@
+\section{Configuración en el modelo HAHM}
+    \subsection{Tarjeta run\_card.dat}
+    La tarjeta \textit{run\_card.dat} generado para el modelo de HAHM elimina las siguientes variables
+    \begin{itemize}
+        \item \textbf{Minimum and Maximum pt's (for max, -1 means no cut)}: ptl, ptlmax.
+        \item \textbf{Maximum and minimum absolute rapidity (for max, -1 means no cut)}: etal, etalmin.
+        \item \textbf{Minimum and maximum DeltaR distance}: drll, drllmax.
+        \item \textbf{Minimum and maximum invariant mass for pairs}: mmll, mmllmax.
+        \item \textbf{Minimum amd maximum invariant mass for all leptons}: mmnl, mmnlmax.
+        \item \textbf{Minimum and maximum pt for 4-momenta sum of leptons / neurino for pair of lepton includes only same flavor, opposite charge}: ptllmin, ptllmax.
+        \item \textbf{Inclusive cuts}: xptl.
+        \item \textbf{Control the pt's of leptons sorted by pt}: ptl1min, ptl2min, ptl1max, ptl2max. 
+    \end{itemize}
+    además de agregar la siguiente variable
+    \begin{itemize}
+        \item \textbf{Inclusive cuts}: ptheavy
+    \end{itemize}
+    De esta forma se tiene la siguiente configuración
+    \begin{center}\vs{-20}
+        % \begin{tabular}{|l|*{4}{r|}}\hline
+        \begin{longtblr}{colspec={|l|*{4}{r|}}}\hline
+            \textbf{Campo} & \textbf{V. Original} & \textbf{Prueba 01} & \textbf{Prueba 02} & \textbf{Prueba 03} \\\hline\hline
+            \SetCell[c=5]{c}{\textit{Colider type and energy}}\\\hline
+            lpp1                     & 1.0     & 1.0     & 1.0       & 1.0        \\\hline
+            lpp2                     & 1.0     & 1.0     & 1.0       & 1.0        \\\hline
+            ebeam1                   & 6500.0  & 6500.0  & 6800.0    & 6500.0     \\\hline
+            ebeam2                   & 6500.0  & 6500.0  & 6800.0    & 6500.0     \\\hline\hline
+            \SetCell[c=5]{c}{\textit{PDF CHOISE}}\\\hline
+            pdlabel                  & nn23lo1 & nn23lo1 & nn23lo1   & nn23lo1    \\\hline
+            lhaid                    & 230000  & 230000  & 230000    & 230000     \\\hline\hline
+            \SetCell[c=5]{c}{\textit{Renormalization and factorization scales}}\\\hline
+            fixed\_ren\_scale        & False   & False   & False     & False      \\\hline
+            fixed\_fac\_scale        & False   & False   & False     & False      \\\hline
+            scale                    & 91.188  & 91.188  & 91.188    & 91.188     \\\hline
+            dsqrt\_q2fact1           & 91.188  & 91.188  & 91.188    & 91.188     \\\hline
+            dsqrt\_q2fact2           & 91.188  & 91.188  & 91.188    & 91.188     \\\hline
+            dynamical\_scale\_choise & -1      & -1      & -1        & -1         \\\hline
+            scalefact                & 1.0     & 1.0     & 1.0       & 1.0        \\\hline\hline
+            \SetCell[c=5]{c}{\textit{Minimum and maximum pt's (for max, -1 means no cut)}}\\\hline
+            pt\_min\_pdg             & \{\}    & \{\}    & \{\}      & \{\}       \\\hline
+            pt\_max\_pdg             & \{\}    & \{\}    & \{\}      & \{\}       \\\hline\hline
+            \SetCell[c=5]{c}{\textit{Maximum and minimum absolute rapidity (for max, -1 means no cut)}}\\\hline
+            eta\_min\_pdg            & \{\}    & \{\}    & \{\}      & \{\}       \\\hline
+            eta\_max\_pdg            & \{\}    & \{\}    & \{\}      & \{\}       \\\hline\hline
+            \SetCell[c=5]{c}{\textit{Minimum and maximum DeltaR distance}}\\\hline
+            drll                     & 0.4     & 0.4     & 0.0       & 0.0        \\\hline
+            drllmax                  & -1.0    & -1.0    & -1.0      & -1.0       \\\hline\hline
+            \SetCell[c=5]{c}{\textit{Minimum and maximum invariant mass for pairs}}\\\hline
+            mxx\_min\_pdg            & \{\}    & \{\}    & \{\}      & \{\}       \\\hline\hline
+            \SetCell[c=5]{c}{\textit{Minimum and maximum invariant mass for all leptons}}\\\hline\hline
+            \SetCell[c=5]{c}{\textit{Minimum and maximum pt for 4-momenta}}\\\hline\hline
+            \SetCell[c=5]{c}{\textit{Inclusive cuts}}\\\hline
+            ptheavy                  & 0.0     & 0.0     & 0.0       & 0.0        \\\hline\hline
+            \SetCell[c=5]{c}{\textit{Control the pt's of leptons sorted by pt}}\\\hline\hline
+            \SetCell[c=5]{c}{\textit{maximal pdg code for quark to be considered as a light jet}}\\\hline
+            maxjetflavor             & 4.0     & 4.0     & 4.0       & 4.0        \\\hline
+        \end{longtblr}
+        % \end{tabular}
+    \end{center}
+
+    \subsection{Notas de cada prueba}
+    \begin{itemize}
+        \item[§] \textbf{Prueba 01 - xx/xx (f. presentada)}:\\
+        A
+        \item[§] \textbf{Prueba 02 - xx/xx (f. presentada)}:\\
+        A
+        \item[§] \textbf{Prueba 03 - xx/xx (f. presentada)}:\\
+        A
+        \item[§] \textbf{Prueba 04 - xx/xx (f. presentada)}:
+        \item[§] \textbf{Prueba 05 - xx/xx (f. presentada)}:
+    \end{itemize}

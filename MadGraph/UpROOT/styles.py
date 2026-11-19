@@ -3,25 +3,12 @@ import matplotlib.pyplot as plt
 import re
 import unicodedata
 from .config import (
-    DARK_BACKGROUND,
-    LIGHT_TEXT,
-    GOLD01,
-    RED00,
-    GREEN01,
-    BLUE01,
-    B2HHH_DATA,
-    B2HHH_SIM,
-    DNVTUPLE,
-    DELPHES_SM01, 
-    DELPHES_SM02,
-    DELPHES_SM03, 
-    DELPHES_SM04, 
-    DELPHES_SM05, 
-    DELPHES_SMF01,
-    DELPHES_SMF02,
-    DELPHES_SMF03,
-    DELPHES_SMF04,
-    DELPHES_SMF05,
+    DARK_BACKGROUND, LIGHT_TEXT,
+    GOLD01, RED00, GREEN01, BLUE01,
+    B2HHH_DATA, B2HHH_SIM, DNVTUPLE,
+    DELPHES_SM01, DELPHES_SM02, DELPHES_SM03, DELPHES_SM04, DELPHES_SM05, 
+    DELPHES_SMF01, DELPHES_SMF02, DELPHES_SMF03, DELPHES_SMF04, DELPHES_SMF05,
+    DELPHES_DP00, DELPHES_DP01, DELPHES_DP02, DELPHES_DP03, DELPHES_DP04, DELPHES_DP05,
 )
 
 class PlotStyle:
@@ -125,6 +112,18 @@ class PlotStyle:
             return DELPHES_SMF04
         elif data == 'dsmf05':
             return DELPHES_SMF05
+        elif data == 'dp00':
+            return DELPHES_DP00
+        elif data == 'dp01':
+            return DELPHES_DP01
+        elif data == 'dp02':
+            return DELPHES_DP02
+        elif data == 'dp03':
+            return DELPHES_DP03
+        elif data == 'dp04':
+            return DELPHES_DP04
+        elif data == 'dp05':
+            return DELPHES_DP05
         raise ValueError(f"data tiene que ser 'data/sim', 'dnvtuple'.")
 
     @classmethod

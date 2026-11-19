@@ -1,0 +1,772 @@
+\section{Configuración en el modelo \textit{sm} y \textit{sm-full}}
+    \subsection{Tarjeta delphes\_card.dat}
+    \textbf{Orden de ejecución de varios módulos para delphes\_card.dat}\\
+    Dentro del apartado \code{set ExecutionPath \{\}}
+    \begin{table}[H]
+        \begin{center}
+            \begin{mpxtabular}{|l|l|l|l|l}\hline
+                \textbf{Original} & \textbf{Prueba 03} \\ \hline\hline
+                ParticlePropagator & ParticlePropagator \\
+                ChargedHadronTrackingEfficiency & ChargedHadronTrackingEfficiency \\
+                ElectronTrackingEfficiency & ElectronTrackingEfficiency \\
+                MuonTrackingEfficiency & MuonTrackingEfficiency \\
+                ChargedHadronMomentumSmearing & ChargedHadronMomentumSmearing \\
+                ElectronMomentumSmearing & ElectronMomentumSmearing \\
+                MuonMomentumSmearing & MuonMomentumSmearing \\
+                TrackMerger & TrackMerger \\
+                & \textcolor{red}{ImpactParameterSmearing} \\
+                ECal & ECal \\
+                HCal & HCal \\
+                Calorimeter & Calorimeter \\
+                EFlowMerger & EFlowMerger \\
+                EFlowFilter & EFlowFilter \\
+                PhotonEfficiency & PhotonEfficiency \\
+                PhotonIsolation & PhotonIsolation \\
+                ElectronFilter & ElectronFilter \\
+                ElectronEfficiency & ElectronEfficiency \\
+                ElectronIsolation & ElectronIsolation \\
+                ChargedHadronFilter & ChargedHadronFilter \\
+                & \textcolor{red}{MuonFilter} \\
+                MuonEfficiency & MuonEfficiency \\
+                MuonIsolation & MuonIsolation \\
+                MissingET & MissingET \\
+                NeutrinoFilter & NeutrinoFilter \\
+                GenJetFinder & GenJetFinder \\
+                GenMissingET & GenMissingET \\
+                FastJetFinder & FastJetFinder \\
+                FatJetFinder & FatJetFinder \\
+                JetEnergyScale & JetEnergyScale \\
+                JetFlavorAssociation & JetFlavorAssociation \\
+                BTagging & BTagging \\
+                TauTagging & TauTagging \\
+                UniqueObjectFinder & UniqueObjectFinder \\
+                ScalarHT & ScalarHT \\
+                TreeWriter & TreeWriter \\\hline
+            \end{mpxtabular}
+        \end{center}
+    \end{table}
+    \underline{Nota}:\\Algunas de las funciones y módulos añadidos al delphes\_card.dat están basadas en la targeta delphes\_card\_LHCb.dat, ubicado en la carpeta Delphes/cards y en el github de \href{https://github.com/delphes/delphes/blob/master/cards/delphes_card_LHCb.tcl}{delphes}.
+    \newpage
+    \textbf{Módulos de delphes\_card.dat}
+    \begin{center}
+        \begin{longtblr}{colspec={|l|l|*{1}{r|}}}\hline
+            \textbf{Apartado} & \textbf{Set} & \textbf{Original y Prueba 01} \\\hline\hline
+            \SetCell[r=4]{c}{Muon efficiency \\ $\downarrow$ \\ \textit{Módulo:} \\ Efficiency MuonEfficiency} & \SetCell[r=4]{l}{EfficiencyFormula\\\{\\\hs{15}(...)\\\}} & (pt <= 10.0) * (0.00) + \\
+                &  & (abs(eta) <= 1.5) * (pt > 10.0) * (0.95) + \\
+                &  & (abs(eta) > 1.5 \&\& abs(eta) < = 2.4) * (pt  > 10.0) * (0.95) + \\
+                &  & (abs(eta) > 2.4) \hs{137} * (0.00)\hs{10} \\\hline
+            \SetCell[r=3]{c}{Muon isolation\\ $\downarrow$\\ \textit{Módulo}\\Isolation MuonIsolation} & DeltaRMax & 0.50 \\\hline
+                & PTMin & 0.50 \\\hline
+                & PTRatioMax & 0.25 \\\hline
+             \SetCell[r=12]{c}{\textit{Módulo}\\MuonTrackingEfficiency} & \SetCell[r=12,c=2]{l}{
+                module Efficiency MuonTrackingEfficiency \{ \\
+                \hs{7}set InputArray ParticlePropagator/muons \\
+                \hs{7}set OutputArray muons \\
+                \hs{7}set EfficiencyFormula \{                         (pt <= 0.1)   * (0.00) + \\
+                    \hs{14}(abs(eta) <= 1.5) * (pt > 0.1   \&\& pt <= 1.0)                     * (0.75) + \\
+                    \hs{14}(abs(eta) <= 1.5) * (pt > 1.0   \&\& pt <= 1.0e3)                   * (0.99) + \\
+                    \hs{14}(abs(eta) <= 1.5) * (pt > 1.0e3 )                                 * (0.99 * exp(0.5 - pt*5.0e-4)) + \\
+                    \hs{14}(abs(eta) > 1.5 \&\& abs(eta) <= 2.5) * (pt > 0.1   \&\& pt <= 1.0)   * (0.70) + \\
+                    \hs{14}(abs(eta) > 1.5 \&\& abs(eta) <= 2.5) * (pt > 1.0   \&\& pt <= 1.0e3) * (0.98) + \\
+                    \hs{14}(abs(eta) > 1.5 \&\& abs(eta) <= 2.5) * (pt > 1.0e3)                * (0.98 * exp(0.5 - pt*5.0e-4)) + \\
+                    \hs{14}(abs(eta) > 2.5)                                                  * (0.00)\,\} \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+             \SetCell[r=8]{c}{\textit{Módulo}\\MuonMomentumSmearing} & \SetCell[r=8,c=2]{l}{
+                module MomentumSmearing MuonMomentumSmearing \{ \\
+                \hs{7}set InputArray MuonTrackingEfficiency/muons \\
+                \hs{7}set OutputArray muons \\
+                \hs{7}set ResolutionFormula \{ \\
+                    \hs{14}(abs(eta) <= 0.5) * (pt > 0.1) * sqrt(0.01\^{}2 + pt\^{}2*1.0e-4\^{}2) + \\
+                    \hs{14}(abs(eta) > 0.5 \&\& abs(eta) <= 1.5) * (pt > 0.1) * sqrt(0.015\^{}2 + pt\^{}2*1.5e-4\^{}2) + \\
+                    \hs{14}(abs(eta) > 1.5 \&\& abs(eta) <= 2.5) * (pt > 0.1) * sqrt(0.025\^{}2 + pt\^{}2*3.5e-4\^{}2)\,\} \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+            \SetCell[r=5]{c}{\textit{Módulo}\\MuonEfficiency} & \SetCell[r=5,c=2]{l}{
+                module Efficiency MuonEfficiency \{ \\
+                \hs{15}set InputArray MuonMomentumSmearing/muons \\
+                \hs{15}set OutputArray muons \\
+                \hs{15}set EfficiencyFormula \{ (. . .) \} \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+            \SetCell[r=8]{c}{\textit{Módulo}\\ElectronEfficiency} & \SetCell[r=8,c=2]{l}{
+                module Efficiency ElectronEfficiency \{ \\
+                \hs{15}set InputArray ElectronFilter/electrons \\
+                \hs{15}set OutputArray electrons \\
+                \hs{15}set EfficiencyFormula \{ (pt <= 10.0) * (0.00) + \\
+                \hs{30}(abs(eta) <= 1.5) * (pt > 10.0)  * (0.95) + \\
+                \hs{30}(abs(eta) > 1.5 \&\& abs(eta) <= 2.5) * (pt > 10.0)  * (0.85) + \\
+                \hs{30}(abs(eta) > 2.5)                                   * (0.00) \} \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+            \SetCell[r=8]{c}{ECAL\\$\downarrow$\\\textit{Módulo}\\SimpleCalorimeter Ecal} & \SetCell[r=8,c=2]{l}{
+                module SimpleCalorimeter Ecal \{ \\
+                \hs{15}set ParticleInputArray ParticlePropagator/stableParticles \\
+                \hs{15}set TrackInputArray TrackMerger/tracks \\
+                \hs{15}set TowerOutputArray ecalTowers \\
+                \hs{15}set EFlowTrackOutputArray efflowTracks \\
+                \hs{15}set EFlowTrackOutputArray efflowPhotons \\
+                \hs{15}(. . .) \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+            \SetCell[r=10]{c}{ExecutionPath\\$\Downarrow$\\Propagate particles\\$\Downarrow$\\\textit{Módulo}\\ParticlePropagator} & \SetCell[r=10,c=2]{l}{
+                module ParticlePropagator ParticlePropagator \{ \\
+                \hs{15}set InputArray Delphes/stableParticles \\
+                \hs{15}set OutputArray stableParticles \\
+                \hs{15}set ChargedHadronOutputArray chargedHadrons \\
+                \hs{15}set ElectronOutputArray electrons \\
+                \hs{15}set MuonOutputArray muons \\
+                \hs{15}set Radius 1.29  \# radius of the magnetic field coverage, in m \\
+                \hs{15}set HalfLength 3.00  \# half-length of the magnetic field coverage, in m \\
+                \hs{15}set Bz 3.8  \# magnetic field \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+            \SetCell[r=17]{c}{ROOT tree writer\\$\downarrow$\\\textit{Módulo}\\TreeWriter} & \SetCell[r=17,c=2]{l}{
+                module TreeWriter TreeWriter \{ \\
+                \hs{15}add Branch Delphes/allParticles Particle GenParticle \\
+                \hs{15}add Branch TrackMerger/tracks Track Track \\
+                \hs{15}add Branch Calorimeter/towers Tower Tower \\
+                \hs{15}add Branch HCal/eflowTracks EFlowTrack Track \\
+                \hs{15}add Branch ECal/eflowPhotons EFlowPhoton Tower \\
+                \hs{15}add Branch HCal/eflowNeutralHadrons EFlowNeutralHadron Tower \\
+                \hs{15}add Branch GenJetFinder/jets GenJet Jet \\
+                \hs{15}add Branch GenMissingET/momentum GenMissingET MissingET \\
+                \hs{15}add Branch UniqueObjectFinder/jets Jet Jet \\
+                \hs{15}add Branch UniqueObjectFinder/electrons Electron Electron \\
+                \hs{15}add Branch UniqueObjectFinder/photons Photon Photon \\
+                \hs{15}add Branch UniqueObjectFinder/muons Muon Muon \\
+                \hs{15}add Branch FatJetFinder/jets FatJet Jet \\
+                \hs{15}add Branch MissingET/momentum MissingET MissingET \\
+                \hs{15}add Branch ScalarHT/energy ScalarHT ScalarHT \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline\hline\hline
+            \textbf{Apartado} & \textbf{Set} & \textbf{Prueba 02} \\\hline\hline
+            \SetCell[r=4]{c}{Muon efficiency \\ $\downarrow$ \\ \textit{Módulo:} \\ Efficiency MuonEfficiency} & \SetCell[r=4]{l}{EfficiencyFormula\\\{\\\hs{15}(...)\\\}} & (pt < 0.5) * (0.00) + \\
+                &  & (abs(eta) <= 0.1) * (pt >= 0.5) * (0.95) + \\
+                &  & (abs(eta) > 0.1 \&\& abs(eta) <= 5.0) * (pt  >= 0.5) * (0.95) + \\
+                &  & (abs(eta) > 5.0) \hs{142} * (0.00)\hs{10} \\\hline
+            \SetCell[r=3]{c}{Muon isolation\\ $\downarrow$\\ \textit{Módulo}\\Isolation MuonIsolation} & DeltaRMax & 0.20 \\\hline
+                & PTMin & 0.00 \\\hline
+                & PTRatioMax & 0.25 \\\hline\hline\hline
+            \textbf{Apartado} & \textbf{Set} & \textbf{Prueba 03} \\\hline\hline
+            \SetCell[r=6]{c}{\textbf{Nuevo módulo}\\$\Downarrow$\\\textit{Módulo}\\ImpactParameterSmearing} & \SetCell[r=6,c=2]{l}{
+                module ImpactParameterSmearing ImpactParameterSmearing \{ \\
+                \hs{15}set InputArray TrackMerger/tracks \\
+                \hs{15}set OutputArray tracks \\
+                \hs{15}\# absolute impact parameter smearing formula (in mm) \\
+                \hs{15}set ResolutionFormula $\{0.0116 + 0.0234/pt\}$ \\
+                \}
+            } & \\\hline
+             &  &  \\\hline
+             &  &  \\\hline
+             &  &  \\\hline
+             &  &  \\\hline
+             &  &  \\\hline
+             \SetCell[r=8]{c}{\textbf{Modificación}\\$\Downarrow$\\ECAL\\$\downarrow$\\\textit{Módulo}\\SimpleCalorimeter Ecal} & \SetCell[r=8,c=2]{l}{
+                module SimpleCalorimeter Ecal \{ \\
+                \hs{15}set ParticleInputArray ParticlePropagator/stableParticles \\
+                \hs{15}\textcolor{red}{set TrackInputArray ImpactParameterSmearing/tracks} \\
+                \hs{15}set TowerOutputArray ecalTowers \\
+                \hs{15}set EFlowTrackOutputArray efflowTracks \\
+                \hs{15}set EFlowTrackOutputArray efflowPhotons \\
+                \hs{15}(. . .) \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+             \SetCell[r=7]{c}{\textbf{Nuevo módulo}\\$\Downarrow$\\\textit{Módulo}\\MuonFilter} & \SetCell[r=7,c=2]{l}{
+                module PdgCodeFilter MuonFilter \{ \\
+                \hs{15}set InputArray ImpactParameterSmearing/tracks \\
+                \hs{15}set OutputArray muons \\
+                \hs{15}set Invert true \\
+                \hs{15}add PdgCode \{13\} \\
+                \hs{15}add PdgCode \{-13\} \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+             \SetCell[r=5]{c}{\textbf{Modificación}\\$\Downarrow$\\\textit{Módulo}\\MuonEfficiency} & \SetCell[r=5,c=2]{l}{
+                module Efficiency MuonEfficiency \{ \\
+                \hs{15}\textcolor{red}{set InputArray MuonFilter/muons} \\
+                \hs{15}set OutputArray muons \\
+                \hs{15}set EfficiencyFormula \{ (. . .) \} \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+            \SetCell[r=17]{c}{\textbf{Modificación}\\$\Downarrow$\\ROOT tree writer\\$\downarrow$\\\textit{Módulo}\\TreeWriter} & \SetCell[r=17,c=2]{l}{
+                module TreeWriter TreeWriter \{ \\
+                \hs{15}add Branch Delphes/allParticles Particle GenParticle \\
+                \hs{15}\textcolor{red}{add Branch ImpactParameterSmearing/tracks Track Track} \\
+                \hs{15}add Branch Calorimeter/towers Tower Tower \\
+                \hs{15}add Branch HCal/eflowTracks EFlowTrack Track \\
+                \hs{15}add Branch ECal/eflowPhotons EFlowPhoton Tower \\
+                \hs{15}add Branch HCal/eflowNeutralHadrons EFlowNeutralHadron Tower \\
+                \hs{15}add Branch GenJetFinder/jets GenJet Jet \\
+                \hs{15}add Branch GenMissingET/momentum GenMissingET MissingET \\
+                \hs{15}add Branch UniqueObjectFinder/jets Jet Jet \\
+                \hs{15}add Branch UniqueObjectFinder/electrons Electron Electron \\
+                \hs{15}add Branch UniqueObjectFinder/photons Photon Photon \\
+                \hs{15}add Branch UniqueObjectFinder/muons Muon Muon \\
+                \hs{15}add Branch FatJetFinder/jets FatJet Jet \\
+                \hs{15}add Branch MissingET/momentum MissingET MissingET \\
+                \hs{15}add Branch ScalarHT/energy ScalarHT ScalarHT \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+            \SetCell[r=10]{c}{\textbf{Modificación}\\$\Downarrow$\\Propagate particles\\$\downarrow$\\\textit{Módulo}\\ParticlePropagator} & \SetCell[r=10,c=2]{l}{
+                module ParticlePropagator ParticlePropagator \{ \\
+                \hs{15}set InputArray Delphes/stableParticles \\
+                \hs{15}set OutputArray stableParticles \\
+                \hs{15}set ChargedHadronOutputArray chargedHadrons \\
+                \hs{15}set ElectronOutputArray electrons \\
+                \hs{15}set MuonOutputArray muons \\
+                \hs{15}\textcolor{red}{set Radius 3.31}  \# radius of the magnetic field coverage, in m \\
+                \hs{15}\textcolor{red}{set HalfLength 12.0}  \# half-length of the magnetic field coverage, in m \\
+                \hs{15}\textcolor{red}{set Bz 1.1}  \# magnetic field \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+             \SetCell[r=9]{c}{\textbf{Modificación}\\$\Downarrow$\\\textit{Módulo}\\MuonTrackingEfficiency} & \SetCell[r=9,c=2]{l}{
+                module Efficiency MuonTrackingEfficiency \{ \\
+                \hs{15}set InputArray ParticlePropagator/muons \\
+                \hs{15}set OutputArray muons \\
+                \hs{15}\textcolor{red}{\# Emplear la eta del momentum del muon} \\
+                \hs{15}\textcolor{red}{set UseMomentumVector true} \\
+                \hs{15}\textcolor{red}{\# Aproximación plana para trazas largas en la region frontal de LHCb} \\
+                \hs{15}set EfficiencyFormula \{                      \\
+                    \hs{30}\textcolor{red}{(eta > 2.0 \&\& eta <= 5.0) * (pt > 0.1) * (0.97)}\,\} \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+             \SetCell[r=5]{c}{\textbf{Modificación}\\$\Downarrow$\\\textit{Módulo}\\MuonMomentumSmearing} & \SetCell[r=5,c=2]{l}{
+                module MomentumSmearing MuonMomentumSmearing \{ \\
+                \hs{15}set InputArray MuonTrackingEfficiency/muons \\
+                \hs{15}set OutputArray muons \\
+                \hs{15}set ResolutionFormula \{\,\textcolor{red}{(eta > 2.0  \&\& eta <= 5.0)      * (pt > 0.5)* (0.005)}\,\} \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+             \SetCell[r=9]{c}{\textbf{Modificación}\\$\Downarrow$\\\textit{Módulo}\\MuonEfficiency} & \SetCell[r=9,c=2]{l}{
+                module Efficiency MuonEfficiency \{ \\
+                \hs{15}set InputArray MuonMomentumSmearing/muons \\
+                \hs{15}set OutputArray muons \\
+                \hs{15}\textcolor{red}{set UseMomentumVector true} \\
+                \hs{15}set EfficiencyFormula \{\,\textcolor{red}{(eta <= 2.0)                                * (0.00) +} \\
+                    \hs{30}\textcolor{red}{(eta > 2.0  \&\& eta <= 5.0) *      (pt < 0.8)* (0.00) +} \\
+                    \hs{30}\textcolor{red}{(eta > 2.0  \&\& eta <= 5.0) *     (pt >= 0.8)* (0.97) +} \\
+                    \hs{30}\textcolor{red}{(eta > 5.0)                                 * (0.00)} \,\} \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+            \SetCell[r=8]{c}{\textbf{Modificación}\\$\Downarrow$\\\textit{Módulo}\\ElectronEfficiency} & \SetCell[r=8,c=2]{l}{
+                module Efficiency ElectronEfficiency \{ \\
+                \hs{15}set InputArray ElectronFilter/electrons \\
+                \hs{15}set OutputArray electrons \\
+                \hs{15}set EfficiencyFormula \{ \textcolor{red}{(eta <= 2.0)                                * (0.00) +} \\
+                \hs{30}\textcolor{red}{(eta > 2.0  \&\& eta <= 5.0) *      (pt < 0.6)* (0.97) +} \\
+                \hs{30}\textcolor{red}{(eta > 2.0  \&\& eta <= 5.0) *     (pt >= 0.6)* (0.97) +} \\
+                \hs{30}\textcolor{red}{(eta > 5.0)                                 * (0.00)} \} \\
+                \}
+            } & \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\
+             &  &  \\\hline
+        \end{longtblr}
+    \end{center}
+
+    \textbf{Módulo Isolation de Delphes}\\
+    Los parámetros del módulo Isolation de Delphes controlan cómo se mide la actividad de un candidato y si ese candidato se conserva o se descarta.\\La lógica general del módulo es
+    \begin{equation*}
+        \begin{aligned}
+            I_{rel} & = \frac{\sum p_{T}(\text{objetos de aislamiento dentro del cono})}{p_{T}(\text{candidato})}
+        \end{aligned}
+    \end{equation*}
+    además, por defecto, Delphes conserva el candidato sólo si se cumple
+    \begin{equation*}
+        \begin{aligned}
+            I_{rel} & \leq PTRatioMax
+        \end{aligned}
+    \end{equation*}
+    En simples términos se tiene: la suma de los $p_{T}$ de los objetos de aislamiento dentro de un cono $DeltaRMax$, se calcula la fracción respecto al $p_{T}$ del candidato y se filtra según $PTRatioMax$.
+     \begin{center}
+        \begin{longtblr}{colspec={|l|X[l,m]|X[l,m]|}}\hline
+            \textbf{Parámetro} & \textbf{Representación} & \textbf{Impacto} \\\hline\hline
+            \textit{DeltaRMax} & {
+                Representa el radio máximo del cono de aislamiento alrededor del candidato.\\Se define como\\
+                \hs{45}$\Delta R=\sqrt{(\Delta\eta)^{2}+(\Delta\phi)^{2}}$
+            } & {
+                $\bullet$ \textbf{\textit{DeltaRMax} grande}: Implica que se recoge más actividad alrededor del muón y por tanto el aislamiento suele ser más estricto.\\
+                $\bullet$ \textbf{\textit{DeltaRMax} pequeño}: Implica que se recoge menos actividad alrededor del muón y por tanto más candidatos pasan.\\
+                $\divideontimes$ \textit{Nota}: Es el radio usado para buscar actividad alrededor de cada candidato.
+            } \\\hline
+            \textit{PTMin} & {
+                Es el $p_{T}$ mínimo que debe tener un objeto de aislamiento para ser incluido en la suma.
+            } & {
+                $\bullet$ \textbf{\textit{PTMin} más alto}: Implica menos objetos que entran en la suma (aislamiento más permisivo). \\
+                $\bullet$ \textbf{\textit{PTMin} más bajo}: Implica que más actividad entra en la suma (aislamiento más estricto).
+            } \\\hline
+            \textit{PTRatioMax} & {
+                Ayuda a decidir si el candidato sobrevive. Delphes calcula una razón del tipo $I_{rel}=\sum p_{T}^{iso}/p_{T}^{cand}$, al cual posteriormente aplica $I_{rel}\leq PTRatioMax$.
+            } & {
+                $\bullet$ \textbf{\textit{PTRatioMax} más alto}: Implica un menor aislamiento. \\
+                $\bullet$ \textbf{\textit{PTRatioMax} más bajo}: Implica que el aislamiento es más estricto.
+            } \\\hline
+        \end{longtblr}
+    \end{center}
+
+    \newpage
+    \subsection{Tarjeta run\_card.dat}
+    Para la configuración de la tarjeta \textit{run\_card.dat} se tiene
+    % \begin{table}[H]
+        \begin{center}\vs{-20}
+            % \begin{tabular}{|l|*{4}{r|}}\hline
+            \begin{longtblr}{colspec={|l|*{4}{r|}}}\hline
+                \textbf{Campo} & \textbf{V. Original} & \textbf{Prueba 01} & \textbf{Prueba 02} & \textbf{Prueba 03} \\\hline\hline
+                \SetCell[c=5]{c}{\textit{Colider type and energy}}\\\hline
+                lpp1                     & 1.0     & 1.0     & 1.0       & 1.0        \\\hline
+                lpp2                     & 1.0     & 1.0     & 1.0       & 1.0        \\\hline
+                ebeam1                   & 6500.0  & 6500.0  & 6800.0    & 6500.0     \\\hline
+                ebeam2                   & 6500.0  & 6500.0  & 6800.0    & 6500.0     \\\hline\hline
+                \SetCell[c=5]{c}{\textit{PDF CHOISE}}\\\hline
+                pdlabel                  & nn23lo1 & nn23lo1 & nn23lo1   & nn23lo1    \\\hline
+                lhaid                    & 230000  & 230000  & 230000    & 230000     \\\hline\hline
+                \SetCell[c=5]{c}{\textit{Renormalization and factorization scales}}\\\hline
+                fixed\_ren\_scale        & False   & False   & False     & False      \\\hline
+                fixed\_fac\_scale        & False   & False   & False     & False      \\\hline
+                scale                    & 91.188  & 91.188  & 91.188    & 91.188     \\\hline
+                dsqrt\_q2fact1           & 91.188  & 91.188  & 91.188    & 91.188     \\\hline
+                dsqrt\_q2fact2           & 91.188  & 91.188  & 91.188    & 91.188     \\\hline
+                dynamical\_scale\_choise & -1      & -1      & -1        & -1         \\\hline
+                scalefact                & 1.0     & 1.0     & 1.0       & 1.0        \\\hline\hline
+                \SetCell[c=5]{c}{\textit{Minimum and maximum pt's (for max, -1 means no cut)}}\\\hline
+                ptl                      & 10.0    & 10.0    & 0.0       & 0.0        \\\hline
+                ptlmax                   & -1.0    & -1.0    & -1.0      & -1.0       \\\hline
+                pt\_min\_pdg             & \{\}    & \{\}    & \{\}      & \{\}       \\\hline
+                pt\_max\_pdg             & \{\}    & \{\}    & \{\}      & \{\}       \\\hline\hline
+                \SetCell[c=5]{c}{\textit{Maximum and minimum absolute rapidity (for max, -1 means no cut)}}\\\hline
+                etal                     & 2.5     & 2.5     & 5.0       & 5.0        \\\hline
+                etalmin                  & 0.0     & 0.0     & 0.0       & 0.0        \\\hline
+                eta\_min\_pdg            & \{\}    & \{\}    & \{\}      & \{\}       \\\hline
+                eta\_max\_pdg            & \{\}    & \{\}    & \{\}      & \{\}       \\\hline\hline
+                \SetCell[c=5]{c}{\textit{Minimum and maximum DeltaR distance}}\\\hline
+                drll                     & 0.4     & 0.4     & 0.0       & 0.0        \\\hline
+                drllmax                  & -1.0    & -1.0    & -1.0      & -1.0       \\\hline\hline
+                \SetCell[c=5]{c}{\textit{Minimum and maximum invariant mass for pairs}}\\\hline
+                mmll                     & 0.0     & 0.0     & 0.0       & 0.0        \\\hline
+                mmllmax                  & -1.0    & 70.0    & 10.0/70.0 & 70.0/110.0 \\\hline
+                mxx\_min\_pdg            & \{\}    & \{\}    & \{\}      & \{\}       \\\hline\hline
+                \SetCell[c=5]{c}{\textit{Minimum and maximum invariant mass for all leptons}}\\\hline
+                mmnl                     & 0.0     & 0.0     & 0.0       & 0.0        \\\hline
+                mmnlmax                  & -1.0    & 70.0    & 10.0/70.0 & 70.0/110.0 \\\hline\hline
+                \SetCell[c=5]{c}{\textit{Minimum and maximum pt for 4-momenta}}\\\hline
+                ptllmin                  & 0.0     & 0.0     & 0.0       & 0.0        \\\hline
+                ptllmax                  & -1.0    & -1.0    & -1.0      & -1.0       \\\hline\hline
+                \SetCell[c=5]{c}{\textit{Inclusive cuts}}\\\hline
+                xptl                     & 0.0     & 0.0     & 0.0       & 0.0        \\\hline\hline
+                \SetCell[c=5]{c}{\textit{Control the pt's of leptons sorted by pt}}\\\hline
+                ptl1min                  & 0.0     & 0.0     & 0.0       & 0.0        \\\hline
+                ptl2min                  & 0.0     & 0.0     & 0.0       & 0.0        \\\hline
+                ptl1max                  & -1.0    & -1.0    & -1.0      & -1.0       \\\hline
+                ptl2max                  & -1.0    & -1.0    & -1.0      & -1.0       \\\hline\hline
+                \SetCell[c=5]{c}{\textit{maximal pdg code for quark to be considered as a light jet}}\\\hline
+                maxjetflavor             & 4.0     & 4.0     & 4.0       & 4.0        \\\hline
+            \end{longtblr}
+            % \end{tabular}
+        \end{center}
+    % \end{table}
+    Todos los cortes realizados en el \textit{run\_card.dat} se aplican a nivel de matrix element/elemento partónico de MadGraph, antes de Pythia y Delphes.
+    \begin{center}
+        \begin{longtblr}{colspec={|l|X[l,m]|c|X[l,m]|}}\hline
+            \textbf{Parámetro} & \textbf{Representación} & \textbf{Unidades/Rango} & \textbf{Impacto} \\\hline\hline
+            \SetCell[c=4]{c}{\textit{Colider type and energy}}\\\hline
+            \textit{lpp1} & Tipo del haz 1 & entero & Define el PDF y el tipo de partícula que representa el haz 1. \\\hline
+            \textit{lpp2} & Tipo del haz 2 & entero & Define el PDF y el tipo de partícula que representa el haz 2. \\\hline
+            \textit{ebeam1} & Energía total del haz 1 & GeV & \SetCell[r=2]{l}{Para haces simétricos ultrarrelativistas, junto con \textit{ebeam2} determina $\sqrt{s}$.} \\\hline
+            \textit{ebeam2} & Energía total del haz 2 & GeV &  \\\hline\hline
+            \SetCell[c=4]{c}{\textit{Minimum and maximum pt's (for max, -1 means no cut)}}\\\hline
+            \textit{ptl} & $p_{T}$ mínimo de cada leptón cargado & GeV & \textbf{(Corte fuerte)} Un leptón que no cumpla se descarta a nivel de generación. \\\hline
+            \textit{ptlmax} & $p_{T}$ máximo de cada leptón cargado & GeV & El valor $ptlmax=-1$ implica que no se considera un límite superior. \\\hline
+            \SetCell[c=4]{c}{\textit{Maximum and minimum absolute rapidity (for max, -1 means no cut)}}\\\hline
+            \textit{etal} & Máximo valor absoluto de rapidez/$\eta$ para leptones cargados. & adimensional & Restringe la región angular. MadGraph lo maneja como un corte simétrico en valor absoluto. \\\hline
+            \textit{etalmin} & Mínimo valor absoluto de rapidez/$\eta$ & adimensional & Excluye la región centrial si es $>0$. \\\hline\hline
+            \SetCell[c=4]{c}{\textit{Minimum and maximum DeltaR distance}}\\\hline
+            \textit{drll} & Separación mínima entre dos leptones. & adimensional & Exige $\Delta R_{\mathcal{ll}}>drll$. \\\hline
+            \textit{drllmax} & Separación máxima entre leptones & adimensional & El valor $drll=-1$ implica que no ha límite. \\\hline\hline
+            \SetCell[c=4]{c}{\textit{Minimum and maximum invariant mass for pairs}}\\\hline
+            \textit{mmll} & Masa invariante mínima de un par $\mathcal{l}^{+}\mathcal{l}^{-}$ del mismo sabor. & GeV & Es relevante para un sistema léptonico simple $m_{\mathcal{ll}}$. \\\hline
+            \textit{mmllmax} & Masa invariante máxima del par $\mathcal{l}^{+}\mathcal{l}^{-}$. & GeV & Fija el límite superior del espectro. \\\hline\hline
+            \SetCell[c=4]{c}{\textit{Minimum and maximum invariant mass for all leptons}}\\\hline
+            \textit{mmnl} & Masa invariante mínima del sistema de todos los leptones, incluidos neutrinos. & GeV & Es relevante para un sistema léptonico complejo. \\\hline
+            \textit{mmnlmax} & Masa invariante máxima del de un sistema leptónico. & GeV & Fija el límite superior del espectro. $mmnlmax=-1.0$ implica que no hay límite superior. \\\hline\hline
+            \SetCell[c=4]{c}{\textit{Minimum and maximum pt for 4-momenta}}\\\hline
+            \textit{ptllmin} & $p_{T}$ mínimo de la suma de cuatro-momentos del sistema leptónico considerado. & GeV & Para $pp\to\mu^{+}\mu^{-}$ es el $p_{T}$ del sistema dimuónico. \\\hline
+            \textit{ptllmax} & $p_{T}$ máximo del sistema leptónico. & GeV & Fija el límite superior. $ptllmax=-1.0$ implica que no hay límite superior. \\\hline\hline
+            \SetCell[c=4]{c}{\textit{Inclusive cuts}}\\\hline
+            \textit{xptl} & $p_{T}$ mínimo para al menos un leptón cargado. & GeV & Es menos restrictivo que el parámetro \textit{ptl} en estados multileptónicos. \\\hline\hline
+            \SetCell[c=4]{c}{\textit{Control the pt's of leptons sorted by pt}}\\\hline
+            \textit{ptl1min} & $p_{T}$ mínimo del leptón lider. & GeV & Leptón con mayor $p_{T}$. \\\hline
+            \textit{ptl2min} & $p_{T}$ mínimo del segundo leptón. & GeV & En un estado de dos leptones fuerza al subleading a superar el corte. \\\hline
+            \textit{ptl1max} & $p_{T}$ máximo del leptón lider. & GeV & Fija el límite superior. $ptl1max=-1.0$ implica que no hay límite superior. \\\hline
+            \textit{ptl2max} & $p_{T}$ máximo del leptón lider. & GeV & Fija el límite superior. $ptl2max=-1.0$ implica que no hay límite superior. \\\hline\hline
+            \SetCell[c=4]{c}{\textit{maximal pdg code for quark to be considered as a light jet}}\\\hline
+            \textit{maxjetflavor} & Máximo PDG de quark considerado como jet ligero. & entero & \textit{maxjetflavor=4}$\to u,\,d,\,s,\,c$ son jets ligeros; $b$ se trata aparte. Para \textit{maxjetflavor=5} se incluye $b$ como jet ligero. Es importante para matching/cortes de jets. \\\hline
+        \end{longtblr}
+    \end{center}
+
+    \newpage
+    \subsection{Delphes/modules}
+        \subsubsection{TrackCovariance.cc}
+        Se tienen definidos los valores de $D0$, $ErrorD0$, $DZ$, $ErrorDZ$ definidos en este módulo
+\begin{lstlisting}[language=c++]
+void TrackCovariance::Process()
+{
+  Candidate *candidate, *mother, *particle;
+  Double_t mass, p, pt, q, ct;
+  Double_t dd0, ddz, dphi, dct, dp, dpt, dC;
+  // Get cylindrical box for fast track simulation
+  Double_t Rin = fGeometry->GetRmin();
+  Double_t ZinPos = fGeometry->GetZminPos();
+  Double_t ZinNeg = fGeometry->GetZminNeg();
+
+  fItInputArray->Reset();
+  while((candidate = static_cast<Candidate *>(fItInputArray->Next())))
+  {
+    (. . .)
+    pt = candidate->Momentum.Pt();
+    p  = candidate->Momentum.P();
+    q  = track.GetObsQ();
+    ct = track.GetObsPar()[4];
+
+    candidate->Xd = track.GetObsX().X()*1e03;
+    candidate->Yd = track.GetObsX().Y()*1e03;
+    candidate->Zd = track.GetObsX().Z()*1e03;
+
+    candidate->XFirstHit = track.GetFirstHit().X()*1e03;
+    candidate->YFirstHit = track.GetFirstHit().Y()*1e03;
+    candidate->ZFirstHit = track.GetFirstHit().Z()*1e03;
+
+    candidate->D0       = track.GetObsPar()[0]*1e03;
+    candidate->Phi      = track.GetObsPar()[1];
+
+    // inverse of curvature
+    candidate->C        = track.GetObsPar()[2]*1e-03;
+    candidate->DZ       = track.GetObsPar()[3]*1e03;
+    candidate->CtgTheta = track.GetObsPar()[4];
+    candidate->P        = track.GetObsP().Mag();
+    candidate->PT       = pt;
+    candidate->Charge   = q;
+
+    dd0       = TMath::Sqrt(track.GetCov()(0, 0))*1e03;
+    ddz       = TMath::Sqrt(track.GetCov()(3, 3))*1e03;
+    dphi      = TMath::Sqrt(track.GetCov()(1, 1));
+    dct       = TMath::Sqrt(track.GetCov()(4, 4));
+    dpt       = 2 * TMath::Sqrt( track.GetCov()(2, 2))*pt*pt / (0.2998*fBz);
+    dp        = TMath::Sqrt((1.+ct*ct)*dpt*dpt + 4*pt*pt*ct*ct*dct*dct/(1.+ct*ct)/(1.+ct*ct));
+    dC        = TMath::Sqrt(track.GetCov()(2, 2))*1e-03;
+
+    candidate->ErrorD0 = dd0;
+    candidate->ErrorDZ = ddz;
+    candidate->ErrorP = dp;
+    candidate->ErrorC = dC;
+    candidate->ErrorCtgTheta = dct;
+    candidate->ErrorPhi = dphi;
+    candidate->ErrorPT = dpt;
+    //candidate->TrackResolution = dpt / pt;
+    candidate->TrackResolution = dp / p;
+
+    candidate->AddCandidate(mother);
+
+    fOutputArray->Add(candidate);
+  }
+}
+\end{lstlisting} 
+
+        \newpage
+        \subsubsection{ImpactParameterSmearing.cc}
+\begin{lstlisting}[language=c++]
+void ImpactParameterSmearing::Process()
+{
+  Candidate *candidate, *particle, *mother;
+  Double_t xd, yd, zd, d0, sx, sy, sz, dd0;
+  Double_t pt, eta, px, py, phi, e;
+
+  fItInputArray->Reset();
+  while((candidate = static_cast<Candidate *>(fItInputArray->Next())))
+  {
+    // take momentum before smearing (otherwise apply double smearing on d0)
+    particle = static_cast<Candidate *>(candidate->GetCandidates()->At(0));
+
+    const TLorentzVector &candidateMomentum = particle->Momentum;
+
+    eta = candidateMomentum.Eta();
+    pt = candidateMomentum.Pt();
+    phi = candidateMomentum.Phi();
+    e = candidateMomentum.E();
+
+    px = candidateMomentum.Px();
+    py = candidateMomentum.Py();
+
+    // calculate coordinates of closest approach to track circle in transverse plane xd, yd, zd
+    xd = candidate->Xd;
+    yd = candidate->Yd;
+    zd = candidate->Zd;
+
+    // calculate smeared values
+    sx = gRandom->Gaus(0.0, fFormula->Eval(pt, eta, phi, e));
+    sy = gRandom->Gaus(0.0, fFormula->Eval(pt, eta, phi, e));
+    sz = gRandom->Gaus(0.0, fFormula->Eval(pt, eta, phi, e));
+
+    xd += sx;
+    yd += sy;
+    zd += sz;
+
+    // calculate impact parameter (after-smearing)
+    d0 = (xd * py - yd * px) / pt;
+
+    dd0 = gRandom->Gaus(0.0, fFormula->Eval(pt, eta, phi, e));
+
+    // fill smeared values in candidate
+    mother = candidate;
+
+    candidate = static_cast<Candidate *>(candidate->Clone());
+    candidate->Xd = xd;
+    candidate->Yd = yd;
+    candidate->Zd = zd;
+
+    candidate->D0 = d0;
+    candidate->ErrorD0 = dd0;
+
+    candidate->AddCandidate(mother);
+    fOutputArray->Add(candidate);
+  }
+}
+\end{lstlisting}
+        Se puede observar que el parámetro \textit{dd0} está definida como
+\begin{lstlisting}[language=c++]
+dd0 = gRandom->Gauss(0.0, fFormula->Eval(pt, eta, phi, e));
+// Se guarda el valor
+candidate->ErrorD0 = dd0
+\end{lstlisting}
+        El parámetro \textit{dd0} almacena una fluctuación aleatoria, incluyendo negativa, en un campo que debe de representar una incertidumbre.
+        % Se podría modificar posteriormente a dd0 = fFormula->Eval(pt, eta, phi, e); y recompilar en desde bash
+        % > cd MG5_aMC_v2_9_27/Delphes
+        % > make -j"$(nproc)"
+        % de manera que el resultado debería devolver
+        % D0 -> valor reconstruido con smearing
+        % ErrorD0 -> resolución positiva
+        % No es necesario añadir al código: candidate->ErrorDZ = dd0; dado que la resolución transversal no representa la resolución longitudinal.
+
+    \subsection{Notas de cada prueba}
+    \begin{itemize}
+        \item[§] \textbf{Prueba 01 - 02/09 (f. presentada)}:\\
+        Archivo realizado con el modelo \textit{sm}, en el cual no se considera la masa del muón $\mu^{-}$. Se modificaron los cortes de masa invariante máxima de los leptones producidos (mmll), como de todos los leptones (mmnl) a un máximo de \textit{mmll/mmnl = 70.0 GeV}.
+        \item[§] \textbf{Prueba 02 - 09/09 (f. presentada)}:\\
+        Archivos realizados con modelos
+        \begin{itemize}
+            \item \textit{sm}: contiene restricciones de masas. Aplica simplificaciones y masas en cero a ciertos fermiones ligeros.
+            \begin{itemize}
+                \item[$\rightarrow$] \underline{Aproximaciones}: Considera masas iguales a cero para fermiones ligeros como muones, electornes y quarks (u, d, s); además, utiliza una matriz CKM diagonal u otras simplificaciones para optimizar cálculos.
+                \item[$\rightarrow$] \underline{Uso}: Modelo predeterminado en MadGraph5\_aMC@NLO para la gran mayoría de colisiones protón-protón donde la masa de los leptones o quarks ligeros no afecta de forma perceptible el resultado físico.
+            \end{itemize}
+            \item \textit{sm-full}: versión completa del modelo estándar. Conserva todas las masas y acoplamientos originales del modelo.
+            \begin{itemize}
+                \item[$\rightarrow$] \underline{Sin restricciones}: Carga el Modelo Estándar completo sin omitir los valores pequeños de masa o acoplamiento y desactiva las simplificaciones automáticas.
+                \item[$\rightarrow$] \underline{Uso}: Se emplea en simulaciones de alta precisión, como en el caso de experimentos en leptones a bajas energías o procesos específicos de dispersión, donde conservar la masa real del electrón, el muón o los acoplamientos completos es indispensable para evitar divergencias o imprecisiones cinemáticas.
+            \end{itemize}
+        \end{itemize}
+        Se modificaron parámetros de corte del simulador para aproximarse al paper utilizado de referencia (\href{https://arxiv.org/pdf/1910.06926}{Search for A'$\to\mu^{+}\mu^{-}$ decays}):
+        \begin{itemize}
+            \item[$\divideontimes$] Momentum transversal: $P_{T}(\mu)>=0.5$. (para 2017-2018, p. 2)
+            \item[$\divideontimes$] Pseudo-velocidad (rapidez): $2<\eta<4.5$, se utilizó en el simulador $0.1<\eta<5.0$ para posteriormente aplicar cortes en Python para $2.0<\eta<5.0$ ("LHCb detector is a single-arm foward spectrometer").
+            \item[$\divideontimes$] Energía de centro de masa: $13.6\,[TeV]$ (consideración propia).
+        \end{itemize}
+        \item[§] \textbf{Prueba 03 - 01/10 (f. presentada)} (pendiente):\\
+        Adición de nuevos módulos y cambios de los módulos para aceptación de LHCb, en función a las targetas \textit{delphes\_card\_LHCb.tcl}, realizadas con los modelos \textit{sm} y \textit{sm-full}, y con ampliación del corte de energía mmll y mmnl a $110.0\,\,[GeV]$ para poder analizar el proceso de Drell-Yan ($pp\to Z/\gamma^{*}\to\mu^{+}\mu^{-}$). \textcolor{red}{(\textit{Nota}: ya no se implemento a $110.0\,[GeV]$, dado que se va a trabajar con masa ligera, en caso de que haya un problema se ampliará el corte)}.
+        \begin{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 01}:} Adición de módulos al ExecutionPath.
+            \begin{itemize}
+                \item Se añaden al ExecutionPath los módulos \textit{ImpactParameterSmearing}, después del módulo \textit{TrackMerger}, y \textit{MuonFilter}, antes del módulo \textit{MuonEfficiency}.
+                \item \textit{ExecutionPath} se encarga de indicar el orden en el que Delphes procesa las colecciones.
+            \end{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 02}:} Adición de nuevo módulo.
+            \begin{itemize}
+                \item Con el modulo \textit{ImpactParameterSmearing} se busca recibir todas las trazas reconstruidas, desplazar aleatoriamente las coordenadas transversales, recalcular el parámetro D0 y asignar el parámetro ErrorD0.
+                \item La resolución, de la colección \textit{ImpactParameterSmearing/tracks}, es
+                \begin{equation*}
+                    \begin{aligned}
+                        \sigma_{D0} & = \left(0.0116 + \frac{0.0234}{p_{T}}\right) \,\,[mm]
+                    \end{aligned}
+                \end{equation*}
+            \end{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 03}:} Cambio de la entrada del calorímetro.
+            \begin{itemize}
+                \item Se busca hacer que las trazas on el parámetro de impacto modificado continuen en el orden\\Ecal $\to$ EFlow $\to$ jets y aislamiento.
+            \end{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 04}:} Adición del módulo \textit{MuonFilter}
+            \begin{itemize}
+                \item El módulo \textit{ImpactParameterSmearing/tracks} se encarga de contener las trazas de muones, electrones y hadrones cargados.
+                \item Se busca volver a extraer los muones.
+                \item Se introduce este módulo entre los módulos de \textit{ElectronFilter} y \textit{ChargedHadronFilter}.
+                \item El filtro se encarga de seleccionar $\abs{PID}=13$. De manera que los candidatos resultates conservan los parámetros D0, DZ, ErrorD0, ErrorDZ, PT, Etay Phi.
+            \end{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 05}:} Modificación del módulo \textit{MuonEfficiency}
+            \begin{itemize}
+                \item Se busca conectar \textit{MuonEfficiency} al nuevo filtro \textit{MuonFilter}.
+            \end{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 06}:} Modificación del módulo \textit{TreeWriter}
+            \begin{itemize}
+                \item Se busca cambiar la rama \textit{Track} del \textit{TreeWriter}.
+                \item Los valores \textit{Track.ErrorD0} y \textit{Muon.ErrorD0} procederán del módulo \textit{ImpactParameterSmearing/tracks} en lugar de \textit{TrackMerger/tracks}.
+            \end{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 07}:} Modificación del módulo ParticlePropagator
+            \begin{itemize}
+                \item Se cambiaron los valores aproximados de \textit{Radius}, \textit{HalfLength} y \textit{Bz} según \textit{delphes\_card\_LHCb.tcl}. 
+                \item Los valores son una aproximación simplificada del detector, dado que Delphes no representa completamente el campo dipolar real del LHCb.
+            \end{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 08}:} Modificación del módulo MuonTrackingEfficiency$\to$EfficiencyFormula
+            \begin{itemize}
+                \item Se implementa el uso de eta del momentum del muón para el cálculo de la traza.
+                \item Se cambia la fórmula de eficiencia según el documento \href{https://iopscience.iop.org/article/10.1088/1748-0221/10/02/P02007}{Measurement of the track reconstruction efficiency at LHCb}, empleando un $p_{T}>0.1\,[GeV/c]$, véase tabla 2 (muestra Probe de Long Method), con una eficiencia de $97\%$ (aproximado al valor $96.99\pm0.05$ para los datos del 2012).
+                \item La formula de eficiencia es una extrapolación, de manera que no reproduce la dependencia medida con $p$, $\eta$ y ocupación fuera del dominio estudiado. 
+            \end{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 09}:} Modificación del módulo MuonMomentumSmearing$\to$ResolutionFormula
+            \begin{itemize}
+                \item Se utiliza la fórmula de resolución según el archivo \textit{delphes\_card\_LHCb.tcl}.
+                \item La fórmula de resolución coincide con lo que indica el documento \textit{Measurement of the track reconstruction efficiency at LHCb}, donde para una región con pseudorapidez $2<\eta<5$ se tiene una incerteza por traza de $0.5\%$, para muones.
+                \item Esto representa una resolución relativa simplificada de
+                \begin{equation*}
+                    \begin{aligned}
+                        \frac{\sigma_{P}}{p} & = 0.005
+                    \end{aligned}
+                \end{equation*}
+            \end{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 10}:} Modificación del módulo MuonEfficiency$\to$EfficiencyFormula
+            \begin{itemize}
+                \item Se utilizó la configuración de eficiencia según \textit{delphes\_card\_LHCb.tcl}.
+                \item Se implementa el uso de \textit{UseMomentumVector} para calcular $\eta$ desde el momento. Dicha condición corresponde al \textit{Muon.Eta} cinemático. 
+            \end{itemize}
+            \item[$\divideontimes$] \textbf{\textit{Descripción 11}:} Modificación del módulo ElectronEfficiency$\to$EfficiencyFormula
+            \begin{itemize}
+                \item Se utilizó la configuración de eficiencia según \textit{delphes\_card\_LHCb.tcl}.
+            \end{itemize}
+        \end{itemize}
+        \item[§] \textbf{Prueba 04 - /09 (f. presentada)}:
+        \item[§] \textbf{Prueba 05 - /09 (f. presentada)}:
+    \end{itemize}
