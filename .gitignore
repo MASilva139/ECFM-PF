@@ -19,6 +19,6 @@ styles/
 %OUTDIR%/
 **/.build/*.toc
 **/.build/*.bib
-tex
+# tex
 csv
 AP

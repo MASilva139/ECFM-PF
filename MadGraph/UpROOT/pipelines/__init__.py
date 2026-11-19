@@ -1,3 +1,4 @@
+# pipelines/__init__
 from types import ModuleType
 from . import b2hhh
 from . import delphes

@@ -1,0 +1,95 @@
+\section{Ejecución e instalación de componentes}
+\begin{itemize}
+    \item[1)] \textbf{Ejecutar MadGraph}\\
+    Dentro de la carpeta de MadGraph (MG5\_aMC\_v2\_9\_27) abrir la terminal e ingresar al entorno conda MG5
+\begin{lstlisting}
+> conda activate MG5
+(MG5)> ./bin/mg5_aMC
+MG5_aMC>
+\end{lstlisting}
+    donde \textit{MG5\_aMC>} es el entorno de consola de MadGraph.
+    \item[2)] \textbf{Instalación de Pythia 8 (shower)}\\
+    En la consola de MadGraph
+\begin{lstlisting}
+MG5_aMC> install pythia8
+\end{lstlisting}
+    Durante la instalación se preguntará si se desa instalar \textit{LHAPDF6}, siendo la mejor opción el rechazar la instalación de \textit{LHAPDF6}, debido a errores que puede presentar.
+    \item[3)] \textbf{Instalación de interfaz MadGraph-Pythia}\\
+    Después de la instalación de Pythia 8 ejecutra la siguiente linea de comando en el entorno de MadGraph
+\begin{lstlisting}
+MG5_aMC> install mg5amc_py8_interface
+\end{lstlisting}
+    \item[4)] \textbf{Instalación de Delphes (detector)}\\
+    Dentro del entorno de MadGraph
+\begin{lstlisting}
+MG5_aMC> install Delphes
+\end{lstlisting}
+    la instalación puede requerir de compiladores, \textit{make} y \textit{cmake}, los cuales ya estan incluidos en el entorno MG5.
+    \item[5)] \textit{Activar la conversión de modelos}\\
+    Dentro del entorno de MadGraph
+\begin{lstlisting}
+MG5_aMC> set auto_convert_model T
+MG5_aMC> exit
+\end{lstlisting}
+    \item[6)] \textbf{Configuración de \textit{PYTHIA8DATA}}\\
+    Fuera de MadGraph, se define la ruta al directorio \textit{xmldoc},
+\begin{lstlisting}
+# En caso de que la carpeta de MadGraph se encuentre en la ruta:
+# /home/usuario/Descargas/madgraph/MG5\_aMC\_v2\_9\_27
+
+# Ejecutando en la terminal
+(MG5)> export PYTHIA8DATA=/home/usuario/Descargas/MG5_aMC_v2_9_27/HEPTools/pythia8/share/Pythia8/xmldoc
+
+# Comprobando la ubicacion
+(MG5)> echo "$PYTHIA8DATA"
+\end{lstlisting}
+    \item[7)] \textbf{Añadir al archivo ~/.bashrc}\\
+    Para no ejecutar el export en cada terminal, se agrega la dirección al archivo \textit{~/.bashrc} y posteriormente se recarga la configuración
+\begin{lstlisting}
+# Importando la direccion de los archivos xmldoc
+(MG5)> echo 'export PYTHIA8DATA=/home/usuario/Descargas/madgraph/MG5_aMC_v2_9_27/HEPTools/pythia8/share/Pythia8/xmldoc' >> ~/.bashrc
+
+# Recargando la configuracion
+(MG5)> source ~/.bashrc
+\end{lstlisting}
+    \item[8)] \textbf{Instalación de compilador Fortran (gfortran)}\\
+    Dentro del entorno conda MG5 
+\begin{lstlisting}
+(MG5)> conda install -c conda-forge gfortran_linux-64
+
+# Verificando la version
+(MG5)> gfortran --version
+
+# Buscando el directorio donde se instalo el compilador
+(MG5)> find "$CONDA_PREFIX/bin" -maxdepth 1 -name "*gfortran*"
+<out> /home/usuario/anaconda3/envs/MG5/bin/x86_64-conda-linux-gnu-gfortran
+\end{lstlisting}
+    \item[9)] \textbf{Configuración automática de Fortran en el entorno MG5}
+    \begin{lstlisting}
+# Creacion del directorio de configuracion
+(MG5)> mkdir -p "$CONDA_PREFIX/etc/conda/activate.d"
+
+# Creando archivo nano para la configuracion de gfortran
+(MG5)> nano "$CONDA_PREFIX/etc/conda/activate.d/mg5_compiler.sh"
+
+# Dentro del archivo nano 
+(mg5_compiler.sh)> export FC="$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-gfortran"  # ubicacion del compilador gfortran
+(mg5_compiler.sh)> export F77="$FC"
+(mg5_compiler.sh)> export F90="$FC"
+
+# Guardando y saliendo del archivo nano
+(mg5_compiler.sh)> Ctrl + O
+(mg5_compiler.sh)> Enter
+(mg5_compiler.sh)> Ctrl + X
+\end{lstlisting}
+    Verificando la configuración
+    \begin{lstlisting}
+# Desactivando y volviendo a activar el entorno conda MG5, para actualizar los cambios
+(MG5)> conda deactivate
+     > conda activate MG5
+
+# Comprobando que esta activo el compilador de fortran
+(MG5)> echo "$FC"
+(MG5)> "$FC" --version
+\end{lstlisting}
+\end{itemize}
