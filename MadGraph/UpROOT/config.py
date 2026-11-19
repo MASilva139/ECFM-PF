@@ -36,6 +36,7 @@ DELPHES_SMF05 = SMF_DELPHES / "c05"
 ############################################
 ############ Dark Photon Model #############
 ############################################
+DELPHES_DP00 = DPM_DELPHES / "c00"
 DELPHES_DP01 = DPM_DELPHES / "c01"
 DELPHES_DP02 = DPM_DELPHES / "c02"
 DELPHES_DP03 = DPM_DELPHES / "c03"
@@ -102,6 +103,10 @@ ROOT_DATASETS = {
         "MG5_pp_dimuons02_70GeV_01.root",
         "MG5_pp_dimuons02_70GeV_02.root",
     ),
+    "dimuons03": (
+        "MG5_pp_dimuons03_200k_01.root",
+        "MG5_pp_dimuons03_200k_02.root",
+    ),
     "hahm00": (
         "HAHM00.root",
     ),
@@ -126,8 +131,11 @@ ROOT_DATASETS = {
     "dimuons02_70GeV_p": (
         "dimuons02_70GeV_pandas.root",
     ),
+    "dimuons03_p": (
+        "dimuons03_pandas.root",
+    ),
     "hahm00_p": (
-        "HAHM00_pandas.root",
+        "hahm00_pandas.root",
     ),
 }
 ROOT_FILES = {
@@ -189,6 +197,14 @@ CONFIGURATIONS = {
         'raw_dataset': 'dimuons02_70GeV',
         'flat_dataset': 'dimuons02_70GeV_p',
         'plot_data': 'dsmf02',
+        'target_mass': 70.0,
+        'mass_range': (0.00, 100.0),
+        'fit_window': (65.0, 75.0)
+    },
+    'smf03': {
+        'raw_dataset': 'dimuons03',
+        'flat_dataset': 'dimuons03_p',
+        'plot_data': 'dsmf03',
         'target_mass': 70.0,
         'mass_range': (0.00, 100.0),
         'fit_window': (65.0, 75.0)
