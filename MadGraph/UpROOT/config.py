@@ -110,6 +110,10 @@ ROOT_DATASETS = {
     "hahm00": (
         "HAHM00.root",
     ),
+    "hahm01": (
+        "HAHM01_01.root",
+        "HAHM01_02.root",
+    ),
     #################################################
     ############### Archivos planos #################
     #################################################
@@ -137,12 +141,13 @@ ROOT_DATASETS = {
     "hahm00_p": (
         "hahm00_pandas.root",
     ),
+    "hahm01_p": (
+        "hahm01_pandas.root",
+    ),
 }
+
 ROOT_FILES = {
-    dataset: tuple(
-        DATA_DIR / filename
-        for filename in filenames
-    )
+    dataset: tuple(DATA_DIR / filename for filename in filenames)
     for dataset, filenames in ROOT_DATASETS.items()
 }
 
@@ -216,6 +221,14 @@ CONFIGURATIONS = {
         'raw_dataset': 'hahm00',
         'flat_dataset': 'hahm00_p',
         'plot_data': 'dp00',
+        'target_mass': 70.0,
+        'mass_range': (0.00, 100.0),
+        'fit_window': (65.0, 75.0)
+    },
+    'dp01': {
+        'raw_dataset': 'hahm01',
+        'flat_dataset': 'hahm01_p',
+        'plot_data': 'dp01',
         'target_mass': 70.0,
         'mass_range': (0.00, 100.0),
         'fit_window': (65.0, 75.0)

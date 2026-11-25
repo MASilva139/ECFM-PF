@@ -1,9 +1,9 @@
-# Fitting para archivos dvntuple
+# fitting/dvntuple
 from collections.abc import Iterable
 import numpy as np
 import pandas as pd
 from .common import require_columns, sideband_background_estimate
-from .delphes import compare_peak_models, fit_dimuon_peak
+from .peaks import compare_peak_models, fit_peak
 
 def first_available_column(
     dataframe: pd.DataFrame,
@@ -23,7 +23,7 @@ def fit_b_mass(
     mass_window: tuple[float, float] = (5100.0, 5500.0),
     bins: int = 80,
     model: str = "crystalball_exp",
-    initial_sigma: float = 18.0,
+    sigma: float = 18.0,
     verbose: bool = True,
 ) -> dict:
     if mass_column is None:
@@ -32,14 +32,14 @@ def fit_b_mass(
             ("Bplus_MM", "Bplus_M"),
             "fit_b_mass",
         )
-    result = fit_dimuon_peak(
+    result = fit_peak(
         dataframe,
         target_mass=target_mass,
         mass_window=mass_window,
         mass_column=mass_column,
         bins=bins,
         model=model,
-        initial_sigma=initial_sigma,
+        sigma=sigma,
         verbose=verbose,
     )
     result["analysis"] = "B2KMuMu"
@@ -55,7 +55,7 @@ def fit_dimuon_resonance(
     mass_column: str | None = None,
     bins: int = 80,
     model: str = "gauss_exp",
-    initial_sigma: float | None = None,
+    sigma: float | None = None,
     verbose: bool = True,
 ) -> dict:
     if mass_column is None:
@@ -64,14 +64,14 @@ def fit_dimuon_resonance(
             ("J_psi_1S_MM", "J_psi_1S_M"),
             "fit_dimuon_resonance",
         )
-    result = fit_dimuon_peak(
+    result = fit_peak(
         dataframe,
         target_mass=target_mass,
         mass_window=mass_window,
         mass_column=mass_column,
         bins=bins,
         model=model,
-        initial_sigma=initial_sigma,
+        sigma=sigma,
         verbose=verbose,
     )
     result["analysis"] = "B2KMuMu"
