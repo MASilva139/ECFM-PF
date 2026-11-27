@@ -3,6 +3,7 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT_DIR / "data"
 TEXT_DIR = ROOT_DIR / "MadGraph/assets/txt"
+PARQUET_DIR = ROOT_DIR / "MadGraph/assets/parquet"
 ANALYSIS_DIR = ROOT_DIR / "MadGraph/analysis"
 FIG_DIR = ROOT_DIR / "MadGraph/assets/images"
 FIG_DIR_01 = FIG_DIR / "b2hhh"
