@@ -435,7 +435,7 @@ def load_delphes_dataframe(
 ) -> dict[str, pd.DataFrame]:
     requested_trees = tuple(dict.fromkeys(str(tree).strip() for tree in trees if str(tree).strip()))
     branch_overrides = dict(branches or {})
-    unknoun_overrides = sorted(set(branch_overrides).difference(request_trees))
+    unknoun_overrides = sorted(set(branch_overrides).difference(requested_trees))
     if unknoun_overrides:
         raise ValueError("Ramas no solicitadas: " + ", ".join(unknoun_overrides))
     particle_conditions = [condition for condition in (
