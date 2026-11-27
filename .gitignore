@@ -22,3 +22,4 @@ styles/
 # tex
 csv
 AP
+**.parquet
